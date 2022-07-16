@@ -1,0 +1,287 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+    
+
+    <section class="hero">    
+        <figure class="image">
+            <img src="{{ asset('images/home.jpg')}}">            
+        </figure>        
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <a name="about"></a>
+            <h2 class="title has-text-centered">Consultalacarta.es</h2>
+            <p class="mt-2">Ofrecemos a la hostelería un espacio en el que crear, mantener y compartir con sus clientes una carta atractiva, fácil de consultar y de actualizar, y accesible desde cualquier dispositivo móvil.</p>
+            <p class="mt-2">Sus clientes podrán obtener la información creada y mantenida por el establecimiento, tan sólo leyendo el código QR único que proporcionamos a cada restaurante de forma totalmente gratuita.</p>
+            <p class="mt-2">Además, contamos con servicios premium que mejorarán la experiencia tanto del cliente como de los encargados de los contenidos de las cartas con plantillas profesionales que distinguirán a su establecimiento del resto.</p>
+            <div class="columns is-centered" style="padding: 2rem">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-2by1">
+                                <img src="{{asset('images/pic1.png')}}" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">Tu carta en el móvil</p>
+                                    <p class="subtitle is-6">Fácil y accesible</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                La mayoría de usuarios de dispositivos móviles conocen ya cómo apuntar, capturar y leer un código QR. Esto se traduce en una dirección de internet personalizada para cada establecimiento.
+                                <a>@consultalacarta</a>.
+                                <a href="#">#facil</a>
+                                <a href="#">#qr</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-2by1">
+                                <img src="{{asset('images/pic2.png')}}" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">John Smith</p>
+                                    <p class="subtitle is-6">@johnsmith</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                <a>@bulmaio</a>.
+                                <a href="#">#css</a>
+                                <a href="#">#responsive</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-2by1">
+                                <img src="https://images.pexels.com/photos/167635/pexels-photo-167635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">John Smith</p>
+                                    <p class="subtitle is-6">@johnsmith</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                <a>@bulmaio</a>.
+                                <a href="#">#css</a>
+                                <a href="#">#responsive</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container has-text-centered">
+            <h2 class="title">Tour Dates</h2>
+
+            <div class="tile is-ancestor">
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+            </div>
+
+            <div class="tile is-ancestor">
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <figure class="image">
+                            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                        </figure>
+                        <p class="title">New York</p>
+                        <p class="subtitle">Fri 27 Nov 2016</p>
+                        <a class="button">Buy Tickets</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container has-text-centered">
+            <a name="contact"></a>
+            <h2 class="title">Contacta</h2>
+            <form>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Name">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" type="email" placeholder="Email">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <textarea class="textarea" placeholder="Message us"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary">
+                                    Send message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <a href="#">
+                        <i class="fab fa-facebook-square fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-twitter-square fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-snapchat fa-2x"></i>
+                    </a>
+                </p>
+                <p>
+                    <a href="https://bulma.io">
+                        <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}

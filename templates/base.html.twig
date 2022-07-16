@@ -2,8 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link href="{{ asset('css/bulma.min.css') }}" rel="stylesheet"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -14,6 +17,60 @@
         {% endblock %}
     </head>
     <body>
+    <nav class="navbar is-link">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{path('app_index')}}"> <!-- https://consultalacarta.es -->
+                <img src="{{asset('images/logo.png')}}" alt="Logo CONSULTALACARTA" width="112" height="28">
+            </a>
+            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navbarExampleTransparentExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{{path('app_index')}}">
+                    Inicio
+                </a>
+                <a class="navbar-item" href="{{path('app_index')}}#about">
+                    Sobre Nosotros
+                </a>
+                <a class="navbar-item" href="{{path('app_index')}}#galeria">
+                    Establecimientos
+                </a>
+                <a class="navbar-item" href="{{path('app_index')}}#contact">
+                    Contacto
+                </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="/documentation/overview/start/">
+                        Tu cuenta
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" href="/documentation/overview/start/">
+                            Registro Gratuito
+                        </a>
+                        <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
+                            Login
+                        </a>                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Search . . .">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
         {% block body %}{% endblock %}
+        {% block scripts %}{% endblock %}
+        <script src="{{ asset('js/bulma.js') }}"></script>
     </body>
 </html>
