@@ -1,0 +1,9 @@
+Menu:
+    Home: Home
+    About: About
+    Establishments: Establishments
+    Contact: Contact
+    Yourcount:
+        Name: Your Count
+        Register: Register
+        Login: Login

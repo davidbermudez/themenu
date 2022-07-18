@@ -3,9 +3,27 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
+
+    <!-- message_flash -->
+    {% for label, messages in app.flashes %}
+        <div class="container is-widescreen">
+        {% for message in messages %}
+            <div class="notification has-background-{{label}}">
+                <button class="delete"></button>
+                <p><strong>Atención</strong></p>
+                <p>{{ message }}<p>
+            </div>
+            <!--
+            <div class="notification is-{{label}}">
+                <button class="delete"></button>            
+            </div>
+            -->
+        {% endfor %}
+        </div>
+    {% endfor %} <!-- end message_flash -->
     <h1>Create new User</h1>
-
-    {{ include('user/_form.html.twig') }}
-
+    {{ form_start(form) }}
+        {{ include('user/_form.html.twig') }}
+    {{ form_end(form) }}
     <a href="{{ path('app_user_index') }}">back to list</a>
 {% endblock %}

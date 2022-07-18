@@ -1,4 +1,33 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="section">
+    
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+                {{ form_widget(form.email, {'attr': {'class': 'input is-danger needs-validation', 'type': 'email', 'placeholder': 'Email input'}}) }}
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span class="icon is-small is-right">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </span>
+            </div>
+            <p class="help is-danger" id="emailActionHint">This email is invalid</p>            
+        </div>
+
+        <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left has-icons-right">
+                {{ form_widget(form.password, {'attr': {'class': 'input is-success', 'type': 'password'}}) }}
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button id="submitButton" class="button is-link">{{ button_label|default('Enviar') }}</button>
+            </div>
+        </div>
+</div>

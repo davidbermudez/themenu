@@ -35,6 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $username = null;
 
+    #[ORM\Column]
+    private ?bool $verified = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $hash = null;
+
     public function __construct()
     {
         $this->businesses = new ArrayCollection();
@@ -148,6 +154,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(?string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
+
+        return $this;
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(?string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }
