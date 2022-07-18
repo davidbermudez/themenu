@@ -10,8 +10,8 @@
         {% for message in messages %}
             <div class="notification has-background-{{label}}">
                 <button class="delete"></button>
-                <p><strong>Atención</strong></p>
-                <p>{{ message }}<p>
+                <p><strong>{{'Attention!'|trans}}</strong></p>
+                <p>{{ message|trans }}<p>
             </div>
             <!--
             <div class="notification is-{{label}}">
@@ -21,9 +21,22 @@
         {% endfor %}
         </div>
     {% endfor %} <!-- end message_flash -->
-    <h1>Create new User</h1>
-    {{ form_start(form) }}
-        {{ include('user/_form.html.twig') }}
-    {{ form_end(form) }}
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <div class="section">
+        <h1 class="title">{% trans %}Title.User.New{% endtrans %}</h1>
+        {{ form_start(form) }}
+            {{ include('user/_form.html.twig') }}
+        {{ form_end(form) }}        
+    </div>
+
+    <script>
+        // Closed notifications flash
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+                $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
 {% endblock %}

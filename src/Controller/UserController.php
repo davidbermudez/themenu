@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {    
 
+
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
@@ -28,12 +29,25 @@ class UserController extends AbstractController
         ]);
     }
 
+
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(
+        Request $request, 
+        UserRepository $userRepository,
+        MailerInterface $mailer, 
+        TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        
+        if ($request->request->get('conditions')!="on"){
+            $this->addFlash(
+                'danger',
+                'not_accept_conditions'
+            );
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Verificar que email no existe
@@ -44,14 +58,23 @@ class UserController extends AbstractController
             ]);
             if($replay){
                 $this->addFlash(
-                    'warning',
-                    'El usuario ya se encuentra dado de alta'
+                    'danger',
+                    'user_duplicated'
                 );
             } else {
-                $user->setVerified(false);            
+                $hash = md5(date('Y-m-d HH:ii:ss'));
+                $user->setVerified(false);
+                $user->setHash($hash);
                 $userRepository->add($user, true);
                 // Send Mail Confirmation
-                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+                
+                return $this->processSendingActivationEmail(
+                    $hash,
+                    $form->get('email')->getData(),
+                    $mailer,
+                    $translator
+                );
+                //return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
             }
         }
         dump($form);
@@ -61,6 +84,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -68,6 +92,7 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
@@ -87,6 +112,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
@@ -97,7 +123,27 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function processSendingActivationEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    #[Route('/check-email', name: 'app_check_email', methods: ['POST'])]
+    public function checkEmail(): Response
+    {
+        // Generate a fake token if the user does not exist or someone hit this page directly.
+        // This prevents exposing whether or not a user was found with the given email address or not
+        if (null === ($resetToken = $this->getTokenObjectFromSession())) {
+            $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
+        }
+
+        return $this->render('reset_password/check_email.html.twig', [
+            'resetToken' => $resetToken,
+        ]);
+    }
+
+    
+    private function processSendingActivationEmail(
+        string $hash,
+        string $emailFormData, 
+        MailerInterface $mailer, 
+        TranslatorInterface $translator
+        ): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
@@ -109,7 +155,7 @@ class UserController extends AbstractController
         }
 
         try {
-            $token = md5(date('Y-m-d HH:ii:ss'));
+            $token = $hash;
             //$resetToken = $this->resetPasswordHelper->generateResetToken($user);
 
         } catch (ResetPasswordExceptionInterface $e) {
@@ -139,7 +185,7 @@ class UserController extends AbstractController
         $mailer->send($email);
 
         // Store the token object in session for retrieval in check-email route.
-        $this->setTokenObjectInSession($resetToken);
+        $this->setTokenObjectInSession($token);
 
         return $this->redirectToRoute('app_check_email');
     }

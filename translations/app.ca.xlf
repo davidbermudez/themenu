@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ca" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="SfwT98f" resname="Menu.Home">
+        <source>Menu.Home</source>
+        <target>Inicio</target>
+      </trans-unit>
+      <trans-unit id="6_GMR3T" resname="Menu.About">
+        <source>Menu.About</source>
+        <target>Sobre Nosotros</target>
+      </trans-unit>
+      <trans-unit id="jeSEu2C" resname="Menu.Establishments">
+        <source>Menu.Establishments</source>
+        <target>Establecimientos</target>
+      </trans-unit>
+      <trans-unit id="ZGSFFzW" resname="Menu.Contact">
+        <source>Menu.Contact</source>
+        <target>Contacto</target>
+      </trans-unit>
+      <trans-unit id="JcWKI7J" resname="Menu.Yourcount.Name">
+        <source>Menu.Yourcount.Name</source>
+        <target>Tu Cuenta</target>
+      </trans-unit>
+      <trans-unit id="YQTPZ.B" resname="Menu.Yourcount.Register">
+        <source>Menu.Yourcount.Register</source>
+        <target>Regístrate</target>
+      </trans-unit>
+      <trans-unit id="ucnBnBu" resname="Menu.Yourcount.Login">
+        <source>Menu.Yourcount.Login</source>
+        <target>Inicia Sesión</target>
+      </trans-unit>
+      <trans-unit id="QCnDLje" resname="Title.User.New">
+        <source>Title.User.New</source>
+        <target>Regístrate</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

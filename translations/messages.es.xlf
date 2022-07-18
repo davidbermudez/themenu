@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="2w4bXq." resname="Email input">
+        <source>Email input</source>
+        <target>Introduzca email</target>
+      </trans-unit>
+      <trans-unit id="QCnDLje" resname="Title.User.New">
+        <source>Title.User.New</source>
+        <target>Regístrate</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>Correo Electrónico</target>
+      </trans-unit>
+      <trans-unit id="588_9PF" resname="Password">
+        <source>Password</source>
+        <target>Contraseña</target>
+      </trans-unit>
+      <trans-unit id="l9S_iWB" resname="Conditions">
+        <source>Conditions</source>
+        <target>He leído las condiciones generales</target>
+      </trans-unit>
+      <trans-unit id="FV_BbAQ" resname="Submit">
+        <source>Submit</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="lsNKBxn" resname="Invalid">
+        <source>Invalid</source>
+        <target>El email no es válido</target>
+      </trans-unit>
+      <trans-unit id="FnVJU_o" resname="Attention!">
+        <source>Attention!</source>
+        <target>¡Atención!</target>
+      </trans-unit>
+      <trans-unit id="tSV3U_o" resname="user_duplicated">
+        <source>user_duplicated</source>
+        <target>El correo electrónico que ha utilizado no es válido</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,33 +1,88 @@
-<div class="section">
-    
-        <div class="field">
-            <label class="label">Email</label>
-            <div class="control has-icons-left has-icons-right">
-                {{ form_widget(form.email, {'attr': {'class': 'input is-danger needs-validation', 'type': 'email', 'placeholder': 'Email input'}}) }}
-                <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-            </div>
-            <p class="help is-danger" id="emailActionHint">This email is invalid</p>            
-        </div>
-
-        <div class="field">
-            <label class="label">Password</label>
-            <div class="control has-icons-left has-icons-right">
-                {{ form_widget(form.password, {'attr': {'class': 'input is-success', 'type': 'password'}}) }}
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <button id="submitButton" class="button is-link">{{ button_label|default('Enviar') }}</button>
-            </div>
-        </div>
+<div class="field">
+    <label class="label">{{'Email'|trans}}</label>
+    <div class="control has-icons-left has-icons-right">
+        {{ form_widget(form.email, {'attr': {'class': 'input is-danger needs-validation user_email', 'type': 'email', 'placeholder': 'Email input'}}) }}
+        <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+            <i id="emailCheckIconRight" class="fas fa-exclamation-triangle"></i>
+        </span>
+    </div>
+    <p class="help is-danger" id="emailActionHint">{{'Invalid'|trans}}</p>            
 </div>
+
+<div class="field">
+    <label class="label">{{'Password'|trans}}</label>
+    <div class="control has-icons-left has-icons-right">
+        {{ form_widget(form.password, {'attr': {'class': 'input is-success', 'type': 'password'}}) }}
+        <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+        </span>
+    </div>    
+</div>
+
+<div class="checkbox mb-3">
+    <label>
+        <input type="checkbox" id="conditions" name="conditions" required>&nbsp;<a href="">{{'Conditions'|trans}}</a>
+    </label>
+</div>
+
+<div class="field is-grouped">
+    <div class="control">
+        <button id="submitButton" class="button is-link">{{'Submit'|trans}}</button>
+    </div>
+</div>
+
+<script>
+    // EVENT LISTENERS
+    document.addEventListener('change', event => {
+        if (event.target.matches('.user_email')) {
+            validateEmail(event.target.value, 'user_email')        
+        }
+    }, false)
+
+
+    function validateEmail(value, item) {
+        const iconEmailRight = document.getElementById('emailCheckIconRight')
+        const emailParagraph = document.getElementById('emailActionHint')
+        input = document.getElementById(item)    
+        if (validateRegexString(value)) {
+            // input box color
+            input.classList.remove('is-danger')
+            input.classList.add('is-success')
+            // icon type
+            iconEmailRight.classList.remove('fa-exclamation-triangle')
+            iconEmailRight.classList.add('fa-check')
+            emailParagraph.style = 'display:none'
+
+            emailValidated = true
+            submitCheck()
+        } else {
+            // input box color
+            input.classList.remove('is-sucess')
+            input.classList.add('is-danger')
+            // icon type
+            iconEmailRight.classList.remove('fa-check')
+            iconEmailRight.classList.add('fa-exclamation-triangle')
+            emailParagraph.style = 'display:block'
+
+            emailValidated = false
+        }    
+    }
+
+    function submitCheck() {
+        const emailParagraph = document.getElementById('emailActionHint')    
+    if (emailValidated) {
+            submit.disabled = false;              //button is no longer no-clickable
+            submit.removeAttribute("disabled");   //detto
+        } else {
+            emailParagraph.style = 'display:block'  //email warning shows up
+        }
+    }
+
+    function validateRegexString(email) {
+        const regexString = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+        return regexString.test(String(email).toLowerCase()) // true|false
+    }
+</script>
