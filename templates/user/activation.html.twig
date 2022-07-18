@@ -1,0 +1,11 @@
+<h1>Hola</h1>
+
+<p>Ha recibido este mensaje porque V. o alguien ha solicitado restaurar su contraseña de usuario en Compartecoche.</p>
+
+<p>Para resetear su contreseña, haga click en el siguiente enlace</p>
+
+<a href="{{ url('app_activate_account', {token: token.token}) }}">{{ url('app_activate_account', {token: token.token}) }}</a>
+
+<p>Este enlace caduca en {{ token.expirationMessageKey }}.</p>
+
+<p>Saludos</p>

@@ -16,10 +16,12 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    {% trans_default_domain 'app' %}
+    {% set lcl = app.request.getLocale() %}
     <body>
     <nav class="navbar is-link">
         <div class="navbar-brand">
-            <a class="navbar-item" href="{{ path('app_index', {_locale: 'en'}) }}"> <!-- https://consultalacarta.es -->
+            <a class="navbar-item" href="{{ path('app_index', {_locale: lcl}) }}"> <!-- https://consultalacarta.es -->
                 <img src="{{asset('images/logo.png')}}" alt="Logo CONSULTALACARTA" width="112" height="28">
             </a>
             <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
@@ -27,9 +29,7 @@
                 <span></span>
                 <span></span>
             </div>
-        </div>
-        {% trans_default_domain 'app' %}
-        {% set lcl = app.request.getLocale() %}
+        </div>        
         <div id="navbarExampleTransparentExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="{{path('app_index')}}">
@@ -72,13 +72,13 @@
                         </a>
                         <div class="navbar-dropdown is-boxed">
                             {% set current_path = app.request.get('_route') %}
-                            <a class="navbar-item" href="{{ path(current_path, {_locale: 'es'})}}">
+                            <a class="navbar-item" href="{{ path('app_index', {_locale: 'es'})}}">
                                 Castellano
                             </a>
-                            <a class="navbar-item" href="{{ path(current_path, {_locale: 'en'})}}">
+                            <a class="navbar-item" href="{{ path('app_index', {_locale: 'en'})}}">
                                 English
                             </a>
-                            <a class="navbar-item" href="{{ path(current_path, {_locale: 'ca'})}}">
+                            <a class="navbar-item" href="{{ path('app_index', {_locale: 'ca'})}}">
                                 Català
                             </a>                        
                         </div>

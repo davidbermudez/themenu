@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <!-- message_flash -->
+    <!-- message_flash -->    
     {% for label, messages in app.flashes %}
-        <div class="container is-widescreen">
+        <div class="container is-widescreen mt-2">
         {% for message in messages %}
             <div class="notification has-background-{{label}}">
                 <button class="delete"></button>

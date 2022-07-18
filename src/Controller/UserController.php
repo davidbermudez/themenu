@@ -14,12 +14,17 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 #[Route('/{_locale<%app.supported_locales%>}/user')]
 class UserController extends AbstractController
 {    
 
+    public function __construct(EntityManagerInterface $entityManager)
+    {    
+        $this->entityManager = $entityManager;
+    }
 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
@@ -34,22 +39,22 @@ class UserController extends AbstractController
     public function new(
         Request $request, 
         UserRepository $userRepository,
-        MailerInterface $mailer, 
+        MailerInterface $mailer,        
         TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        
-        if ($request->request->get('conditions')!="on"){
-            $this->addFlash(
-                'danger',
-                'not_accept_conditions'
-            );
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
+        $form->handleRequest($request);        
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // verify checkbox
+            if ($request->request->get('conditions')!="on"){
+                $this->addFlash(
+                    'danger',
+                    'not_accept_conditions'
+                );
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            }
             // Verificar que email no existe
             $replay = new User();
             dump($form);
@@ -62,26 +67,45 @@ class UserController extends AbstractController
                     'user_duplicated'
                 );
             } else {
-                $hash = md5(date('Y-m-d HH:ii:ss'));
-                $user->setVerified(false);
-                $user->setHash($hash);
+                $token['token'] = md5(date('Y-m-d HH:ii:ss'));
+                $token['expirationMessageKey'] = 3600;
+                $token['expirationMessageData'] = '';
+                $user->setIsVerified(false);
+                $user->setHash($token['token']);
                 $userRepository->add($user, true);
                 // Send Mail Confirmation
                 
-                return $this->processSendingActivationEmail(
-                    $hash,
-                    $form->get('email')->getData(),
-                    $mailer,
-                    $translator
+                $email = (new TemplatedEmail())
+                    ->from(new Address('elarahal.1972@gmail.com', 'Soporte'))
+                    ->to($user->getEmail())
+                    ->subject('Account activation - your free account is ready')
+                    ->htmlTemplate('user/activation.html.twig')
+                    ->context([
+                        'token' => $token,
+                    ])
+                ;
+
+                $mailer->send($email);
+                dump($mailer);
+                $this->addFlash(
+                    'success',
+                    'send_email_verification'
                 );
-                //return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+                return true;
+                //$this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
             }
-        }
-        dump($form);
+        }        
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+
+    #[Route('/activate', name: 'app_activate_account', methods: ['GET'])]
+    public function activate(User $user): Response
+    {
+        return new Response("hola");
     }
 
 
@@ -138,6 +162,8 @@ class UserController extends AbstractController
     }
 
     
+    
+
     private function processSendingActivationEmail(
         string $hash,
         string $emailFormData, 
@@ -155,7 +181,8 @@ class UserController extends AbstractController
         }
 
         try {
-            $token = $hash;
+            $token['token'] = $hash;
+            $token['expirationMessageKey'] = 3600;
             //$resetToken = $this->resetPasswordHelper->generateResetToken($user);
 
         } catch (ResetPasswordExceptionInterface $e) {
@@ -176,7 +203,7 @@ class UserController extends AbstractController
             ->from(new Address('elarahal.1972@gmail.com', 'Soporte'))
             ->to($user->getEmail())
             ->subject('Account activation - your free account is ready')
-            ->htmlTemplate('confirm_email/email.html.twig')
+            ->htmlTemplate('user/activation.html.twig')
             ->context([
                 'token' => $token,
             ])
