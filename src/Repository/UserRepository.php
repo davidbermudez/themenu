@@ -9,6 +9,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 /**
  * @extends ServiceEntityRepository<User>
  *
@@ -19,14 +21,22 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $userPasswordEncoder)
     {
+        $this->userPasswordEncoder = $userPasswordEncoder;
         parent::__construct($registry, User::class);
     }
 
     public function add(User $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);        
+    {        
+        $password = $this->userPasswordEncoder->hashPassword(
+            $entity, 
+            $entity->getPassword()
+        );
+        $entity->setPassword($password);
+        $roles = ['ROLE_USER'];
+        $entity->setRoles($roles);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
             $this->getEntityManager()->flush();
         }

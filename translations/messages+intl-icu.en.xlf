@@ -33,6 +33,10 @@
         <source>Invalid</source>
         <target>This email is invalid</target>
       </trans-unit>
+      <trans-unit id="FnVJU_o" resname="Attention!">
+        <source>Attention!</source>
+        <target>__Attention!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

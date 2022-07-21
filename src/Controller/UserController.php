@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
+use Symfony\Component\Messenger\MessageBusInterface;
 
 
 #[Route('/{_locale<%app.supported_locales%>}/user')]
@@ -74,27 +76,26 @@ class UserController extends AbstractController
                 $user->setHash($token['token']);
                 $userRepository->add($user, true);
                 // Send Mail Confirmation
-                
-                $email = (new TemplatedEmail())
+                $texto = "<h1>Hola</h1>\n<p>Ha recibido este mensaje porque V. o alguien ha solicitado restaurar su contraseña de usuario en Compartecoche.</p>\n<p>Para resetear su contreseña, haga click en el siguiente enlace</p>\n<a href=\"{{ url('app_activate_account', {token: token.token}) }}\">{{ url('app_activate_account', {token: token.token}) }}</a>\n<p>Este enlace caduca en {{ token.expirationMessageKey }}.</p>\n<p>Saludos</p>";
+
+                $email = (new Email())
                     ->from(new Address('elarahal.1972@gmail.com', 'Soporte'))
                     ->to($user->getEmail())
                     ->subject('Account activation - your free account is ready')
-                    ->htmlTemplate('user/activation.html.twig')
-                    ->context([
-                        'token' => $token,
-                    ])
+                    ->text('HTML Format')
+                    ->html($texto)                    
                 ;
 
                 $mailer->send($email);
-                dump($mailer);
+                //dump($mailer);
                 $this->addFlash(
                     'success',
                     'send_email_verification'
                 );
-                return true;
-                //$this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
             }
         }        
+        //dlfkj84nfd7lñkR*df
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,

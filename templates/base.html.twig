@@ -19,6 +19,24 @@
     {% trans_default_domain 'app' %}
     {% set lcl = app.request.getLocale() %}
     <body>
+    <!-- message_flash -->
+        {% for label, messages in app.flashes %}
+            <div class="container is-widescreen">
+            {% for message in messages %}
+                <div class="modal is-active">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box has-background-{{label}}">
+                            <p><strong>Atención</strong></p>
+                            <p>{{ message }}<p>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close"></button>
+                </div>
+            {% endfor %}
+            </div>
+        {% endfor %}
+    <!-- end message_flash -->
     <nav class="navbar is-link">
         <div class="navbar-brand">
             <a class="navbar-item" href="{{ path('app_index', {_locale: lcl}) }}"> <!-- https://consultalacarta.es -->
@@ -48,14 +66,25 @@
                     <a class="navbar-link" href="#">
                         {% trans %}Menu.Yourcount.Name{% endtrans %}
                     </a>
-                    <div class="navbar-dropdown is-boxed">
-                        <a class="navbar-item" href="{{path('app_user_new', {_locale: lcl}) }}">
-                            {% trans %}Menu.Yourcount.Register{% endtrans %}
-                        </a>
-                        <a class="navbar-item" href="{{path('app_login', {_locale: lcl}) }}">
-                            {% trans %}Menu.Yourcount.Login{% endtrans %}
-                        </a>                        
-                    </div>
+                    {% if app.user %}
+                        <div class="navbar-dropdown is-boxed">
+                            <a class="navbar-item" href="{{path('app_user_show', {_locale: lcl, id: app.user.id}) }}">
+                                {% trans %}Menu.Yourcount.Profile{% endtrans %}
+                            </a>
+                            <a class="navbar-item" href="{{path('app_logout', {_locale: lcl}) }}">
+                                {% trans %}Menu.Yourcount.Logout{% endtrans %}
+                            </a>
+                        </div>
+                    {% else  %}
+                        <div class="navbar-dropdown is-boxed">
+                            <a class="navbar-item" href="{{path('app_register', {_locale: lcl}) }}">
+                                {% trans %}Menu.Yourcount.Register{% endtrans %}
+                            </a>
+                            <a class="navbar-item" href="{{path('app_login', {_locale: lcl}) }}">
+                                {% trans %}Menu.Yourcount.Login{% endtrans %}
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -90,5 +119,44 @@
         {% block body %}{% endblock %}
         {% block scripts %}{% endblock %}
         <script src="{{ asset('js/bulma.js') }}"></script>
+        <script>    
+        document.addEventListener('DOMContentLoaded', () => {
+            // console.log("Modal");
+            // Functions to open and close a modal
+            function openModal($el) {
+                $el.classList.add('is-active');
+            }
+            function closeModal($el) {
+                $el.classList.remove('is-active');
+            }
+            function closeAllModals() {
+                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                    closeModal($modal);
+                });
+            }
+            // Add a click event on buttons to open a specific modal
+            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+                const modal = $trigger.dataset.target;
+                const $target = document.getElementById(modal);
+                $trigger.addEventListener('click', () => {
+                    openModal($target);
+                });
+            });
+            // Add a click event on various child elements to close the parent modal
+            (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+                const $target = $close.closest('.modal');
+                $close.addEventListener('click', () => {
+                closeModal($target);
+                });
+            });
+            // Add a keyboard event to close all modals
+            document.addEventListener('keydown', (event) => {
+                const e = event || window.event;
+                if (e.keyCode === 27) { // Escape key
+                    closeAllModals();
+                }
+            });
+        });
+    </script>
     </body>
 </html>

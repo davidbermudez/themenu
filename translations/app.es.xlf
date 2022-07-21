@@ -37,6 +37,10 @@
         <source>Title.User.New</source>
         <target>Regístrate</target>
       </trans-unit>
+      <trans-unit id="MSN7E69" resname="Menu.Yourcount.Logout">
+        <source>Menu.Yourcount.Logout</source>
+        <target>Cerrar Sesión</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

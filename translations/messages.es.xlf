@@ -37,7 +37,7 @@
         <source>Attention!</source>
         <target>¡Atención!</target>
       </trans-unit>
-      <trans-unit id="tSV3U_o" resname="user_duplicated">
+      <trans-unit id="rjaFbC." resname="user_duplicated">
         <source>user_duplicated</source>
         <target>El correo electrónico que ha utilizado no es válido</target>
       </trans-unit>
