@@ -17,6 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Messenger\MessageBusInterface;
+use App\Entity\Business;
+use App\Repository\BusinessRepository;
+use App\Entity\Dishes;
+use App\Repository\DishesRepository;
 
 
 #[Route('/{_locale<%app.supported_locales%>}/user')]
@@ -118,6 +122,28 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/cpanel/{id}', name: 'app_panel', methods: ['GET'])]
+    public function cpanel(User $user, $id, BusinessRepository $businessRepository): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $id!=$user->getId()){
+            return $this->redirectToRoute('app_login');
+        } else {
+            // business
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user
+            ]);
+            // Dishes
+            $dishes = new Dishes();
+            return $this->render('user/cpanel.html.twig', [                
+                'user' => $user,
+                'business' => $business,
+            ]);
+        }
+    }
+
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
@@ -147,6 +173,7 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
 
     #[Route('/check-email', name: 'app_check_email', methods: ['POST'])]
     public function checkEmail(): Response

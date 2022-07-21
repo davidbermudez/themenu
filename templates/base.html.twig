@@ -71,6 +71,9 @@
                             <a class="navbar-item" href="{{path('app_user_show', {_locale: lcl, id: app.user.id}) }}">
                                 {% trans %}Menu.Yourcount.Profile{% endtrans %}
                             </a>
+                            <a class="navbar-item" href="{{path('app_panel', {_locale: lcl, id: app.user.id}) }}">
+                                {% trans %}Menu.Yourcount.Panel{% endtrans %}
+                            </a>
                             <a class="navbar-item" href="{{path('app_logout', {_locale: lcl}) }}">
                                 {% trans %}Menu.Yourcount.Logout{% endtrans %}
                             </a>

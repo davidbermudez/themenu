@@ -41,6 +41,10 @@
         <source>Menu.Yourcount.Logout</source>
         <target>__Menu.Yourcount.Logout</target>
       </trans-unit>
+      <trans-unit id="C6wnezP" resname="Menu.Yourcount.Profile">
+        <source>Menu.Yourcount.Profile</source>
+        <target>__Menu.Yourcount.Profile</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

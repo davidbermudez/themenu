@@ -15,7 +15,7 @@
       </trans-unit>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target>Correo Electrónico</target>
+        <target>Nombre de Usuario</target>
       </trans-unit>
       <trans-unit id="588_9PF" resname="Password">
         <source>Password</source>
@@ -40,6 +40,50 @@
       <trans-unit id="rjaFbC." resname="user_duplicated">
         <source>user_duplicated</source>
         <target>El correo electrónico que ha utilizado no es válido</target>
+      </trans-unit>
+      <trans-unit id="1aLBwsp" resname="Cpanel.Title">
+        <source>Cpanel.Title</source>
+        <target>Panel de Control</target>
+      </trans-unit>
+      <trans-unit id="mXqjppk" resname="Cpanel.Subtitle">
+        <source>Cpanel.Subtitle</source>
+        <target>Configura tus datos y tu carta rápida y cómodamente</target>
+      </trans-unit>
+      <trans-unit id="i9ra5PD" resname="Cpanel.User">
+        <source>Cpanel.User</source>
+        <target>Tus datos</target>
+      </trans-unit>
+      <trans-unit id="3bRhK3U" resname="Cpanel.Business">
+        <source>Cpanel.Business</source>
+        <target>Tu Establecimiento</target>
+      </trans-unit>
+      <trans-unit id="np3upeh" resname="Cpanel.Menu">
+        <source>Cpanel.Menu</source>
+        <target>Configura tu menú</target>
+      </trans-unit>
+      <trans-unit id="UEB0uII" resname="Cpanel.Email">
+        <source>Cpanel.Email</source>
+        <target>Correo Electrónico</target>
+      </trans-unit>
+      <trans-unit id="oLroFpu" resname="Cpanel.Username">
+        <source>Cpanel.Username</source>
+        <target>Nombre de Usuario</target>
+      </trans-unit>
+      <trans-unit id="VL5nlKs" resname="Cpanel.Caption">
+        <source>Cpanel.Caption</source>
+        <target>Denominación</target>
+      </trans-unit>
+      <trans-unit id="wStwYZu" resname="Cpanel.Address">
+        <source>Cpanel.Address</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="jfzxGoj" resname="Cpanel.City">
+        <source>Cpanel.City</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="vRz08UJ" resname="Cpanel.Postcode">
+        <source>Cpanel.Postcode</source>
+        <target>Código Postal</target>
       </trans-unit>
     </body>
   </file>
