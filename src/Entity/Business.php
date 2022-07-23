@@ -35,8 +35,9 @@ class Business
     #[ORM\Column(length: 13, nullable: true)]
     private ?string $phone = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $country = null;
+    #[ORM\ManyToOne(inversedBy: 'businesses')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Country $country = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_created = null;
@@ -46,6 +47,9 @@ class Business
 
     #[ORM\OneToMany(mappedBy: 'business', targetEntity: Menu::class, orphanRemoval: true)]
     private Collection $menus;
+
+    #[ORM\Column(length: 50)]
+    private ?string $state = null;
 
     public function __construct()
     {
@@ -129,12 +133,12 @@ class Business
         return $this;
     }
 
-    public function getCountry(): ?int
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    public function setCountry(?int $country): self
+    public function setCountry(?Country $country): self
     {
         $this->country = $country;
 
@@ -191,6 +195,18 @@ class Business
                 $menu->setBusiness(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

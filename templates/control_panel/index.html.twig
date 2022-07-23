@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <section class="hero contenedor">
+        <figure class="image">
+            <img src="{{ asset('images/user.png')}}">
+        </figure>
+        <div class="hero-body texto-encima">
+            <p class="title">
+                {% trans %}Cpanel.Title{% endtrans %}
+            </p>
+            <p class="subtitle">
+                {% trans %}Cpanel.Subtitle{% endtrans %}            
+            </p>
+        </div>
+    </section>
+    <section>
+        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+            <ul>
+                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Title{% endtrans %}</a></li>                
+            </ul>
+        </nav>
+    </section>
+    
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>
+                    <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>
+                    <p>{{ user.email }}</p>
+                    <label class="label">{% trans %}Cpanel.Username{% endtrans %}</label>
+                    <p>{{ user.username }}</p>
+                </div>
+                <div class="tile is-child box has-background-danger-light">
+                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>
+                    {% if business %}
+                        <label class="label">{% trans %}Cpanel.Caption{% endtrans %}</label>
+                        <p>{{ business.caption }}</p>
+                        <label class="label">{% trans %}Cpanel.Address{% endtrans %}</label>
+                        <p>{{ business.address }}</p>
+                        <label class="label">{% trans %}Cpanel.City{% endtrans %}</label>
+                        <p>{{ business.caption }}</p>
+                        <label class="label">{% trans %}Cpanel.Postcode{% endtrans %}</label>
+                        <p>{{ business.address }}</p>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button id="submitButton" class="button is-link" onclick="">{% trans %}Cpanel.Btn.Edit{% endtrans %}</button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_add_busines', {'hash': user.hash })}}'">{% trans %}Cpanel.Btn.Create{% endtrans %}</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Menu{% endtrans %}</p>
+                    {% if menu %}
+                        menu
+                    {% else %}
+                        <label class="label">{% trans %}Cpanel.Menu.Create{% endtrans %}</label>
+                        <div class="field is-grouped">
+                            {% if business %}
+                                <div class="control">
+                                    <button id="submitButton" class="button is-link">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
+                                </div>
+                            {% else %}
+                                <div class="control">
+                                    <button id="submitButton" class="button is-link" disabled>{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

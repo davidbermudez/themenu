@@ -3,40 +3,134 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            Iniciar Sesión
+        </h1>
+        <p class="subtitle">
+            Introduzca sus datos de acceso
+        </p>
+    </div>
+</section>
+{% if app.user %}
+    <div class="mb-3">
+        Ya estás logeado como {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">¿Cerrar Sesión?</a>
+    </div>
+{% endif %}
+<div class="container is-fluid">
+
 <form method="post">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="notification is-danger">
+          <button class="delete"></button>
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>        
     {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+    
+    <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input needs-validation inputUsername is-danger" type="email"  name="email" id="inputEmail" placeholder="Email input" value="">
+            <span class="icon is-small is-left">
+                <i id="emailCheckIconLeft" class="fas fa-envelope"></i>
+            </span>
+            <span id="emailCheckIconRight" class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+            </span>
         </div>
-    {% endif %}
+        <p class="help is-danger" id="emailActionHint">This email is invalid</p>
+    </div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
+    <div class="field">
+        <label class="label">Password</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-success" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>        
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    </div>
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
     #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" id="remember_me" name="_remember_me" checked> Recuérdame
+        </label>
+    </div>
+    <!--Submit button-->
+    <div class="field is-grouped">
+        <div class="control">
+            <button id="submitButton" class="button is-link">Enviar</button>
+        </div>
+    </div>
+    <!--
+    <div class="mb-3">
+        <button class="btn btn-primary mb-3" type="submit">
+            Enviar
+        </button>
+    </div>
+    -->
+    <div class="mb-3">
+        ¿Olvidó su contraseña? <a href="{{ path('app_forgot_password_request') }}">Haga click aquí para restaurarla</a>
+    </div>
 </form>
+
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        // EVENT LISTENERS
+        document.addEventListener('change', event => {
+            if (event.target.matches('.inputEmail')) {
+                validateEmail(event.target.value, 'inputEmail')
+            }
+        }, false)
+
+        function validateEmail(value, item) {
+            const iconEmailRight = document.getElementById('emailCheckIconRight')
+            const emailParagraph = document.getElementById('emailActionHint')
+            input = document.getElementById(item)    
+            if (validateRegexString(value)) {
+                // input box color
+                input.classList.remove('is-danger')
+                input.classList.add('is-success')
+                // icon type
+                iconEmailRight.classList.remove('fa-exclamation-triangle')
+                iconEmailRight.classList.add('fa-check')
+                emailParagraph.style = 'display:none'
+
+                emailValidated = true
+                submitCheck()
+            } else {
+                // input box color
+                input.classList.remove('is-sucess')
+                input.classList.add('is-danger')
+                // icon type
+                iconEmailRight.classList.remove('fa-check')
+                iconEmailRight.classList.add('fa-exclamation-triangle')
+                emailParagraph.style = 'display:block'
+
+                emailValidated = false
+            }    
+        }
+
+        function submitCheck() {
+            const emailParagraph = document.getElementById('emailActionHint')    
+        if (emailValidated) {
+                submit.disabled = false;              //button is no longer no-clickable
+                submit.removeAttribute("disabled");   //detto
+            } else {
+                emailParagraph.style = 'display:block'  //email warning shows up
+            }
+        }
+
+        function validateRegexString(email) {
+            const regexString = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+            return regexString.test(String(email).toLowerCase()) // true|false
+        }
+    </script>
 {% endblock %}

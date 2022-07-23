@@ -6,6 +6,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link href="{{ asset('css/bulma.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/themenu.css') }}" rel="stylesheet"/>
         <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -71,7 +72,7 @@
                             <a class="navbar-item" href="{{path('app_user_show', {_locale: lcl, id: app.user.id}) }}">
                                 {% trans %}Menu.Yourcount.Profile{% endtrans %}
                             </a>
-                            <a class="navbar-item" href="{{path('app_panel', {_locale: lcl, id: app.user.id}) }}">
+                            <a class="navbar-item" href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">
                                 {% trans %}Menu.Yourcount.Panel{% endtrans %}
                             </a>
                             <a class="navbar-item" href="{{path('app_logout', {_locale: lcl}) }}">
@@ -120,46 +121,83 @@
         </div>
     </nav>
         {% block body %}{% endblock %}
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <a href="#">
+                        <i class="fab fa-facebook-square fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-twitter-square fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-snapchat fa-2x"></i>
+                    </a>
+                </p>
+                <p>
+                    <a href="https://bulma.io">
+                        <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
         {% block scripts %}{% endblock %}
         <script src="{{ asset('js/bulma.js') }}"></script>
-        <script>    
-        document.addEventListener('DOMContentLoaded', () => {
-            // console.log("Modal");
-            // Functions to open and close a modal
-            function openModal($el) {
-                $el.classList.add('is-active');
-            }
-            function closeModal($el) {
-                $el.classList.remove('is-active');
-            }
-            function closeAllModals() {
-                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-                    closeModal($modal);
-                });
-            }
-            // Add a click event on buttons to open a specific modal
-            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-                const modal = $trigger.dataset.target;
-                const $target = document.getElementById(modal);
-                $trigger.addEventListener('click', () => {
-                    openModal($target);
+        <script>
+
+            // Closed notifications flash
+            document.addEventListener('DOMContentLoaded', () => {
+                (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                    const $notification = $delete.parentNode;
+                    $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                    });
                 });
             });
-            // Add a click event on various child elements to close the parent modal
-            (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-                const $target = $close.closest('.modal');
-                $close.addEventListener('click', () => {
-                closeModal($target);
-                });
-            });
-            // Add a keyboard event to close all modals
-            document.addEventListener('keydown', (event) => {
-                const e = event || window.event;
-                if (e.keyCode === 27) { // Escape key
-                    closeAllModals();
+            
+            // Closed Modal
+            document.addEventListener('DOMContentLoaded', () => {
+                // console.log("Modal");
+                // Functions to open and close a modal
+                function openModal($el) {
+                    $el.classList.add('is-active');
                 }
+                function closeModal($el) {
+                    $el.classList.remove('is-active');
+                }
+                function closeAllModals() {
+                    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                        closeModal($modal);
+                    });
+                }
+                // Add a click event on buttons to open a specific modal
+                (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+                    const modal = $trigger.dataset.target;
+                    const $target = document.getElementById(modal);
+                    $trigger.addEventListener('click', () => {
+                        openModal($target);
+                    });
+                });
+                // Add a click event on various child elements to close the parent modal
+                (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+                    const $target = $close.closest('.modal');
+                    $close.addEventListener('click', () => {
+                    closeModal($target);
+                    });
+                });
+                // Add a keyboard event to close all modals
+                document.addEventListener('keydown', (event) => {
+                    const e = event || window.event;
+                    if (e.keyCode === 27) { // Escape key
+                        closeAllModals();
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     </body>
 </html>

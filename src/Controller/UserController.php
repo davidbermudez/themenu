@@ -16,12 +16,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-use Symfony\Component\Messenger\MessageBusInterface;
-use App\Entity\Business;
-use App\Repository\BusinessRepository;
-use App\Entity\Dishes;
-use App\Repository\DishesRepository;
-
 
 #[Route('/{_locale<%app.supported_locales%>}/user')]
 class UserController extends AbstractController
@@ -73,7 +67,7 @@ class UserController extends AbstractController
                     'user_duplicated'
                 );
             } else {
-                $token['token'] = md5(date('Y-m-d HH:ii:ss'));
+                $token['token'] = md5(date('Y-m-d H:i:s'));
                 $token['expirationMessageKey'] = 3600;
                 $token['expirationMessageData'] = '';
                 $user->setIsVerified(false);
@@ -122,29 +116,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/cpanel/{id}', name: 'app_panel', methods: ['GET'])]
-    public function cpanel(User $user, $id, BusinessRepository $businessRepository): Response
-    {
-        // verify user
-        $user = $this->getUser();
-        if ($user == null || $id!=$user->getId()){
-            return $this->redirectToRoute('app_login');
-        } else {
-            // business
-            $business = new Business();
-            $business = $businessRepository->findOneBy([
-                'user' => $user
-            ]);
-            // Dishes
-            $dishes = new Dishes();
-            return $this->render('user/cpanel.html.twig', [                
-                'user' => $user,
-                'business' => $business,
-            ]);
-        }
-    }
-
-
+    
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
@@ -174,74 +146,4 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
-    #[Route('/check-email', name: 'app_check_email', methods: ['POST'])]
-    public function checkEmail(): Response
-    {
-        // Generate a fake token if the user does not exist or someone hit this page directly.
-        // This prevents exposing whether or not a user was found with the given email address or not
-        if (null === ($resetToken = $this->getTokenObjectFromSession())) {
-            $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
-        }
-
-        return $this->render('reset_password/check_email.html.twig', [
-            'resetToken' => $resetToken,
-        ]);
-    }
-
-    
-    
-
-    private function processSendingActivationEmail(
-        string $hash,
-        string $emailFormData, 
-        MailerInterface $mailer, 
-        TranslatorInterface $translator
-        ): RedirectResponse
-    {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([
-            'email' => $emailFormData,
-        ]);
-
-        // Do not reveal whether a user account was found or not.
-        if (!$user) {
-            return $this->redirectToRoute('app_check_email');
-        }
-
-        try {
-            $token['token'] = $hash;
-            $token['expirationMessageKey'] = 3600;
-            //$resetToken = $this->resetPasswordHelper->generateResetToken($user);
-
-        } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     '%s - %s',
-            //     $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),
-            //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
-            // ));
-
-            return $this->redirectToRoute('app_check_email');
-        }
-
-        $email = (new TemplatedEmail())
-            ->from(new Address('elarahal.1972@gmail.com', 'Soporte'))
-            ->to($user->getEmail())
-            ->subject('Account activation - your free account is ready')
-            ->htmlTemplate('user/activation.html.twig')
-            ->context([
-                'token' => $token,
-            ])
-        ;
-
-        $mailer->send($email);
-
-        // Store the token object in session for retrieval in check-email route.
-        $this->setTokenObjectInSession($token);
-
-        return $this->redirectToRoute('app_check_email');
-    }
 }

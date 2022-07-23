@@ -1,0 +1,13 @@
+
+@media (min-width: 844px) {
+    .contenedor{
+        position: relative;
+        display: inline-block;    
+    }
+
+    .texto-encima{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+}

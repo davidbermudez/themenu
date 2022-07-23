@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+use DateTime;
+
 class EmailVerifier
 {
     public function __construct(
@@ -44,8 +46,9 @@ class EmailVerifier
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
-
+        $datenow = new Datetime(date('Y-m-d H:i:s'));
         $user->setIsVerified(true);
+        $user->setDateVerify($datenow);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

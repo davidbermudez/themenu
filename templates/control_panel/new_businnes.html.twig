@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CPanel Business{% endblock %}
+
+{% block body %}
+    <section class="hero contenedor">
+        <figure class="image">
+            <img src="{{ asset('images/user.png')}}">
+        </figure>
+        <div class="hero-body texto-encima">
+            <p class="title">
+                {% trans %}Cpanel.Title{% endtrans %}
+            </p>
+            <p class="subtitle">
+                {% trans %}Cpanel.Subtitle{% endtrans %}            
+            </p>
+        </div>
+    </section>
+    <section>
+        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Business{% endtrans %}</a></li>
+            </ul>
+        </nav>
+    </section>    
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>                    
+                    <p class="subtitle"><span class="icon is-size-5 is-left"><i class="fa fa-edit"></i></span></p>
+                </div>
+                <div class="tile is-child box has-background-danger-light">
+                    <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    {{ form_start(formBusiness) }}
+                    <div class="field">
+                        <label class="label">{% trans %}Cpanel.Business.Caption{% endtrans %}</label>
+                        <div class="control has-icons-left">            
+                            {{ form_widget(formBusiness.caption, {'attr': {'class': 'input is-success'}}) }}
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-utensils"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">{% trans %}Cpanel.Business.Address{% endtrans %}</label>
+                        <div class="control has-icons-left">            
+                            {{ form_widget(formBusiness.address, {'attr': {'class': 'input is-success'}}) }}
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-location-arrow"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-two-fifths">
+                                <div class="field">
+                                    <label class="label">{% trans %}Cpanel.Business.Country{% endtrans %}</label>
+                                    <div class="control has-icons-left">            
+                                        {{ form_widget(formBusiness.country, {'attr': {'class': 'input is-success'}}) }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">{% trans %}Cpanel.Business.State{% endtrans %}</label>
+                                    <div class="control has-icons-left">            
+                                        {{ form_widget(formBusiness.state, {'attr': {'class': 'input is-success'}}) }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-map"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">{% trans %}Cpanel.Business.City{% endtrans %}</label>
+                                    <div class="control has-icons-left">            
+                                        {{ form_widget(formBusiness.city, {'attr': {'class': 'input is-success'}}) }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-building"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+       
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-one-fifth">
+                                <div class="field">
+                                    <label class="label">{% trans %}Cpanel.Business.Postcode{% endtrans %}</label>
+                                    <div class="control has-icons-left">            
+                                        {{ form_widget(formBusiness.postcode, {'attr': {'class': 'input is-success'}}) }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-list-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column"></div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">{% trans %}Cpanel.Business.Phone{% endtrans %}</label>
+                                    <div class="control has-icons-left">            
+                                        {{ form_widget(formBusiness.phone, {'attr': {'class': 'input is-success'}}) }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-phone"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Submit button-->
+                    <div class="field is-grouped mt-2">
+                        <div class="control">
+                            <button id="submitButton" class="button is-link">Crear</button>
+                        </div>
+                    </div>
+                    {{ form_end(formBusiness) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

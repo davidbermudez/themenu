@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurar contraseña{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Restaurar Contraseña
+            </h1>
+            <p class="subtitle">
+                Introduzca su email y si está registrado en esta aplicación, recibirá un link para reactivar su cuenta.
+            </p>
+        </div>
+    </section>
+    <div class="container is-fluid">
+
+        {{ form_start(requestForm) }}
+        
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+                <!--<input class="input needs-validation inputUsername is-danger" type="email"  name="username" id="inputUsername" placeholder="Email input" value="">-->
+                {{ form_widget(requestForm.email, {'attr': {'class': 'input needs-validation reset_password_request_form_email is-danger'} }) }}
+                <span class="icon is-small is-left">
+                    <i id="emailCheckIconLeft" class="fas fa-envelope"></i>
+                </span>
+                <span id="emailCheckIconRight" class="icon is-small is-right">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </span>
+            </div>
+            <p class="help is-danger" id="emailActionHint">This email is invalid</p>
+        </div>
+        <!--Submit button-->
+        <div class="field is-grouped">
+            <div class="control">
+                <button id="submitButton" class="button is-link">Enviar</button>
+            </div>
+        </div>
+        {{ form_end(requestForm) }}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        // EVENT LISTENERS
+        document.addEventListener('change', event => {
+            if (event.target.matches('.reset_password_request_form_email')) {
+                validateEmail(event.target.value, 'reset_password_request_form_email')
+            }
+        }, false)
+        
+        function validateEmail(value, item) {
+            const iconEmailRight = document.getElementById('emailCheckIconRight')
+            const emailParagraph = document.getElementById('emailActionHint')
+            input = document.getElementById(item)    
+            if (validateRegexString(value)) {
+                // input box color
+                input.classList.remove('is-danger')
+                input.classList.add('is-success')
+                // icon type
+                iconEmailRight.classList.remove('fa-exclamation-triangle')
+                iconEmailRight.classList.add('fa-check')
+                emailParagraph.style = 'display:none'
+
+                emailValidated = true
+                submitCheck()
+            } else {
+                // input box color
+                input.classList.remove('is-sucess')
+                input.classList.add('is-danger')
+                // icon type
+                iconEmailRight.classList.remove('fa-check')
+                iconEmailRight.classList.add('fa-exclamation-triangle')
+                emailParagraph.style = 'display:block'
+
+                emailValidated = false
+            }    
+        }
+
+        function submitCheck() {
+            const emailParagraph = document.getElementById('emailActionHint')    
+        if (emailValidated) {
+                submit.disabled = false;              //button is no longer no-clickable
+                submit.removeAttribute("disabled");   //detto
+            } else {
+                emailParagraph.style = 'display:block'  //email warning shows up
+            }
+        }
+
+        function validateRegexString(email) {
+            const regexString = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+            return regexString.test(String(email).toLowerCase()) // true|false
+        }
+    </script>
+{% endblock %}

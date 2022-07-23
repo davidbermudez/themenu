@@ -21,7 +21,6 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -38,8 +37,8 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
         LoginFormAuthenticator $authenticator, 
-        EntityManagerInterface $entityManager,
-        MessageBusInterface $bus): Response
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -54,6 +53,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles(['ROLE_USER']);
+            $user->setHash(md5($user->getPassword()));
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -64,9 +64,8 @@ class RegistrationController extends AbstractController
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
-            );            
-
-            $bus->dispatch(new PizzaDeliveryNotification(uniqid()));
+            );
+            
 
             // Authenticated new user:
             /*
@@ -125,4 +124,33 @@ class RegistrationController extends AbstractController
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
         //return $this->redirectToRoute('app_login');
     }
+
+    
+    #[Route('/{_locale<%app.supported_locales%>}/not-verify', name: 'app_not_verify')]
+    public function notVerifyEmail(
+        Request $request
+        )
+    {
+        $user = $this->getuser();
+        // verificar sí se ha hecho click en el botón
+        if($request->get('_csrf_token')){
+
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('elarahal.1972@gmail.com', 'Soporte'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+            $this->addFlash(
+                'success',
+                'send_email_verification'
+            );
+            return new RedirectResponse($this->urlGenerator->generate('app_index'));
+        } else {
+           return $this->render('registration/not_verify_email.html.twig', [
+            ]);
+        }
+    }
+
 }

@@ -85,6 +85,22 @@
         <source>Cpanel.Postcode</source>
         <target>Código Postal</target>
       </trans-unit>
+      <trans-unit id="T2cQ.g4" resname="Cpanel.Btn.Create">
+        <source>Cpanel.Btn.Create</source>
+        <target>Alta Establecimiento</target>
+      </trans-unit>
+      <trans-unit id="7jdshdp" resname="Cpanel.Menu.Create">
+        <source>Cpanel.Menu.Create</source>
+        <target>Crea tu menú</target>
+      </trans-unit>
+      <trans-unit id="0Y8sn44" resname="Cpanel.Btn.Edit">
+        <source>Cpanel.Btn.Edit</source>
+        <target>__Cpanel.Btn.Edit</target>
+      </trans-unit>
+      <trans-unit id="ysjuHwf" resname="Cpanel.Btn.CreateMenu">
+        <source>Cpanel.Btn.CreateMenu</source>
+        <target>__Cpanel.Btn.CreateMenu</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

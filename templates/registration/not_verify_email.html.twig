@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email not verified{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Email no verificado
+            </h1>
+            <p class="subtitle">
+                Lo sentimos, no hemos recibido una verificación desde su email.
+            </p>
+        </div>
+    </section>
+    <div class="container is-fluid">
+        <form method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div class="field">
+                <label class="label">Si no ha recibido el correo electrónico con el enlace de activación, revise la carpeta de Spam. Sí aun así no encuentra el correo, por favor, pulse en el botón para recibir un correo nuevo</label>                        
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button id="submitButton" class="button is-link" type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
