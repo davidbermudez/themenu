@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CPanel Business{% endblock %}
+
+{% block body %}
+    <section class="hero contenedor">
+        <figure class="image">
+            <img src="{{ asset('images/user.png')}}">
+        </figure>
+        <div class="hero-body texto-encima">
+            <p class="title">
+                {% trans %}Cpanel.Title{% endtrans %}
+            </p>
+            <p class="subtitle">
+                {% trans %}Cpanel.Subtitle{% endtrans %}            
+            </p>
+        </div>
+    </section>
+    <section>
+        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+                <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
+                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
+            </ul>
+        </nav>
+    </section>    
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Dishes{% endtrans %}</p>
+                </div>                
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    {{ form_start(formDishe) }}
+                        {% set attr = {'class': 'input is-success'} %}
+                        <div class="field">                            
+                            <label class="label">{% trans %}Cpanel.Category.Caption{% endtrans %}</label>
+                            <div class="select">
+                                <div class="control">
+                                    
+                                        {{ form_widget(formDishe.category, {'attr': {'class': 'select is-success'}}) }}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if menu.langEs == false %}
+                            {% set attr = attr|merge({'disabled': true}) %}
+                        {% endif %}
+                        <img src="{{asset('images/es.png')}}" height="16" width="16">
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.caption_es, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-list-ol"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Description{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.description_es, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-paragraph"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        {% set attr = {'class': 'input is-success'} %}
+                        {% if menu.langEn == false %}
+                            {% set attr = attr|merge({'disabled': true}) %}
+                        {% endif %}
+                        <img src="{{asset('images/en.png')}}" height="16" width="16">
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.caption_en, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-list-ol"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Description{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.description_en, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-paragraph"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        {% set attr = {'class': 'input is-success'} %}
+                        {% if menu.langCa == false %}
+                            {% set attr = attr|merge({'disabled': true}) %}
+                        {% endif %}
+                        <img src="{{asset('images/ca.png')}}" height="16" width="16">
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.caption_ca, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-list-ol"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Description{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formDishe.description_ca, {'attr': attr}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-paragraph"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!--Submit button-->
+                        <div class="field is-grouped mt-2">
+                            <div class="control">
+                                <button id="submitButton" class="button is-link">{% trans %}Cpanel.Business.ButtonAdd{% endtrans %}</button>
+                            </div>
+                        </div>
+                    {{ form_end(formDishe) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -19,15 +19,28 @@ class Dishes
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $caption = null;
-
     #[ORM\OneToMany(mappedBy: 'dishe', targetEntity: Variation::class, orphanRemoval: true)]
     private Collection $variations;
 
-    #[ORM\ManyToOne(inversedBy: 'dishes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Menu $menu = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $caption_es = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $caption_en = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $caption_ca = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description_es = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description_en = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description_ca = null;
+
+   
 
     public function __construct()
     {
@@ -47,18 +60,6 @@ class Dishes
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getCaption(): ?string
-    {
-        return $this->caption;
-    }
-
-    public function setCaption(string $caption): self
-    {
-        $this->caption = $caption;
 
         return $this;
     }
@@ -93,15 +94,76 @@ class Dishes
         return $this;
     }
 
-    public function getMenu(): ?Menu
+    public function getCaptionEs(): ?string
     {
-        return $this->menu;
+        return $this->caption_es;
     }
 
-    public function setMenu(?Menu $menu): self
+    public function setCaptionEs(?string $caption_es): self
     {
-        $this->menu = $menu;
+        $this->caption_es = $caption_es;
 
         return $this;
     }
+
+    public function getCaptionEn(): ?string
+    {
+        return $this->caption_en;
+    }
+
+    public function setCaptionEn(?string $caption_en): self
+    {
+        $this->caption_en = $caption_en;
+
+        return $this;
+    }
+
+    public function getCaptionCa(): ?string
+    {
+        return $this->caption_ca;
+    }
+
+    public function setCaptionCa(?string $caption_ca): self
+    {
+        $this->caption_ca = $caption_ca;
+
+        return $this;
+    }
+
+    public function getDescriptionEs(): ?string
+    {
+        return $this->description_es;
+    }
+
+    public function setDescriptionEs(?string $description_es): self
+    {
+        $this->description_es = $description_es;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->description_en;
+    }
+
+    public function setDescriptionEn(?string $description_en): self
+    {
+        $this->description_en = $description_en;
+
+        return $this;
+    }
+
+    public function getDescriptionCa(): ?string
+    {
+        return $this->description_ca;
+    }
+
+    public function setDescriptionCa(?string $description_ca): self
+    {
+        $this->description_ca = $description_ca;
+
+        return $this;
+    }
+    
 }

@@ -35,21 +35,19 @@
                     <p>{{ user.username }}</p>
                 </div>
                 <div class="tile is-child box has-background-danger-light">
-                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>
                     {% if business %}
+                        <a href="{{ path('app_edit_busines', {'hash': user.hash }) }}"><span class="icon is-size-3 is-pulled-right"><i class="fa fa-edit"></i></span></a>
+                    {% endif %}
+                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>
+                    {% if business %}                        
                         <label class="label">{% trans %}Cpanel.Caption{% endtrans %}</label>
                         <p>{{ business.caption }}</p>
                         <label class="label">{% trans %}Cpanel.Address{% endtrans %}</label>
                         <p>{{ business.address }}</p>
                         <label class="label">{% trans %}Cpanel.City{% endtrans %}</label>
-                        <p>{{ business.caption }}</p>
+                        <p>{{ business.city }} ({{ business.state }})</p>
                         <label class="label">{% trans %}Cpanel.Postcode{% endtrans %}</label>
-                        <p>{{ business.address }}</p>
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <button id="submitButton" class="button is-link" onclick="">{% trans %}Cpanel.Btn.Edit{% endtrans %}</button>
-                            </div>
-                        </div>
+                        <p>{{ business.postcode }}</p>                        
                     {% else %}
                         <div class="field is-grouped">
                             <div class="control">
@@ -63,13 +61,22 @@
                 <div class="tile is-child box has-background-link-light">
                     <p class="title">{% trans %}Cpanel.Menu{% endtrans %}</p>
                     {% if menu %}
-                        menu
+                        <div class="control">
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_edit_menu', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>                                    
+                        </div>
+                        {% if dishes %}
+                            {% for plato in dishes %}
+                                {{plato.captionEs}}
+                            {% endfor %}
+                        {% else %}
+
+                        {% endif %}
                     {% else %}
                         <label class="label">{% trans %}Cpanel.Menu.Create{% endtrans %}</label>
                         <div class="field is-grouped">
                             {% if business %}
                                 <div class="control">
-                                    <button id="submitButton" class="button is-link">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
+                                    <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_edit_menu', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>                                    
                                 </div>
                             {% else %}
                                 <div class="control">

@@ -22,6 +22,15 @@ class Menu
     #[ORM\OneToMany(mappedBy: 'menu', targetEntity: Dishes::class, orphanRemoval: true)]
     private Collection $dishes;
 
+    #[ORM\Column]
+    private ?bool $lang_es = null;
+
+    #[ORM\Column]
+    private ?bool $lang_en = null;
+
+    #[ORM\Column]
+    private ?bool $lang_ca = null;
+
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
@@ -70,6 +79,42 @@ class Menu
                 $dish->setMenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isLangEs(): ?bool
+    {
+        return $this->lang_es;
+    }
+
+    public function setLangEs(bool $lang_es): self
+    {
+        $this->lang_es = $lang_es;
+
+        return $this;
+    }
+
+    public function isLangEn(): ?bool
+    {
+        return $this->lang_en;
+    }
+
+    public function setLangEn(bool $lang_en): self
+    {
+        $this->lang_en = $lang_en;
+
+        return $this;
+    }
+
+    public function isLangCa(): ?bool
+    {
+        return $this->lang_ca;
+    }
+
+    public function setLangCa(bool $lang_ca): self
+    {
+        $this->lang_ca = $lang_ca;
 
         return $this;
     }

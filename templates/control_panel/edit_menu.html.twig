@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CPanel Business{% endblock %}
+
+{% block body %}
+    <section class="hero contenedor">
+        <figure class="image">
+            <img src="{{ asset('images/user.png')}}">
+        </figure>
+        <div class="hero-body texto-encima">
+            <p class="title">
+                {% trans %}Cpanel.Title{% endtrans %}
+            </p>
+            <p class="subtitle">
+                {% trans %}Cpanel.Subtitle{% endtrans %}            
+            </p>
+        </div>
+    </section>
+    <section>
+        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Menu{% endtrans %}</a></li>
+            </ul>
+        </nav>
+    </section>    
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Menu{% endtrans %}</p>
+                </div>
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Sections{% endtrans %}</p>
+                    {% if categories %}
+                        <div class="select is-multiple">
+                        <select multiple size="{{ categories|length }}">
+                        {% for element in categories %}
+                            <option value="{{element.captionEs}}">{{element.captionEs}}</option>
+                        {% endfor %}
+                        </select>
+                        </div>
+                    {% endif %}
+                    <div class="control mt-2">
+                        <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_category', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateCategory{% endtrans %}</button>
+                    </div>
+                </div>
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Options{% endtrans %}</p>
+                    <div class="field">
+                        <label class="label">{% trans %}Cpanel.Options.Lang{% endtrans %}</label>
+                        <label class="checkbox"><input type="checkbox">es</label>
+                        <label class="checkbox"><input type="checkbox">en</label>
+                        <label class="checkbox"><input type="checkbox">ca</label>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    {% if categories %}
+                        <div class="tabs is-centered">
+                            <ul>
+                                {% if caption == null %}
+                                    {% set caption = categories[0].captionEs %}
+                                {% endif %}
+                                {% for category in categories %}                                    
+                                    <li{% if category.captionEs == caption %} class="is-active"{% endif %}><a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="control mt-2">
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}</button>
+                        </div>
+                    {% else %}
+                        <p>{% trans %}Cpanel.Message.CreateCategory{% endtrans %}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

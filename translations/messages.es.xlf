@@ -95,11 +95,79 @@
       </trans-unit>
       <trans-unit id="0Y8sn44" resname="Cpanel.Btn.Edit">
         <source>Cpanel.Btn.Edit</source>
-        <target>__Cpanel.Btn.Edit</target>
+        <target>Editar</target>
       </trans-unit>
       <trans-unit id="ysjuHwf" resname="Cpanel.Btn.CreateMenu">
         <source>Cpanel.Btn.CreateMenu</source>
-        <target>__Cpanel.Btn.CreateMenu</target>
+        <target>Crear Menú</target>
+      </trans-unit>
+      <trans-unit id="OwueMa." resname="Cpanel.Sections">
+        <source>Cpanel.Sections</source>
+        <target>Secciones del Menú</target>
+      </trans-unit>
+      <trans-unit id="iNDyo8z" resname="Cpanel.Category.Caption">
+        <source>Cpanel.Category.Caption</source>
+        <target>Nombre de la Sección</target>
+      </trans-unit>
+      <trans-unit id="IIJ0jmt" resname="Cpanel.Category.Description">
+        <source>Cpanel.Category.Description</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="wc_ep_R" resname="Cpanel.Business.ButtonAdd">
+        <source>Cpanel.Business.ButtonAdd</source>
+        <target>Añadir</target>
+      </trans-unit>
+      <trans-unit id="TcpVned" resname="Cpanel.Business.Caption">
+        <source>Cpanel.Business.Caption</source>
+        <target>Denominación comercial</target>
+      </trans-unit>
+      <trans-unit id=".Tx027v" resname="Cpanel.Business.Address">
+        <source>Cpanel.Business.Address</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="VNJRtjw" resname="Cpanel.Business.Country">
+        <source>Cpanel.Business.Country</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="ABUWAgb" resname="Cpanel.Business.State">
+        <source>Cpanel.Business.State</source>
+        <target>Provincia</target>
+      </trans-unit>
+      <trans-unit id="ngG5vC_" resname="Cpanel.Business.City">
+        <source>Cpanel.Business.City</source>
+        <target>Localidad</target>
+      </trans-unit>
+      <trans-unit id="nZn_koa" resname="Cpanel.Business.Postcode">
+        <source>Cpanel.Business.Postcode</source>
+        <target>Código Postal</target>
+      </trans-unit>
+      <trans-unit id="JQ1h9wJ" resname="Cpanel.Business.Phone">
+        <source>Cpanel.Business.Phone</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="oerv6gN" resname="Cpanel.Business.ButtonEdit">
+        <source>Cpanel.Business.ButtonEdit</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="18.nsyM" resname="Cpanel.Btn.CreateCategory">
+        <source>Cpanel.Btn.CreateCategory</source>
+        <target>Nueva Sección de Menú</target>
+      </trans-unit>
+      <trans-unit id="b7YlApA" resname="Cpanel.Options">
+        <source>Cpanel.Options</source>
+        <target>Opciones disponibles</target>
+      </trans-unit>
+      <trans-unit id="mGniIzD" resname="Cpanel.Options.Lang">
+        <source>Cpanel.Options.Lang</source>
+        <target>Carta Multiidioma</target>
+      </trans-unit>
+      <trans-unit id="srKtfDf" resname="Cpanel.Btn.CreateDishe">
+        <source>Cpanel.Btn.CreateDishe</source>
+        <target>Añadir un plato a esta Sección</target>
+      </trans-unit>
+      <trans-unit id="ulHqEGT" resname="Cpanel.Message.CreateCategory">
+        <source>Cpanel.Message.CreateCategory</source>
+        <target>Crea una Sección en tu Menú</target>
       </trans-unit>
     </body>
   </file>
