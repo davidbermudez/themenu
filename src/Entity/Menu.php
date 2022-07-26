@@ -31,6 +31,9 @@ class Menu
     #[ORM\Column]
     private ?bool $lang_ca = null;
 
+    #[ORM\Column(length: 8)]
+    private ?string $qr_code = null;
+
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
@@ -115,6 +118,18 @@ class Menu
     public function setLangCa(bool $lang_ca): self
     {
         $this->lang_ca = $lang_ca;
+
+        return $this;
+    }
+
+    public function getQrCode(): ?string
+    {
+        return $this->qr_code;
+    }
+
+    public function setQrCode(string $qr_code): self
+    {
+        $this->qr_code = $qr_code;
 
         return $this;
     }

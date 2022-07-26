@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CPanel Business{% endblock %}
+
+{% block body %}
+    <section class="hero contenedor">
+        <figure class="image">
+            <img src="{{ asset('images/user.png')}}">
+        </figure>
+        <div class="hero-body texto-encima">
+            <p class="title">
+                {% trans %}Cpanel.Title{% endtrans %}
+            </p>
+            <p class="subtitle">
+                {% trans %}Cpanel.Subtitle{% endtrans %}            
+            </p>
+        </div>
+    </section>
+    <section>
+        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+                <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
+                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
+            </ul>
+        </nav>
+    </section>
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.Dishes{% endtrans %}</p>
+                    <article>                        
+                        {#{ form_start(formVariation) }}
+                            <div class="field">
+                                <label class="label">{% trans %}Cpanel.Dishes.Prix{% endtrans %}</label>
+                                <div class="control has-icons-left">
+                                    {{ form_widget(formVariation.price, {'attr': {'class': 'input is-success'}}) }}
+                                    <span class="icon is-small is-left">
+                                        <ion-icon name="logo-euro"></ion-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">{% trans %}Cpanel.Dishes.Name{% endtrans %}</label>
+                                <div class="control has-icons-left">
+                                    {{ form_widget(formVariation.name, {'attr': {'class': 'input is-success'}}) }}
+                                    <span class="icon is-small is-left">
+                                        <ion-icon name="information-circle-outline"></ion-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        {{ form_end(formVariation) }#}
+                    </article>
+                </div>
+                <div class="tile is-child box has-background-danger-light">
+                    <div class="tile">
+                        <article>                            
+                            <p class="title">{{ dishe.captionEs }}</p>
+                            <p class="subtitle is-italic">{{ dishe.descriptionEs }}</p>
+                        </article>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    {{ form_start(formVariation) }}
+                                            
+                        {% set attr = {'class': 'input is-success'} %}
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Prix{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formVariation.price, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <ion-icon name="logo-euro"></ion-icon>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Dishes.Name{% endtrans %}</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formVariation.name, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <ion-icon name="information-circle-outline"></ion-icon>
+                                </span>
+                            </div>
+                        </div>
+                                                
+                        <!--Submit button-->
+                        <div class="field is-grouped mt-2">                            
+                            <div class="columns">
+                                <div class="column">                                    
+                                    <button id="submitButton" class="button is-link">{{button}}</button>
+                                </div>
+                                <div class="column">
+                                    <a id="cancelButton" class="button is-danger" href="{{ path('app_edit_menu', {'hash': user.hash}) }}">{% trans %}button.caption.cancel{% endtrans %}</a>
+                                </div>
+                            </div>                            
+                        </div>
+                    {{ form_end(formVariation) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

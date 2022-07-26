@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,8 +23,10 @@ class BusinessFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {   
         //$locale = $this->getLocale();
+        dump($options);
         $builder
             ->add('caption', TextType::class, ['label' => 'form.business.caption'])
+            ->add('description', TextType::class)
             ->add('address', TextType::class)
             ->add('city', TextType::class)
             ->add('postcode', TextType::class, ['attr' => ['maxlength' => 5]])
@@ -36,6 +39,21 @@ class BusinessFormType extends AbstractType
             //->add('date_created')
             //->add('date_modify')
             //->add('user')
+            ->add('twitter_profile', UrlType::class, [
+                'default_protocol' => 'https',
+                'required' => false,
+            ])
+            ->add('facebook_profile', UrlType::class, [
+                'default_protocol' => 'https',
+                'required' => false,
+            ])
+            ->add('instagram_profile', UrlType::class,[
+                'default_protocol' => 'https',
+                'required' => false,
+            ])
+            ->add('web', UrlType::class,[                
+                'required' => false,
+            ])
         ;
     }
 

@@ -169,6 +169,54 @@
         <source>Cpanel.Message.CreateCategory</source>
         <target>Crea una Sección en tu Menú</target>
       </trans-unit>
+      <trans-unit id="UR30aS2" resname="Cpanel.Dishes">
+        <source>Cpanel.Dishes</source>
+        <target>Plato</target>
+      </trans-unit>
+      <trans-unit id="J_hr4OR" resname="Cpanel.Dishes.Caption">
+        <source>Cpanel.Dishes.Caption</source>
+        <target>Denominación del Plato</target>
+      </trans-unit>
+      <trans-unit id="hLMVkEU" resname="Cpanel.Dishes.Description">
+        <source>Cpanel.Dishes.Description</source>
+        <target>Información complementaria</target>
+      </trans-unit>
+      <trans-unit id="SoY6cgJ" resname="Cpanel.Business.Description">
+        <source>Cpanel.Business.Description</source>
+        <target>__Cpanel.Business.Description</target>
+      </trans-unit>
+      <trans-unit id="d1srzmA" resname="Cpanel.Business.Web">
+        <source>Cpanel.Business.Web</source>
+        <target>__Cpanel.Business.Web</target>
+      </trans-unit>
+      <trans-unit id="tAohs1h" resname="Cpanel.Business.Twitter">
+        <source>Cpanel.Business.Twitter</source>
+        <target>__Cpanel.Business.Twitter</target>
+      </trans-unit>
+      <trans-unit id="ClGvTGR" resname="Cpanel.Business.Facebook">
+        <source>Cpanel.Business.Facebook</source>
+        <target>__Cpanel.Business.Facebook</target>
+      </trans-unit>
+      <trans-unit id="y8CFmms" resname="Cpanel.Business.Instagram">
+        <source>Cpanel.Business.Instagram</source>
+        <target>__Cpanel.Business.Instagram</target>
+      </trans-unit>
+      <trans-unit id="kbwr3_x" resname="Cpanel.Message.CreateCategoryHelpText">
+        <source>Cpanel.Message.CreateCategoryHelpText</source>
+        <target>__Cpanel.Message.CreateCategoryHelpText</target>
+      </trans-unit>
+      <trans-unit id="OrGe73N" resname="button.caption.update">
+        <source>button.caption.update</source>
+        <target>Actualizar</target>
+      </trans-unit>
+      <trans-unit id="wpVR5.c" resname="button.caption.add">
+        <source>button.caption.add</source>
+        <target>Añadir</target>
+      </trans-unit>
+      <trans-unit id="NnHLvNe" resname="button.caption.cancel">
+        <source>button.caption.cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

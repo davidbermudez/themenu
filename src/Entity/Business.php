@@ -51,6 +51,21 @@ class Business
     #[ORM\Column(length: 50)]
     private ?string $state = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $twitter_profile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facebook_profile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $instagram_profile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $web = null;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -207,6 +222,66 @@ class Business
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTwitterProfile(): ?string
+    {
+        return $this->twitter_profile;
+    }
+
+    public function setTwitterProfile(?string $twitter_profile): self
+    {
+        $this->twitter_profile = $twitter_profile;
+
+        return $this;
+    }
+
+    public function getFacebookProfile(): ?string
+    {
+        return $this->facebook_profile;
+    }
+
+    public function setFacebookProfile(?string $facebook_profile): self
+    {
+        $this->facebook_profile = $facebook_profile;
+
+        return $this;
+    }
+
+    public function getInstagramProfile(): ?string
+    {
+        return $this->instagram_profile;
+    }
+
+    public function setInstagramProfile(?string $instagram_profile): self
+    {
+        $this->instagram_profile = $instagram_profile;
+
+        return $this;
+    }
+
+    public function getWeb(): ?string
+    {
+        return $this->web;
+    }
+
+    public function setWeb(?string $web): self
+    {
+        $this->web = $web;
 
         return $this;
     }

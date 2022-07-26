@@ -17,10 +17,14 @@ use App\Entity\Menu;
 use App\Repository\MenuRepository;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Entity\Variation;
+use App\Repository\VariationRepository;
 use App\Form\BusinessFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\CategoryFormType;
 use App\Form\DisheFormType;
+use App\Form\VariationFormType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use DateTime;
 
@@ -125,7 +129,7 @@ class ControlPanelController extends AbstractController
     }
 
 
-    #[Route('/{hash}/edit_business', name: 'app_edit_busines', methods: ['GET', 'POST'])]
+    #[Route('/{hash}/edit_business', name: 'app_edit_business', methods: ['GET', 'POST'])]
     public function editBusiness(
         Request $request,
         User $user,
@@ -153,6 +157,14 @@ class ControlPanelController extends AbstractController
                 $datenow = new Datetime(date('Y-m-d H:i:s'));
                 $business->setUser($user);
                 $business->setDateModify($datenow);
+                // redes
+                $urlTw = $form->get('twitter_profile')->getData();                
+                if($urlTw!='')
+                {
+                    if(substr($urlTw, -1) == "/"){
+                        $business->setTwitterProfile(substr($urlTw, 0, strlen($urlTw) - 1));
+                    }
+                }
                 $this->entityManager->persist($business);
                 $this->entityManager->flush();
                 
@@ -161,6 +173,7 @@ class ControlPanelController extends AbstractController
                     'Actualizados los datos del Establecimiento'
                 );
                 //redirect
+                //return true;
                 return $this->redirectToRoute('app_panel', ['hash' => $user->getHash()]);
             } elseif ($form->isSubmitted() && !$form->isValid()) {
                 $this->addFlash(
@@ -195,6 +208,7 @@ class ControlPanelController extends AbstractController
         } elseif($user->isVerified()==false) {
             return $this->redirectToRoute('app_not_verify');
         } else {
+                        
             $business = new Business();
             $business = $businessRepository->findOneBy([
                 'user' => $user,
@@ -202,25 +216,35 @@ class ControlPanelController extends AbstractController
             $menu = new Menu();
             $menu = $menuRepository->findOneBy([
                 'business' => $business,
-            ]);            
+            ]);
+            // si todavía no hay un menú, crearlo
             if(is_null($menu)){
+                $qr = hash("crc32", $user->getEmail(), false);                
                 $menu = new Menu();
                 $menu->SetLangEs(true);
                 $menu->SetLangEn(false);
                 $menu->SetLangCa(false);
                 $menu->SetBusiness($business);
+                $menu->SetQrCode($qr);
 
                 $menuRepository->add($menu, true);
             }
             $category = new Category();
             $category = $categoryRepository->findAll([
                 'menu' => $menu,
-            ]);            
+            ]);
+            
+            $dishes = new Dishes();
+            $dishes = $dishesRepository->findAll([
+                //'category' => 
+            ]);
+
             return $this->render('control_panel/edit_menu.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
                 'caption' => $caption,
                 'categories' => $category,
+                'dishes' => $dishes,
             ]);
         }
     }
@@ -291,7 +315,8 @@ class ControlPanelController extends AbstractController
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
         CategoryRepository $categoryRepository,
-        DishesRepository $dishesRepository
+        DishesRepository $dishesRepository,
+        TranslatorInterface $translator
         ): Response
     {
         // verify user
@@ -308,29 +333,160 @@ class ControlPanelController extends AbstractController
             $menu = new Menu();
             $menu = $menuRepository->findOneBy([
                 'business' => $business,
-            ]);            
+            ]);
             $category = new Category();
             $category = $categoryRepository->findAll([
                 'menu' => $menu,
             ]);
-            $dishe = new Dishes();            
+            $dishe = new Dishes();
+            $dishe->setCategory($categoryRepository->findOneBy(['id' => $request->get('category')]));            
             $form = $this->createForm(DisheFormType::class, $dishe);
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                //$category->setMenu($menu);
+            
+            if ($form->isSubmitted() && $form->isValid()) {            
+                $categoryForm = $form->get('category')->getData()->getCaptionEs();
                 $dishesRepository->add($dishe, true);
                 $this->addFlash(
                     'success',
                     'Creado un nuevo plato'
                 );
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $category->getCaptionEs()]);
+                //return true;
+                return $this->redirectToRoute('app_add_variation', ['hash' => $user->getHash(), 'dishe' => $dishe->getId()]);
             }
-            return $this->render('control_panel/new_dishe.html.twig', [
+            return $this->render('control_panel/dishe.html.twig', [
+                'user' => $user,
+                'menu' => $menu,
+                'formDishe' => $form->createView(),                
+                'button' => $translator->trans('button.caption.add'),
+                'caption' => $form->get('category')->getData()->getCaptionEs(),
+                //'formVariation' => $formVariation->createView(),
+            ]);
+        }
+    }    
+
+    
+    #[Route('/{hash}/edit_dishe', name: 'app_edit_dishes', methods: ['GET', 'POST'])]
+    public function editDishe(
+        Request $request,
+        User $user,
+        $hash,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository,
+        DishesRepository $dishesRepository,
+        VariationRepository $variationRepository,
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            $menu = new Menu();
+            $menu = $menuRepository->findOneBy([
+                'business' => $business,
+            ]);
+            $category = new Category();
+            $category = $categoryRepository->findAll([
+                'menu' => $menu,
+            ]);
+            // verificamos que $_GET['dishe'], se corresponda a un plato del menú del usuario
+            $dishe = $request->get('dishe');            
+            $dishes = new Dishes();
+            $dishes = $dishesRepository->findOneBy([
+                'id' => $dishe,
+            ]);
+            $variation = new Variation();
+            $formVariation = $this->createForm(VariationFormType::class, $variation);
+            $formVariation->handleRequest($request);
+            $form = $this->createForm(DisheFormType::class, $dishes);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $categoryForm = $form->get('category')->getData()->getCaptionEs();                
+                $dishesRepository->add($dishes, true);
+                $this->addFlash(
+                    'success',
+                    'Actualizado plato'
+                );
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $categoryForm]);
+            }
+            return $this->render('control_panel/dishe.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
                 'formDishe' => $form->createView(),
+                'button' => $translator->trans('button.caption.update'),
+                'caption' => $form->get('category')->getData()->getCaptionEs(),
+                'formVariation' => $formVariation->createView(),
             ]);
         }
     }
+
     
+    #[Route('/{hash}/add_variation/{dishe}', name: 'app_add_variation', methods: ['GET', 'POST'])]
+    public function addVariation(
+        Request $request,
+        User $user,
+        $hash,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository,
+        DishesRepository $dishesRepository,
+        VariationRepository $variationRepository,
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            $menu = new Menu();
+            $menu = $menuRepository->findOneBy([
+                'business' => $business,
+            ]);
+            $category = new Category();
+            $category = $categoryRepository->findAll([
+                'menu' => $menu,
+            ]);
+            $dishe = $request->get('dishe');            
+            $dishes = new Dishes();
+            $dishes = $dishesRepository->findOneBy([
+                'id' => $dishe,
+            ]);            
+            $variation = new Variation();
+            $formVariation = $this->createForm(VariationFormType::class, $variation);
+            $formVariation->handleRequest($request);            
+            if ($formVariation->isSubmitted() && $formVariation->isValid()) {
+                $variation->setDishe($dishes);
+                dump($variation);
+                $variationRepository->add($variation, true);
+                $this->addFlash(
+                    'success',
+                    'Actualizado plato'
+                );
+                //return true;
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash()]);
+            }
+            return $this->render('control_panel/variation.html.twig', [
+                'user' => $user,
+                'menu' => $menu,
+                'button' => $translator->trans('button.caption.add'),
+                'formVariation' => $formVariation->createView(),
+                'dishe' => $dishes,
+            ]);
+        }
+    }
 }

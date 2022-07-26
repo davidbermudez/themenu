@@ -57,22 +57,56 @@
             </div>
             <div class="tile is-parent">
                 <div class="tile is-child box has-background-link-light">
+                {% set active = null %}
                     {% if categories %}
                         <div class="tabs is-centered">
                             <ul>
                                 {% if caption == null %}
                                     {% set caption = categories[0].captionEs %}
                                 {% endif %}
-                                {% for category in categories %}                                    
-                                    <li{% if category.captionEs == caption %} class="is-active"{% endif %}><a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a></li>
+                                {% for category in categories %}
+                                    {% if category.captionEs == caption %}
+                                        <li class="is-active">
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a>
+                                        </li>
+                                        {% set active = category.id %}
+                                    {% else %}
+                                        <li>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="control mt-2">
-                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}</button>
+                        <div>
+                            {% for plates in dishes %}
+                                {% if plates.category.captionEs == caption %}
+                                <div class="tile">
+                                    <article>
+                                        <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}"><span class="icon is-size-6 is-pulled-left"><i class="fa fa-edit"></i></span></a>
+                                        <p class="title">{{ plates.captionEs }}</p>
+                                        <p class="subtitle is-italic">{{ plates.descriptionEs }}</p>
+                                    </article>
+                                    <hr>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                    {% else %}
-                        <p>{% trans %}Cpanel.Message.CreateCategory{% endtrans %}</p>
+                        {% if active %}
+                        <div class="control mt-2">
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}</button>
+                        </div>
+                        {% endif %}
+                    {% else %}                        
+                        <article class="message">
+                            <div class="message-header">
+                                <p>{% trans %}Cpanel.Message.CreateCategory{% endtrans %}</p>
+                                <button class="delete" aria-label="delete"></button>
+                            </div>
+                            <div class="message-body">
+                                {% trans %}Cpanel.Message.CreateCategoryHelpText{% endtrans %}
+                            </div>
+                        </article>
                     {% endif %}
                 </div>
             </div>

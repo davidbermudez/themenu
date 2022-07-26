@@ -24,25 +24,49 @@
                 <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
             </ul>
         </nav>
-    </section>    
+    </section>
     <div class="container is-fluid">
         <div class="tile is-ancestor">
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box has-background-link-light">
                     <p class="title">{% trans %}Cpanel.Dishes{% endtrans %}</p>
-                </div>                
+                    <article>                        
+                        {#{ form_start(formVariation) }}
+                            <div class="field">
+                                <label class="label">{% trans %}Cpanel.Dishes.Prix{% endtrans %}</label>
+                                <div class="control has-icons-left">
+                                    {{ form_widget(formVariation.price, {'attr': {'class': 'input is-success'}}) }}
+                                    <span class="icon is-small is-left">
+                                        <ion-icon name="logo-euro"></ion-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">{% trans %}Cpanel.Dishes.Name{% endtrans %}</label>
+                                <div class="control has-icons-left">
+                                    {{ form_widget(formVariation.name, {'attr': {'class': 'input is-success'}}) }}
+                                    <span class="icon is-small is-left">
+                                        <ion-icon name="information-circle-outline"></ion-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        {{ form_end(formVariation) }#}
+                    </article>
+                </div>
+                <div class="tile is-child box has-background-danger-light">
+                </div>
             </div>
+            
             <div class="tile is-parent">
                 <div class="tile is-child box has-background-link-light">
                     {{ form_start(formDishe) }}
+                                            
                         {% set attr = {'class': 'input is-success'} %}
-                        <div class="field">                            
+                        <div class="field">
                             <label class="label">{% trans %}Cpanel.Category.Caption{% endtrans %}</label>
                             <div class="select">
-                                <div class="control">
-                                    
-                                        {{ form_widget(formDishe.category, {'attr': {'class': 'select is-success'}}) }}
-                                    
+                                <div class="control">                                    
+                                    {{ form_widget(formDishe.category, {'attr': {'class': 'select is-success'}}) }}                                    
                                 </div>
                             </div>
                         </div>
@@ -50,7 +74,7 @@
                         {% if menu.langEs == false %}
                             {% set attr = attr|merge({'disabled': true}) %}
                         {% endif %}
-                        <img src="{{asset('images/es.png')}}" height="16" width="16">
+                        <img src="{{asset('images/ico/es.png')}}" height="16" width="16">
                         <div class="field">
                             <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
                             <div class="control has-icons-left">
@@ -75,7 +99,7 @@
                         {% if menu.langEn == false %}
                             {% set attr = attr|merge({'disabled': true}) %}
                         {% endif %}
-                        <img src="{{asset('images/en.png')}}" height="16" width="16">
+                        <img src="{{asset('images/ico/en.png')}}" height="16" width="16">
                         <div class="field">
                             <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
                             <div class="control has-icons-left">
@@ -100,7 +124,7 @@
                         {% if menu.langCa == false %}
                             {% set attr = attr|merge({'disabled': true}) %}
                         {% endif %}
-                        <img src="{{asset('images/ca.png')}}" height="16" width="16">
+                        <img src="{{asset('images/ico/ca.png')}}" height="16" width="16">
                         <div class="field">
                             <label class="label">{% trans %}Cpanel.Dishes.Caption{% endtrans %}</label>
                             <div class="control has-icons-left">
@@ -121,10 +145,15 @@
                             </div>
                         </div>
                         <!--Submit button-->
-                        <div class="field is-grouped mt-2">
-                            <div class="control">
-                                <button id="submitButton" class="button is-link">{% trans %}Cpanel.Business.ButtonAdd{% endtrans %}</button>
-                            </div>
+                        <div class="field is-grouped mt-2">                            
+                            <div class="columns">
+                                <div class="column">                                    
+                                    <button id="submitButton" class="button is-link">{{button}}</button>
+                                </div>
+                                <div class="column">
+                                    <a id="cancelButton" class="button is-danger" href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': caption }) }}">{% trans %}button.caption.cancel{% endtrans %}</a>
+                                </div>
+                            </div>                            
                         </div>
                     {{ form_end(formDishe) }}
                 </div>

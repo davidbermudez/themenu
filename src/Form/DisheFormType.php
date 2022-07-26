@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Category;
 
 class DisheFormType extends AbstractType
@@ -23,7 +24,8 @@ class DisheFormType extends AbstractType
             ->add('description_ca')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'caption_es'
+                'choice_label' => 'caption_es',
+                'disabled' => true
             ])
         ;
     }
