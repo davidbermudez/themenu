@@ -3,42 +3,51 @@
 {% block title %}CPanel Business{% endblock %}
 
 {% block body %}
-    <section class="hero contenedor">
-        <figure class="image">
-            <img src="{{ asset('images/user.png')}}">
-        </figure>
-        <div class="hero-body texto-encima">
-            <p class="title">
-                {% trans %}Cpanel.Title{% endtrans %}
-            </p>
-            <p class="subtitle">
-                {% trans %}Cpanel.Subtitle{% endtrans %}            
-            </p>
-        </div>
-    </section>
-    <section>
-        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
-            <ul>
-                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
-                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Menu{% endtrans %}</a></li>
-            </ul>
-        </nav>
-    </section>    
+
+    {% include 'control_panel/header.html.twig' %}  
+    
     <div class="container is-fluid">
         <div class="tile is-ancestor">
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box has-background-link-light">
-                    <p class="title">{% trans %}Cpanel.Menu{% endtrans %}</p>
+                    <p class="title">{% trans %}Cpanel.Edit.Menu{% endtrans %}</p>
+                    <form action="" method="POST">
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.Menu.Caption{% endtrans %}</label>
+                            <div class="columns is-mobile">
+                                <div class="column">
+                                    <a><span class="icon is-size-5 is-pulled-right"><i class="fa fa-edit" onclick="enabled()"></i></span></a>
+                                </div>
+                                <div class="column is-11">
+                                    <div class="control has-icons-left">
+                                        <input data-menu="{{ menu_id }}" data-token="{{ csrf_token(user.id) }}" onchange="updateCaption(this.value)" type="text" class="input is-success" name="menuCaption" id="menuCaption" value="{{ menu.caption }}" disabled>
+                                        <span class="icon is-small is-left">
+                                            <ion-icon name="book-outline"></ion-icon>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="tile is-child box has-background-link-light">
                     <p class="title">{% trans %}Cpanel.Sections{% endtrans %}</p>
                     {% if categories %}
-                        <div class="select is-multiple">
-                        <select multiple size="{{ categories|length }}">
-                        {% for element in categories %}
-                            <option value="{{element.captionEs}}">{{element.captionEs}}</option>
-                        {% endfor %}
-                        </select>
+                        <div class="columns">
+                            <div class="column">
+                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon name="arrow-up-circle-outline" id="icon-up"></ion-icon></span></a>
+                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon name="arrow-down-circle-outline" id="icon-down"></ion-icon></span></a>
+                            </div>
+                            <div class="column is-11">
+                                <div class="select is-multiple">
+                                    <select multiple size="{{ categories|length }}" id="selectSection">
+                                    {% for element in categories %}
+                                        <option value="{{element.captionEs}}" data-order="{{element.orderBy}}">{{element.captionEs}}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     {% endif %}
                     <div class="control mt-2">
@@ -67,12 +76,12 @@
                                 {% for category in categories %}
                                     {% if category.captionEs == caption %}
                                         <li class="is-active">
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs, 'menu_id': menu_id }) }}">{{ category.captionEs }}</a>
                                         </li>
                                         {% set active = category.id %}
                                     {% else %}
                                         <li>
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs}) }}">{{ category.captionEs }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs, 'menu_id': menu_id }) }}">{{ category.captionEs }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
@@ -112,5 +121,76 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<script>
+
+    const inputText = document.getElementById('menuCaption');
+    const inputSelect = document.getElementById('selectSection');
+    const iconUp = document.getElementById('icon-up');
+    const iconDown = document.getElementById('icon-down');
+    var elementSelect = 0;
+    
+    $(inputText).keydown(function (e){
+        // Capturamos qué telca ha sido
+        var keyCode= e.which;
+        // Si la tecla es el Intro/Enter
+        if (keyCode == 13){
+            // Evitamos que se ejecute eventos
+            event.preventDefault();
+            // Devolvemos falso
+            updateCaption($(inputText).val())
+            return false;
+        }
+    });
+
+    inputSelect.addEventListener('change', (event) => {        
+        $(iconUp).attr('name', 'arrow-up-circle');
+        $(iconDown).attr('name', 'arrow-down-circle');
+        elementSelect = event.target.data('order');
+        console.log(elementSelect)
+        //${event.target.value} <= Selected
+    });
+    
+    function enabled(){
+        inputText.disabled = false;
+        inputText.select();
+    }
+
+    function updateCaption(value){
+        var token = $(inputText).data('token');
+        var menu = $(inputText).data('menu');
+        var texto = $(inputText).val();
+
+        console.log(token);
+        console.log('Valor:', texto);
+
+        /*const client = new XMLHttpRequest();
+        client.open("POST", "{{ path('ajax_updateCaptionMenu') }}");
+        client.send();
+        console.log(client.responseText);*/
+        
+        $.ajax({
+            type: "POST",
+            url: "{{ path('ajax_updateCaptionMenu') }}",
+            data: { 
+                token:  token,
+                texto: texto,
+                menu: menu,
+            },
+            dataType: 'json',
+            success: function(data) {
+                if(data.result){
+                    inputText.disabled = true;
+                    swal("Cool!", data.mensaje, "success");
+                } else if(data.result == false){
+                    swal("Oops!", data.mensaje, "error");
+                }
+            },            
+        });        
+    }
+</script>
 {% endblock %}

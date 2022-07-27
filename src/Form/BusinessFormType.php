@@ -21,9 +21,7 @@ class BusinessFormType extends AbstractType
 {        
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {   
-        //$locale = $this->getLocale();
-        dump($options);
+    {                   
         $builder
             ->add('caption', TextType::class, ['label' => 'form.business.caption'])
             ->add('description', TextType::class)

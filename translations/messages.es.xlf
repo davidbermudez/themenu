@@ -59,7 +59,7 @@
       </trans-unit>
       <trans-unit id="np3upeh" resname="Cpanel.Menu">
         <source>Cpanel.Menu</source>
-        <target>Configura tu menú</target>
+        <target>Configura tus cartas</target>
       </trans-unit>
       <trans-unit id="UEB0uII" resname="Cpanel.Email">
         <source>Cpanel.Email</source>
@@ -183,23 +183,23 @@
       </trans-unit>
       <trans-unit id="SoY6cgJ" resname="Cpanel.Business.Description">
         <source>Cpanel.Business.Description</source>
-        <target>__Cpanel.Business.Description</target>
+        <target>Describe tu establecimiento</target>
       </trans-unit>
       <trans-unit id="d1srzmA" resname="Cpanel.Business.Web">
         <source>Cpanel.Business.Web</source>
-        <target>__Cpanel.Business.Web</target>
+        <target>Página Web</target>
       </trans-unit>
       <trans-unit id="tAohs1h" resname="Cpanel.Business.Twitter">
         <source>Cpanel.Business.Twitter</source>
-        <target>__Cpanel.Business.Twitter</target>
+        <target>Twitter</target>
       </trans-unit>
       <trans-unit id="ClGvTGR" resname="Cpanel.Business.Facebook">
         <source>Cpanel.Business.Facebook</source>
-        <target>__Cpanel.Business.Facebook</target>
+        <target>Facebook</target>
       </trans-unit>
       <trans-unit id="y8CFmms" resname="Cpanel.Business.Instagram">
         <source>Cpanel.Business.Instagram</source>
-        <target>__Cpanel.Business.Instagram</target>
+        <target>Instagram</target>
       </trans-unit>
       <trans-unit id="kbwr3_x" resname="Cpanel.Message.CreateCategoryHelpText">
         <source>Cpanel.Message.CreateCategoryHelpText</source>
@@ -216,6 +216,50 @@
       <trans-unit id="NnHLvNe" resname="button.caption.cancel">
         <source>button.caption.cancel</source>
         <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="jMY2Bcm" resname="CPanel.Breadcrumb.Index">
+        <source>CPanel.Breadcrumb.Index</source>
+        <target>Panel de Control</target>
+      </trans-unit>
+      <trans-unit id="46570Wp" resname="CPanel.Breadcrumb.EditMenu">
+        <source>CPanel.Breadcrumb.EditMenu</source>
+        <target>Configura tu menú</target>
+      </trans-unit>
+      <trans-unit id="U1ZDNuh" resname="Cpanel.Dishes.Prix">
+        <source>Cpanel.Dishes.Prix</source>
+        <target>Precio del Plato</target>
+      </trans-unit>
+      <trans-unit id="HoVfxA7" resname="Cpanel.Dishes.Name">
+        <source>Cpanel.Dishes.Name</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="zK5y9L7" resname="CPanel.Breadcrumb.EditBusiness">
+        <source>CPanel.Breadcrumb.EditBusiness</source>
+        <target>Tu Establecimiento</target>
+      </trans-unit>
+      <trans-unit id="ZJfZNXY" resname="Cpanel.Edit.Menu">
+        <source>Cpanel.Edit.Menu</source>
+        <target>Configuración de Carta</target>
+      </trans-unit>
+      <trans-unit id="agmItvU" resname="Cpanel.Menu.Caption">
+        <source>Cpanel.Menu.Caption</source>
+        <target>Título de la Carta</target>
+      </trans-unit>
+      <trans-unit id="T4kEetJ" resname="Ajax.Error.NotFound">
+        <source>Ajax.Error.NotFound</source>
+        <target>__Ajax.Error.NotFound</target>
+      </trans-unit>
+      <trans-unit id="YHikleq" resname="Ajax.Hack">
+        <source>Ajax.Hack</source>
+        <target>¿Me estás Hackeando?</target>
+      </trans-unit>
+      <trans-unit id="aqfTNIP" resname="Ajax.Update.Text">
+        <source>Ajax.Update.Text</source>
+        <target>Actualizado el título de la Carta</target>
+      </trans-unit>
+      <trans-unit id="4WygJyw" resname="Ajax.Error.CsrToken">
+        <source>Ajax.Error.CsrToken</source>
+        <target>__Ajax.Error.CsrToken</target>
       </trans-unit>
     </body>
   </file>

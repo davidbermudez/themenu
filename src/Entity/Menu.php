@@ -34,6 +34,9 @@ class Menu
     #[ORM\Column(length: 8)]
     private ?string $qr_code = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $caption = null;
+
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
@@ -130,6 +133,18 @@ class Menu
     public function setQrCode(string $qr_code): self
     {
         $this->qr_code = $qr_code;
+
+        return $this;
+    }
+
+    public function getCaption(): ?string
+    {
+        return $this->caption;
+    }
+
+    public function setCaption(string $caption): self
+    {
+        $this->caption = $caption;
 
         return $this;
     }

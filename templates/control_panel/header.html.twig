@@ -1,0 +1,26 @@
+<section class="hero contenedor">
+    <figure class="image">
+        <img src="{{ asset('images/user.png')}}">
+    </figure>
+    <div class="hero-body texto-encima">
+        <p class="title">
+            {% trans %}Cpanel.Title{% endtrans %}
+        </p>
+        <p class="subtitle">
+            {% trans %}Cpanel.Subtitle{% endtrans %}            
+        </p>
+    </div>
+</section>
+<section class="box">
+    <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
+        <ul>
+            {% for migas in breadcrumb %}
+                {% if migas.active == true %}
+                    <li class="is-active"><a aria-current="page" href="#">{{ migas.title }}</a></li>
+                {% else %}                    
+                    <li><a aria-current="page" href="{{ path(migas.href, migas.parameters) }}">{{ migas.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+</section>

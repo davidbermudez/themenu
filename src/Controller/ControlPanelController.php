@@ -34,10 +34,11 @@ class ControlPanelController extends AbstractController
 {
 
     private $entityManager;
+    private $locale;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager = $entityManager;        
     }
 
 
@@ -47,7 +48,9 @@ class ControlPanelController extends AbstractController
         $hash, 
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
-        DishesRepository $dishesRepository): Response
+        DishesRepository $dishesRepository,
+        TranslatorInterface $translator
+        ): Response
     {
         // verify user
         $user = $this->getUser();
@@ -63,7 +66,7 @@ class ControlPanelController extends AbstractController
             ]);
             // Menu
             $menu = new Menu();
-            $menu = $menuRepository->findOneBy([
+            $menu = $menuRepository->findAll([
                 'business' => $business
             ]);
 
@@ -73,11 +76,20 @@ class ControlPanelController extends AbstractController
                 'menu' => $menu
             ]);
 
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => true,                
+                ],
+            ];
+            dump($breadcrumb);
             return $this->render('control_panel/index.html.twig', [
                 'user' => $user,
                 'business' => $business,
-                'menu' => $menu,
+                'menues' => $menu,
                 'dishes' => $dishes,
+                'breadcrumb' => $breadcrumb,
             ]);
         }
     }
@@ -89,7 +101,9 @@ class ControlPanelController extends AbstractController
         $hash,
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
-        DishesRepository $dishesRepository): Response
+        DishesRepository $dishesRepository,
+        TranslatorInterface $translator
+        ): Response
     {
         // verify user
         $user = $this->getUser();
@@ -100,7 +114,7 @@ class ControlPanelController extends AbstractController
         } else {
             $business = new Business();
             $form = $this->createForm(BusinessFormType::class, $business);
-            dump($form);
+            //dump($form);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 // verificar datos y crear un nuevo Business
@@ -136,7 +150,9 @@ class ControlPanelController extends AbstractController
         $hash,
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
-        DishesRepository $dishesRepository): Response
+        DishesRepository $dishesRepository,
+        TranslatorInterface $translator
+        ): Response
     {
         // verify user
         $user = $this->getUser();
@@ -150,7 +166,7 @@ class ControlPanelController extends AbstractController
                 'user' => $user,
             ]);
             $form = $this->createForm(BusinessFormType::class, $business);
-            dump($form);
+            //dump($form);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 // verificar datos y crear un nuevo Business
@@ -182,15 +198,33 @@ class ControlPanelController extends AbstractController
                 );
                 
             }
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditBusiness'),
+                    'active' => true,
+                ]
+            ];
             return $this->render('control_panel/edit_businnes.html.twig', [
                 'user' => $user,                
                 'formBusiness' => $form->createView(),
+                'breadcrumb' => $breadcrumb,
             ]);
         }
     }
 
 
-    #[Route('/{hash}/edit_menu/{caption}', name: 'app_edit_menu', methods: ['GET', 'POST'])]
+    #[Route('/{hash}/edit_menu/{menu_id}/{caption}', name: 'app_edit_menu', methods: ['GET', 'POST'])]
     public function editMenu(
         Request $request,
         User $user,
@@ -199,6 +233,8 @@ class ControlPanelController extends AbstractController
         MenuRepository $menuRepository,
         CategoryRepository $categoryRepository,
         DishesRepository $dishesRepository,
+        TranslatorInterface $translator,
+        $menu_id = null,
         $caption = ''): Response
     {
         // verify user
@@ -213,19 +249,27 @@ class ControlPanelController extends AbstractController
             $business = $businessRepository->findOneBy([
                 'user' => $user,
             ]);
+
             $menu = new Menu();
             $menu = $menuRepository->findOneBy([
                 'business' => $business,
+                'id' => $menu_id,
             ]);
             // si todavía no hay un menú, crearlo
             if(is_null($menu)){
+                return $this->redirectToRoute('app_login');
                 $qr = hash("crc32", $user->getEmail(), false);                
                 $menu = new Menu();
                 $menu->SetLangEs(true);
-                $menu->SetLangEn(false);
-                $menu->SetLangCa(false);
+                $PREMIUM = false;
+                if ($user->isGranted('ROLE_PREMIUN')){
+                    $PREMIUM = true;
+                }
+                $menu->SetLangEn($PREMIUM);
+                $menu->SetLangCa($PREMIUM);
                 $menu->SetBusiness($business);
                 $menu->SetQrCode($qr);
+                $menu->SetCaption('UNNAMED');
 
                 $menuRepository->add($menu, true);
             }
@@ -238,13 +282,32 @@ class ControlPanelController extends AbstractController
             $dishes = $dishesRepository->findAll([
                 //'category' => 
             ]);
-
+            
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => true,
+                ]
+            ];
             return $this->render('control_panel/edit_menu.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
                 'caption' => $caption,
                 'categories' => $category,
                 'dishes' => $dishes,
+                'menu_id' => $menu_id,
+                'breadcrumb' => $breadcrumb,
             ]);
         }
     }
