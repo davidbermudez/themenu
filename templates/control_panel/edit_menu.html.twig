@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="column is-11">
                                     <div class="control has-icons-left">
-                                        <input data-menu="{{ menu_id }}" data-token="{{ csrf_token(user.id) }}" onchange="updateCaption(this.value)" type="text" class="input is-success" name="menuCaption" id="menuCaption" value="{{ menu.caption }}" disabled>
+                                        <input data-menu="{{ menu_id }}" data-token="{{ csrf_token(user.id) }}" onchange="updateCaption(this.value)" type="text" class="input" name="menuCaption" id="menuCaption" value="{{ menu.caption }}" disabled>
                                         <span class="icon is-small is-left">
                                             <ion-icon name="book-outline"></ion-icon>
                                         </span>
@@ -36,8 +36,8 @@
                     {% if categories %}
                         <div class="columns">
                             <div class="column">
-                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon name="arrow-up-circle-outline" id="icon-up"></ion-icon></span></a>
-                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon name="arrow-down-circle-outline" id="icon-down"></ion-icon></span></a>
+                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon src="{{ asset('images/ico/arrow-up-circle-outline.svg')}}" id="icon-up" onclick="up()"></ion-icon></span></a>
+                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon src="{{ asset('images/ico/arrow-down-circle-outline.svg')}}" id="icon-down" onclick="down()"></ion-icon></span></a>
                             </div>
                             <div class="column is-11">
                                 <div class="select is-multiple">
@@ -132,7 +132,7 @@
     const inputSelect = document.getElementById('selectSection');
     const iconUp = document.getElementById('icon-up');
     const iconDown = document.getElementById('icon-down');
-    var elementSelect = 0;
+    var elementSelect = null;
     
     $(inputText).keydown(function (e){
         // Capturamos qué telca ha sido
@@ -148,12 +148,20 @@
     });
 
     inputSelect.addEventListener('change', (event) => {        
-        $(iconUp).attr('name', 'arrow-up-circle');
-        $(iconDown).attr('name', 'arrow-down-circle');
-        elementSelect = event.target.data('order');
-        console.log(elementSelect)
-        //${event.target.value} <= Selected
+        $(iconUp).attr('src', '{{ asset('images/ico/arrow-up-circle.svg')}}');
+        $(iconDown).attr('src', '{{ asset('images/ico/arrow-down-circle.svg')}}');
+        elementSelect = event.target;
+        elementPrueba = event.target.options;
+        elementSelect = elementPrueba.selectedIndex;
+        //console.log('element:', elementSelect);
     });
+
+/*
+    inputSelect.addEventListener('focusout', (event) => {        
+        $(iconUp).attr('src', '{{ asset('images/ico/arrow-up-circle-outline.svg')}}');
+        $(iconDown).attr('src', '{{ asset('images/ico/arrow-down-circle-outline.svg')}}');        
+    });
+*/    
     
     function enabled(){
         inputText.disabled = false;
@@ -163,10 +171,7 @@
     function updateCaption(value){
         var token = $(inputText).data('token');
         var menu = $(inputText).data('menu');
-        var texto = $(inputText).val();
-
-        console.log(token);
-        console.log('Valor:', texto);
+        var texto = $(inputText).val();        
 
         /*const client = new XMLHttpRequest();
         client.open("POST", "{{ path('ajax_updateCaptionMenu') }}");
@@ -180,6 +185,7 @@
                 token:  token,
                 texto: texto,
                 menu: menu,
+                _locale: '{{app.request.getLocale()}}',
             },
             dataType: 'json',
             success: function(data) {
@@ -189,8 +195,57 @@
                 } else if(data.result == false){
                     swal("Oops!", data.mensaje, "error");
                 }
-            },            
+            },
+        });
+    }
+
+    function down(){
+        if($(iconDown).attr('src') == '{{ asset('images/ico/arrow-down-circle-outline.svg')}}'){
+            console.log("inactive");
+            return false;
+        }
+        var op = $('#selectSection option:selected');        
+        if(op.length){
+            op.last().next().after(op);
+            sendOrder();
+        }
+    }
+
+    function up(){
+        if($(iconUp).attr('src') == '{{ asset('images/ico/arrow-up-circle-outline.svg')}}'){
+            console.log("inactive");
+            return false;
+        }
+        var op = $('#selectSection option:selected');        
+        if(op.length){            
+            op.first().prev().before(op);
+            sendOrder();
+        }
+    }
+
+    function sendOrder(){
+        var token = $(inputText).data('token');
+        var menu = $(inputText).data('menu');        
+        var elements = [];
+        var op = $('#selectSection option').each(function(){
+            elements.push($(this).val());
         });        
+        //console.log(elements);
+        $.ajax({
+            type: "POST",
+            url: "{{ path('ajax_orderSections') }}",
+            data: { 
+                token:  token,
+                sections: elements,
+                menu: menu,
+                _locale: '{{app.request.getLocale()}}',
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+            },
+        });
+
     }
 </script>
 {% endblock %}

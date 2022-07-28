@@ -103,7 +103,7 @@
       </trans-unit>
       <trans-unit id="OwueMa." resname="Cpanel.Sections">
         <source>Cpanel.Sections</source>
-        <target>Secciones del Menú</target>
+        <target>Secciones</target>
       </trans-unit>
       <trans-unit id="iNDyo8z" resname="Cpanel.Category.Caption">
         <source>Cpanel.Category.Caption</source>

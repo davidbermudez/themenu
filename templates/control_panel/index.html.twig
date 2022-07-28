@@ -7,29 +7,61 @@
     {% include 'control_panel/header.html.twig' %}
     
     <div class="container is-fluid">
+        <!-- tile -->
         <div class="tile is-ancestor">
-            <div class="tile is-4 is-vertical is-parent">
+            <div class="tile is-3 is-vertical is-parent">
                 <div class="tile is-child box has-background-link-light">
-                    <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>
-                    <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>
-                    <p>{{ user.email }}</p>
-                    <label class="label">{% trans %}Cpanel.Username{% endtrans %}</label>
-                    <p>{{ user.username }}</p>
-                </div>
-                <div class="tile is-child box has-background-danger-light">
                     {% if business %}
-                        <a href="{{ path('app_edit_business', {'hash': user.hash }) }}"><span class="icon is-size-3 is-pulled-right"><i class="fa fa-edit"></i></span></a>
+                        <a href="{{ path('app_edit_business', {'hash': user.hash }) }}"><span class="icon is-size-4 is-pulled-right"><i class="fa fa-edit"></i></span></a>
                     {% endif %}
                     <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>
-                    {% if business %}                        
-                        <label class="label">{% trans %}Cpanel.Caption{% endtrans %}</label>
-                        <p>{{ business.caption }}</p>
-                        <label class="label">{% trans %}Cpanel.Address{% endtrans %}</label>
-                        <p>{{ business.address }}</p>
-                        <label class="label">{% trans %}Cpanel.City{% endtrans %}</label>
-                        <p>{{ business.city }} ({{ business.state }})</p>
-                        <label class="label">{% trans %}Cpanel.Postcode{% endtrans %}</label>
-                        <p>{{ business.postcode }}</p>                        
+                    {% if business %}
+                        <div class="card">                            
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">{{ business.caption }}</p>
+                                        <p class="subtitle is-6">{{ business.address }}, {{ business.city }}</p>
+                                    </div>
+                                </div>
+                                <div class="content">                                    
+                                    <p>{{ business.description }}</p>
+                                    <ul>
+                                    {% if business.twitterProfile %}
+                                        {% set userTw = business.twitterProfile | split('/') %}
+                                        <li>
+                                            <ion-icon name="logo-twitter"></ion-icon>
+                                            <a href="{{business.twitterProfile}}">@{{ userTw[(userTw|length) - 1]}}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if business.facebookProfile %}
+                                        {% set userFc = business.facebookProfile | split('/') %}
+                                        <li>
+                                            <ion-icon name="logo-facebook"></ion-icon>
+                                            <a href="{{business.facebookProfile}}">{{ userFc[(userFc|length) - 1]}}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if business.instagramProfile %}
+                                        <li>
+                                            <ion-icon name="logo-instagram"></ion-icon>
+                                            <a href="{{business.instagramProfile}}">{{ business.instagramProfile }}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if business.web %}
+                                        <li>
+                                            <ion-icon name="link-outline"></ion-icon>
+                                            <a href="{{business.web}}">{{ business.web }}</a>
+                                        </li>
+                                    {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>                        
                     {% else %}
                         <div class="field is-grouped">
                             <div class="control">
@@ -37,6 +69,14 @@
                             </div>
                         </div>
                     {% endif %}
+                    
+                </div>
+                <div class="tile is-child box has-background-danger-light">
+                    <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>
+                    <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>
+                    <p>{{ user.email }}</p>
+                    <label class="label">{% trans %}Cpanel.Username{% endtrans %}</label>
+                    <p>{{ user.username }}</p>
                 </div>
             </div>
             <div class="tile is-parent">
@@ -50,7 +90,7 @@
                                     <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_edit_menu', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
                                 </div>
                                 {% if menu %}
-                                    <img src="{{ qr_code_url('My QR Code') }}" />
+                                    <img src="{{ qr_code_url('My QR Code') }}" height="75" width="75" />
                                 {% endif %}
                             {% else %}
                                 <div class="control">
@@ -59,68 +99,50 @@
                             {% endif %}
                         </div>
                     {% endif %}
-                    <div class="columns">
+                    <div class="tile is-ancestor">
                         {% for menu in menues %}
-                            <div class="column is-5">
+                            {# Al 3er elemento, crear una fila nueva #}
+                            {% if loop.index == 4 %}
+                                </div>
+                                <div class="tile is-ancestor">
+                            {% endif %}
+                            <div class="tile">
                                 <div class="box" style="width: 350px;">
-                                    <label>{{ menu.caption }}</label>
+                                    <div class="content"> 
+                                        <label>{{ menu.caption }}</label>
+                                        <a href="{{ path('app_edit_menu', {'hash': user.hash, 'menu_id': menu.id }) }}"><span class="icon is-size-4 is-pulled-right"><i class="fa fa-edit"></i></span></a>
+                                    </div>
                                     {% set urlqr = 'https://consultalacarta.es/' ~ menu.qrCode %}
                                     <div class="card">
                                         <div class="card-image">
-                                            <figure class="image image is-square">                                            
+                                            <figure class="image image is-square">
                                                 <img src="{{ qr_code_url(urlqr) }}" />
                                             </figure>
                                         </div>
                                         <div class="card-content">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <figure class="image is-48x48">
-                                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                                                    </figure>
-                                                </div>
-                                                <div class="media-content">
-                                                    <p class="title is-4">{{ business.caption }}</p>
-                                                    <p class="subtitle is-6">{{ business.address }}, {{ business.city }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <a href="{{ path('app_edit_menu', {'hash': user.hash, 'menu_id': menu.id }) }}"><span class="icon is-size-3 is-pulled-right"><i class="fa fa-edit"></i></span></a>
-                                                <p>{{ business.description }}</p>
-                                                <ul>
-                                                {% if business.twitterProfile %}
-                                                    {% set userTw = business.twitterProfile | split('/') %}
-                                                    <li>
-                                                        <ion-icon name="logo-twitter"></ion-icon>
-                                                        <a href="{{business.twitterProfile}}">@{{ userTw[(userTw|length) - 1]}}</a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if business.facebookProfile %}
-                                                    {% set userFc = business.facebookProfile | split('/') %}
-                                                    <li>
-                                                        <ion-icon name="logo-facebook"></ion-icon>
-                                                        <a href="{{business.facebookProfile}}">{{ userFc[(userFc|length) - 1]}}</a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if business.instagramProfile %}
-                                                    <li>
-                                                        <ion-icon name="logo-instagram"></ion-icon>
-                                                        <a href="{{business.instagramProfile}}">{{ business.instagramProfile }}</a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if business.web %}
-                                                    <li>
-                                                        <ion-icon name="link-outline"></ion-icon>
-                                                        <a href="{{business.web}}">{{ business.web }}</a>
-                                                    </li>
-                                                {% endif %}
-                                                </ul>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
-                        {% endfor %}    
-                    </div>                        
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="tile is-ancestor">
+                        <div class="tile">
+                            <div class="box" style="width: 350px;">
+                                <div class="content">
+                                    {% if is_granted('ROLE_PREMIUN') %}
+
+                                    {% else %}
+                                        <div class="control">
+                                            <button id="submitButton" class="button is-link" disabled>{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
+                                            <a href="{{ path('app_index') }}"><span class="icon is-size-4 is-pulled-right"><ion-icon src="{{asset('images/ico/diamond-outline.svg')}}"></ion-icon></span></a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

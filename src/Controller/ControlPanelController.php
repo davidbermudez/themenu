@@ -274,10 +274,11 @@ class ControlPanelController extends AbstractController
                 $menuRepository->add($menu, true);
             }
             $category = new Category();
-            $category = $categoryRepository->findAll([
+            $category = $categoryRepository->findBy([
                 'menu' => $menu,
-            ]);
-            
+            ],
+                array('order_by' => 'ASC')
+            );            
             $dishes = new Dishes();
             $dishes = $dishesRepository->findAll([
                 //'category' => 

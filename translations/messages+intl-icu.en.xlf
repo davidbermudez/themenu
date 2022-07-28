@@ -37,6 +37,222 @@
         <source>Attention!</source>
         <target>__Attention!</target>
       </trans-unit>
+      <trans-unit id="T4kEetJ" resname="Ajax.Error.NotFound">
+        <source>Ajax.Error.NotFound</source>
+        <target>__Ajax.Error.NotFound</target>
+      </trans-unit>
+      <trans-unit id="YHikleq" resname="Ajax.Hack">
+        <source>Ajax.Hack</source>
+        <target>__Ajax.Hack</target>
+      </trans-unit>
+      <trans-unit id="aqfTNIP" resname="Ajax.Update.Text">
+        <source>Ajax.Update.Text</source>
+        <target>__Ajax.Update.Text</target>
+      </trans-unit>
+      <trans-unit id="4WygJyw" resname="Ajax.Error.CsrToken">
+        <source>Ajax.Error.CsrToken</source>
+        <target>__Ajax.Error.CsrToken</target>
+      </trans-unit>
+      <trans-unit id="jMY2Bcm" resname="CPanel.Breadcrumb.Index">
+        <source>CPanel.Breadcrumb.Index</source>
+        <target>__CPanel.Breadcrumb.Index</target>
+      </trans-unit>
+      <trans-unit id="zK5y9L7" resname="CPanel.Breadcrumb.EditBusiness">
+        <source>CPanel.Breadcrumb.EditBusiness</source>
+        <target>__CPanel.Breadcrumb.EditBusiness</target>
+      </trans-unit>
+      <trans-unit id="46570Wp" resname="CPanel.Breadcrumb.EditMenu">
+        <source>CPanel.Breadcrumb.EditMenu</source>
+        <target>__CPanel.Breadcrumb.EditMenu</target>
+      </trans-unit>
+      <trans-unit id="wpVR5.c" resname="button.caption.add">
+        <source>button.caption.add</source>
+        <target>__button.caption.add</target>
+      </trans-unit>
+      <trans-unit id="OrGe73N" resname="button.caption.update">
+        <source>button.caption.update</source>
+        <target>__button.caption.update</target>
+      </trans-unit>
+      <trans-unit id="1aLBwsp" resname="Cpanel.Title">
+        <source>Cpanel.Title</source>
+        <target>__Cpanel.Title</target>
+      </trans-unit>
+      <trans-unit id="mXqjppk" resname="Cpanel.Subtitle">
+        <source>Cpanel.Subtitle</source>
+        <target>__Cpanel.Subtitle</target>
+      </trans-unit>
+      <trans-unit id="3bRhK3U" resname="Cpanel.Business">
+        <source>Cpanel.Business</source>
+        <target>__Cpanel.Business</target>
+      </trans-unit>
+      <trans-unit id="OwueMa." resname="Cpanel.Sections">
+        <source>Cpanel.Sections</source>
+        <target>__Cpanel.Sections</target>
+      </trans-unit>
+      <trans-unit id="UR30aS2" resname="Cpanel.Dishes">
+        <source>Cpanel.Dishes</source>
+        <target>__Cpanel.Dishes</target>
+      </trans-unit>
+      <trans-unit id="iNDyo8z" resname="Cpanel.Category.Caption">
+        <source>Cpanel.Category.Caption</source>
+        <target>__Cpanel.Category.Caption</target>
+      </trans-unit>
+      <trans-unit id="J_hr4OR" resname="Cpanel.Dishes.Caption">
+        <source>Cpanel.Dishes.Caption</source>
+        <target>__Cpanel.Dishes.Caption</target>
+      </trans-unit>
+      <trans-unit id="hLMVkEU" resname="Cpanel.Dishes.Description">
+        <source>Cpanel.Dishes.Description</source>
+        <target>__Cpanel.Dishes.Description</target>
+      </trans-unit>
+      <trans-unit id="NnHLvNe" resname="button.caption.cancel">
+        <source>button.caption.cancel</source>
+        <target>__button.caption.cancel</target>
+      </trans-unit>
+      <trans-unit id="T2cQ.g4" resname="Cpanel.Btn.Create">
+        <source>Cpanel.Btn.Create</source>
+        <target>__Cpanel.Btn.Create</target>
+      </trans-unit>
+      <trans-unit id="i9ra5PD" resname="Cpanel.User">
+        <source>Cpanel.User</source>
+        <target>__Cpanel.User</target>
+      </trans-unit>
+      <trans-unit id="UEB0uII" resname="Cpanel.Email">
+        <source>Cpanel.Email</source>
+        <target>__Cpanel.Email</target>
+      </trans-unit>
+      <trans-unit id="oLroFpu" resname="Cpanel.Username">
+        <source>Cpanel.Username</source>
+        <target>__Cpanel.Username</target>
+      </trans-unit>
+      <trans-unit id="np3upeh" resname="Cpanel.Menu">
+        <source>Cpanel.Menu</source>
+        <target>__Cpanel.Menu</target>
+      </trans-unit>
+      <trans-unit id="7jdshdp" resname="Cpanel.Menu.Create">
+        <source>Cpanel.Menu.Create</source>
+        <target>__Cpanel.Menu.Create</target>
+      </trans-unit>
+      <trans-unit id="ysjuHwf" resname="Cpanel.Btn.CreateMenu">
+        <source>Cpanel.Btn.CreateMenu</source>
+        <target>__Cpanel.Btn.CreateMenu</target>
+      </trans-unit>
+      <trans-unit id="IIJ0jmt" resname="Cpanel.Category.Description">
+        <source>Cpanel.Category.Description</source>
+        <target>__Cpanel.Category.Description</target>
+      </trans-unit>
+      <trans-unit id="wc_ep_R" resname="Cpanel.Business.ButtonAdd">
+        <source>Cpanel.Business.ButtonAdd</source>
+        <target>__Cpanel.Business.ButtonAdd</target>
+      </trans-unit>
+      <trans-unit id="TcpVned" resname="Cpanel.Business.Caption">
+        <source>Cpanel.Business.Caption</source>
+        <target>__Cpanel.Business.Caption</target>
+      </trans-unit>
+      <trans-unit id=".Tx027v" resname="Cpanel.Business.Address">
+        <source>Cpanel.Business.Address</source>
+        <target>__Cpanel.Business.Address</target>
+      </trans-unit>
+      <trans-unit id="VNJRtjw" resname="Cpanel.Business.Country">
+        <source>Cpanel.Business.Country</source>
+        <target>__Cpanel.Business.Country</target>
+      </trans-unit>
+      <trans-unit id="ABUWAgb" resname="Cpanel.Business.State">
+        <source>Cpanel.Business.State</source>
+        <target>__Cpanel.Business.State</target>
+      </trans-unit>
+      <trans-unit id="ngG5vC_" resname="Cpanel.Business.City">
+        <source>Cpanel.Business.City</source>
+        <target>__Cpanel.Business.City</target>
+      </trans-unit>
+      <trans-unit id="nZn_koa" resname="Cpanel.Business.Postcode">
+        <source>Cpanel.Business.Postcode</source>
+        <target>__Cpanel.Business.Postcode</target>
+      </trans-unit>
+      <trans-unit id="JQ1h9wJ" resname="Cpanel.Business.Phone">
+        <source>Cpanel.Business.Phone</source>
+        <target>__Cpanel.Business.Phone</target>
+      </trans-unit>
+      <trans-unit id="SoY6cgJ" resname="Cpanel.Business.Description">
+        <source>Cpanel.Business.Description</source>
+        <target>__Cpanel.Business.Description</target>
+      </trans-unit>
+      <trans-unit id="d1srzmA" resname="Cpanel.Business.Web">
+        <source>Cpanel.Business.Web</source>
+        <target>__Cpanel.Business.Web</target>
+      </trans-unit>
+      <trans-unit id="tAohs1h" resname="Cpanel.Business.Twitter">
+        <source>Cpanel.Business.Twitter</source>
+        <target>__Cpanel.Business.Twitter</target>
+      </trans-unit>
+      <trans-unit id="ClGvTGR" resname="Cpanel.Business.Facebook">
+        <source>Cpanel.Business.Facebook</source>
+        <target>__Cpanel.Business.Facebook</target>
+      </trans-unit>
+      <trans-unit id="y8CFmms" resname="Cpanel.Business.Instagram">
+        <source>Cpanel.Business.Instagram</source>
+        <target>__Cpanel.Business.Instagram</target>
+      </trans-unit>
+      <trans-unit id="oerv6gN" resname="Cpanel.Business.ButtonEdit">
+        <source>Cpanel.Business.ButtonEdit</source>
+        <target>__Cpanel.Business.ButtonEdit</target>
+      </trans-unit>
+      <trans-unit id="ZJfZNXY" resname="Cpanel.Edit.Menu">
+        <source>Cpanel.Edit.Menu</source>
+        <target>__Cpanel.Edit.Menu</target>
+      </trans-unit>
+      <trans-unit id="agmItvU" resname="Cpanel.Menu.Caption">
+        <source>Cpanel.Menu.Caption</source>
+        <target>__Cpanel.Menu.Caption</target>
+      </trans-unit>
+      <trans-unit id="18.nsyM" resname="Cpanel.Btn.CreateCategory">
+        <source>Cpanel.Btn.CreateCategory</source>
+        <target>__Cpanel.Btn.CreateCategory</target>
+      </trans-unit>
+      <trans-unit id="b7YlApA" resname="Cpanel.Options">
+        <source>Cpanel.Options</source>
+        <target>__Cpanel.Options</target>
+      </trans-unit>
+      <trans-unit id="mGniIzD" resname="Cpanel.Options.Lang">
+        <source>Cpanel.Options.Lang</source>
+        <target>__Cpanel.Options.Lang</target>
+      </trans-unit>
+      <trans-unit id="srKtfDf" resname="Cpanel.Btn.CreateDishe">
+        <source>Cpanel.Btn.CreateDishe</source>
+        <target>__Cpanel.Btn.CreateDishe</target>
+      </trans-unit>
+      <trans-unit id="ulHqEGT" resname="Cpanel.Message.CreateCategory">
+        <source>Cpanel.Message.CreateCategory</source>
+        <target>__Cpanel.Message.CreateCategory</target>
+      </trans-unit>
+      <trans-unit id="kbwr3_x" resname="Cpanel.Message.CreateCategoryHelpText">
+        <source>Cpanel.Message.CreateCategoryHelpText</source>
+        <target>__Cpanel.Message.CreateCategoryHelpText</target>
+      </trans-unit>
+      <trans-unit id="U1ZDNuh" resname="Cpanel.Dishes.Prix">
+        <source>Cpanel.Dishes.Prix</source>
+        <target>__Cpanel.Dishes.Prix</target>
+      </trans-unit>
+      <trans-unit id="HoVfxA7" resname="Cpanel.Dishes.Name">
+        <source>Cpanel.Dishes.Name</source>
+        <target>__Cpanel.Dishes.Name</target>
+      </trans-unit>
+      <trans-unit id="VL5nlKs" resname="Cpanel.Caption">
+        <source>Cpanel.Caption</source>
+        <target>__Cpanel.Caption</target>
+      </trans-unit>
+      <trans-unit id="wStwYZu" resname="Cpanel.Address">
+        <source>Cpanel.Address</source>
+        <target>__Cpanel.Address</target>
+      </trans-unit>
+      <trans-unit id="jfzxGoj" resname="Cpanel.City">
+        <source>Cpanel.City</source>
+        <target>__Cpanel.City</target>
+      </trans-unit>
+      <trans-unit id="vRz08UJ" resname="Cpanel.Postcode">
+        <source>Cpanel.Postcode</source>
+        <target>__Cpanel.Postcode</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

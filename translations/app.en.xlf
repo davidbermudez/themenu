@@ -45,6 +45,10 @@
         <source>Menu.Yourcount.Profile</source>
         <target>__Menu.Yourcount.Profile</target>
       </trans-unit>
+      <trans-unit id="s0V_09U" resname="Menu.Yourcount.Panel">
+        <source>Menu.Yourcount.Panel</source>
+        <target>__Menu.Yourcount.Panel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
