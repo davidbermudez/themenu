@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Form\UserFormType;
 use App\Entity\Business;
 use App\Repository\BusinessRepository;
 use App\Entity\Dishes;
@@ -143,6 +144,80 @@ class ControlPanelController extends AbstractController
     }
 
 
+    #[Route('/{hash}/edit_user', name: 'app_edit_user', methods: ['GET', 'POST'])]
+    public function editUser(
+        Request $request,
+        User $user,
+        $hash,
+        UserRepository $businessRepository,        
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {            
+            $form = $this->createForm(UserFormType::class, $user);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // verificar datos y crear un nuevo Business
+                $datenow = new Datetime(date('Y-m-d H:i:s'));
+                $business->setUser($user);
+                $business->setDateModify($datenow);
+                // redes
+                $urlTw = $form->get('twitter_profile')->getData();                
+                if($urlTw!='')
+                {
+                    if(substr($urlTw, -1) == "/"){
+                        $business->setTwitterProfile(substr($urlTw, 0, strlen($urlTw) - 1));
+                    }
+                }
+                $this->entityManager->persist($business);
+                $this->entityManager->flush();
+                
+                $this->addFlash(
+                    'success',
+                    'Actualizados los datos del Establecimiento'
+                );
+                //redirect
+                //return true;
+                return $this->redirectToRoute('app_panel', ['hash' => $user->getHash()]);
+            } elseif ($form->isSubmitted() && !$form->isValid()) {
+                $this->addFlash(
+                    'danger',
+                    'Los datos introducidos no son válidos'
+                );
+                
+            }
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditBusiness'),
+                    'active' => true,
+                ]
+            ];
+            return $this->render('control_panel/edit_user.html.twig', [
+                'user' => $user,                
+                'formUser' => $form->createView(),
+                'breadcrumb' => $breadcrumb,
+            ]);
+        }
+    }
+
+
     #[Route('/{hash}/edit_business', name: 'app_edit_business', methods: ['GET', 'POST'])]
     public function editBusiness(
         Request $request,
@@ -265,8 +340,8 @@ class ControlPanelController extends AbstractController
                 if ($user->isGranted('ROLE_PREMIUN')){
                     $PREMIUM = true;
                 }
-                $menu->SetLangEn($PREMIUM);
-                $menu->SetLangCa($PREMIUM);
+                $menu->Setlang02($PREMIUM);
+                $menu->Setlang03($PREMIUM);
                 $menu->SetBusiness($business);
                 $menu->SetQrCode($qr);
                 $menu->SetCaption('UNNAMED');

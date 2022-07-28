@@ -16,15 +16,15 @@ class DisheFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('caption_es')
+            ->add('caption')
             ->add('caption_en')
             ->add('caption_ca')
-            ->add('description_es')
+            ->add('description')
             ->add('description_en')
             ->add('description_ca')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'caption_es',
+                'choice_label' => 'caption',
                 'disabled' => true
             ])
         ;

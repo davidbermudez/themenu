@@ -23,6 +23,12 @@ class Variation
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $name_02 = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $name_03 = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +66,30 @@ class Variation
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName02(): ?string
+    {
+        return $this->name_02;
+    }
+
+    public function setName02(?string $name_02): self
+    {
+        $this->name_02 = $name_02;
+
+        return $this;
+    }
+
+    public function getName03(): ?string
+    {
+        return $this->name_03;
+    }
+
+    public function setName03(?string $name_03): self
+    {
+        $this->name_03 = $name_03;
 
         return $this;
     }

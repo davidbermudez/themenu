@@ -18,6 +18,9 @@
                     {% if business %}
                         <div class="card">                            
                             <div class="card-content">
+                                <div class="content">
+                                        <p class="title is-4">{{ business.caption }}</p>
+                                    </div>
                                 <div class="media">
                                     <div class="media-left">
                                         <figure class="image is-48x48">
@@ -25,40 +28,40 @@
                                         </figure>
                                     </div>
                                     <div class="media-content">
-                                        <p class="title is-4">{{ business.caption }}</p>
+                                        
                                         <p class="subtitle is-6">{{ business.address }}, {{ business.city }}</p>
                                     </div>
                                 </div>
-                                <div class="content">                                    
-                                    <p>{{ business.description }}</p>
-                                    <ul>
+                                <div class="content">
+                                    <p><ion-icon src="{{ asset('images/ico/call-sharp.svg') }}"></ion-icon> {{ business.phone }}</p>
+                                    <p class="is-italic">{{ business.description }}</p>
                                     {% if business.twitterProfile %}
                                         {% set userTw = business.twitterProfile | split('/') %}
-                                        <li>
+                                        <p class="overflow">
                                             <ion-icon name="logo-twitter"></ion-icon>
-                                            <a href="{{business.twitterProfile}}">@{{ userTw[(userTw|length) - 1]}}</a>
-                                        </li>
+                                            <a href="{{business.twitterProfile}}">@{{ userTw[(userTw|length) - 1] }}</a>
+                                        </p>
                                     {% endif %}
                                     {% if business.facebookProfile %}
                                         {% set userFc = business.facebookProfile | split('/') %}
-                                        <li>
+                                        <p class="overflow">
                                             <ion-icon name="logo-facebook"></ion-icon>
-                                            <a href="{{business.facebookProfile}}">{{ userFc[(userFc|length) - 1]}}</a>
-                                        </li>
+                                            <a href="{{business.facebookProfile}}">{{ userFc[(userFc|length) - 1] }}</a>
+                                        </p>
                                     {% endif %}
                                     {% if business.instagramProfile %}
-                                        <li>
+                                        {% set userIn = business.instagramProfile | split('/') %}
+                                        <p class="overflow">
                                             <ion-icon name="logo-instagram"></ion-icon>
-                                            <a href="{{business.instagramProfile}}">{{ business.instagramProfile }}</a>
-                                        </li>
+                                            <a href="{{business.instagramProfile}}">{{ userIn[(userIn|length) - 1] }}</a>
+                                        </p>
                                     {% endif %}
                                     {% if business.web %}
-                                        <li>
-                                            <ion-icon name="link-outline"></ion-icon>
+                                        <p class="overflow">
+                                            <ion-icon src="{{ asset('images/ico/globe-outline.svg')}}"></ion-icon>
                                             <a href="{{business.web}}">{{ business.web }}</a>
-                                        </li>
-                                    {% endif %}
-                                    </ul>
+                                        </p>
+                                    {% endif %}                                    
                                 </div>
                             </div>
                         </div>                        
@@ -72,9 +75,10 @@
                     
                 </div>
                 <div class="tile is-child box has-background-danger-light">
+                    <a href="{{ path('app_edit_user', {'hash': user.hash }) }}"><span class="icon is-size-4 is-pulled-right"><i class="fa fa-edit"></i></span></a>
                     <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>
-                    <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>
-                    <p>{{ user.email }}</p>
+                    <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>                    
+                    <p>{{ user.email }} <ion-icon src="{{ asset('images/ico/checkmark-done-sharp.svg')}}" class="has-text-success"></ion-icon></p>                    
                     <label class="label">{% trans %}Cpanel.Username{% endtrans %}</label>
                     <p>{{ user.username }}</p>
                 </div>

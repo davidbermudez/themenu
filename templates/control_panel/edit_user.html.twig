@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CPanel Business{% endblock %}
+
+{% block body %}
+
+    {% include 'control_panel/header.html.twig' %}
+
+    <div class="container is-fluid">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    <p class="title">{% trans %}Cpanel.User{% endtrans %}</p>                    
+                </div>                
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box has-background-link-light">
+                    {{ form_start(formUser) }}
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.User.Email{% endtrans %}</label>
+                            <div class="control has-icons-left">            
+                                {{ form_widget(formUser.email, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-utensils"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.User.Firstname{% endtrans %}</label>
+                            <div class="control has-icons-left">            
+                                {{ form_widget(formUser.firstname, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-file"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.User.Lastname{% endtrans %}</label>
+                            <div class="control has-icons-left">            
+                                {{ form_widget(formUser.lastname, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-file"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.User.Dni{% endtrans %}</label>
+                            <div class="control has-icons-left">            
+                                {{ form_widget(formUser.identityDoc, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-location-arrow"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">{% trans %}Cpanel.User.Phone{% endtrans %}</label>
+                            <div class="control has-icons-left">            
+                                {{ form_widget(formUser.phone, {'attr': {'class': 'input is-success'}}) }}
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-location-arrow"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <!--Submit button-->
+                        <div class="field is-grouped mt-2">
+                            <div class="control">
+                                <button id="submitButton" class="button is-link">{% trans %}Cpanel.Business.ButtonEdit{% endtrans %}</button>
+                            </div>
+                        </div>
+                    {{ form_end(formUser) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

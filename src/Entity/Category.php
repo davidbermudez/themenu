@@ -23,7 +23,7 @@ class Category
     private ?Menu $menu = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $caption_es = null;
+    private ?string $caption = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $caption_en = null;
@@ -32,7 +32,7 @@ class Category
     private ?string $caption_ca = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description_es = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description_en = null;
@@ -51,18 +51,6 @@ class Category
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCaption(): ?string
-    {
-        return $this->caption;
-    }
-
-    public function setCaption(string $caption): self
-    {
-        $this->caption = $caption;
-
-        return $this;
     }
 
     /**
@@ -107,14 +95,14 @@ class Category
         return $this;
     }
 
-    public function getCaptionEs(): ?string
+    public function getCaption(): ?string
     {
-        return $this->caption_es;
+        return $this->caption;
     }
 
-    public function setCaptionEs(?string $caption_es): self
+    public function setCaption(?string $caption): self
     {
-        $this->caption_es = $caption_es;
+        $this->caption = $caption;
 
         return $this;
     }
@@ -143,14 +131,14 @@ class Category
         return $this;
     }
 
-    public function getDescriptionEs(): ?string
+    public function getDescription(): ?string
     {
-        return $this->description_es;
+        return $this->description;
     }
 
-    public function setDescriptionEs(?string $description_es): self
+    public function setDescription(?string $description): self
     {
-        $this->description_es = $description_es;
+        $this->description = $description;
 
         return $this;
     }

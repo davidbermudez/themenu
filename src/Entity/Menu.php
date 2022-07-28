@@ -23,13 +23,13 @@ class Menu
     private Collection $dishes;
 
     #[ORM\Column]
-    private ?bool $lang_es = null;
+    private ?bool $lang_01 = null;
 
     #[ORM\Column]
-    private ?bool $lang_en = null;
+    private ?bool $lang_02 = null;
 
     #[ORM\Column]
-    private ?bool $lang_ca = null;
+    private ?bool $lang_03 = null;
 
     #[ORM\Column(length: 8)]
     private ?string $qr_code = null;
@@ -89,38 +89,38 @@ class Menu
         return $this;
     }
 
-    public function isLangEs(): ?bool
+    public function isLang01(): ?bool
     {
-        return $this->lang_es;
+        return $this->lang_01;
     }
 
-    public function setLangEs(bool $lang_es): self
+    public function setLang01(bool $lang_01): self
     {
-        $this->lang_es = $lang_es;
+        $this->lang_01 = $lang_01;
 
         return $this;
     }
 
-    public function isLangEn(): ?bool
+    public function islang02(): ?bool
     {
-        return $this->lang_en;
+        return $this->lang_02;
     }
 
-    public function setLangEn(bool $lang_en): self
+    public function setlang02(bool $lang_02): self
     {
-        $this->lang_en = $lang_en;
+        $this->lang_02 = $lang_02;
 
         return $this;
     }
 
-    public function isLangCa(): ?bool
+    public function islang03(): ?bool
     {
-        return $this->lang_ca;
+        return $this->lang_03;
     }
 
-    public function setLangCa(bool $lang_ca): self
+    public function setlang03(bool $lang_03): self
     {
-        $this->lang_ca = $lang_ca;
+        $this->lang_03 = $lang_03;
 
         return $this;
     }

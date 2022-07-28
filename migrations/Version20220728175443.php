@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220725165244 extends AbstractMigration
+final class Version20220728175443 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20220725165244 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE menu ADD lang_01 TINYINT(1) NOT NULL, ADD lang_02 TINYINT(1) NOT NULL, ADD lang_03 TINYINT(1) NOT NULL');
+        $this->addSql('CREATE TABLE language (id INT AUTO_INCREMENT NOT NULL, principal VARCHAR(2) NOT NULL, lang_02 VARCHAR(2) DEFAULT NULL, lang_03 VARCHAR(2) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE menu DROP lang_01, DROP lang_02, DROP lang_03');
+        $this->addSql('DROP TABLE language');
     }
 }

@@ -43,7 +43,7 @@
                                 <div class="select is-multiple">
                                     <select multiple size="{{ categories|length }}" id="selectSection">
                                     {% for element in categories %}
-                                        <option value="{{element.captionEs}}" data-order="{{element.orderBy}}">{{element.captionEs}}</option>
+                                        <option value="{{element.caption}}" data-order="{{element.orderBy}}">{{element.caption}}</option>
                                     {% endfor %}
                                     </select>
                                 </div>
@@ -71,17 +71,17 @@
                         <div class="tabs is-centered">
                             <ul>
                                 {% if caption == null %}
-                                    {% set caption = categories[0].captionEs %}
+                                    {% set caption = categories[0].caption %}
                                 {% endif %}
                                 {% for category in categories %}
-                                    {% if category.captionEs == caption %}
+                                    {% if category.caption == caption %}
                                         <li class="is-active">
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs, 'menu_id': menu_id }) }}">{{ category.captionEs }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}">{{ category.caption }}</a>
                                         </li>
                                         {% set active = category.id %}
                                     {% else %}
                                         <li>
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.captionEs, 'menu_id': menu_id }) }}">{{ category.captionEs }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}">{{ category.caption }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
@@ -89,12 +89,12 @@
                         </div>
                         <div>
                             {% for plates in dishes %}
-                                {% if plates.category.captionEs == caption %}
+                                {% if plates.category.caption == caption %}
                                 <div class="tile">
                                     <article>
                                         <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}"><span class="icon is-size-6 is-pulled-left"><i class="fa fa-edit"></i></span></a>
-                                        <p class="title">{{ plates.captionEs }}</p>
-                                        <p class="subtitle is-italic">{{ plates.descriptionEs }}</p>
+                                        <p class="title">{{ plates.caption }}</p>
+                                        <p class="subtitle is-italic">{{ plates.description }}</p>
                                     </article>
                                     <hr>
                                 </div>

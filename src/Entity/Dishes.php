@@ -23,7 +23,7 @@ class Dishes
     private Collection $variations;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $caption_es = null;
+    private ?string $caption = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $caption_en = null;
@@ -32,13 +32,16 @@ class Dishes
     private ?string $caption_ca = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description_es = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description_en = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description_ca = null;
+
+    #[ORM\Column]
+    private ?int $order_by = null;
 
    
 
@@ -94,14 +97,14 @@ class Dishes
         return $this;
     }
 
-    public function getCaptionEs(): ?string
+    public function getCaption(): ?string
     {
-        return $this->caption_es;
+        return $this->caption;
     }
 
-    public function setCaptionEs(?string $caption_es): self
+    public function setCaption(?string $caption): self
     {
-        $this->caption_es = $caption_es;
+        $this->caption = $caption;
 
         return $this;
     }
@@ -130,14 +133,14 @@ class Dishes
         return $this;
     }
 
-    public function getDescriptionEs(): ?string
+    public function getDescription(): ?string
     {
-        return $this->description_es;
+        return $this->description;
     }
 
-    public function setDescriptionEs(?string $description_es): self
+    public function setDescription(?string $description): self
     {
-        $this->description_es = $description_es;
+        $this->description = $description;
 
         return $this;
     }
@@ -162,6 +165,18 @@ class Dishes
     public function setDescriptionCa(?string $description_ca): self
     {
         $this->description_ca = $description_ca;
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?int
+    {
+        return $this->order_by;
+    }
+
+    public function setOrderBy(int $order_by): self
+    {
+        $this->order_by = $order_by;
 
         return $this;
     }

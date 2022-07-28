@@ -47,6 +47,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_verify = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $identity_doc = null;
+
+    #[ORM\Column(length: 12, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->businesses = new ArrayCollection();
@@ -201,6 +213,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateVerify(?\DateTimeInterface $date_verify): self
     {
         $this->date_verify = $date_verify;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getIdentityDoc(): ?string
+    {
+        return $this->identity_doc;
+    }
+
+    public function setIdentityDoc(?string $identity_doc): self
+    {
+        $this->identity_doc = $identity_doc;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
