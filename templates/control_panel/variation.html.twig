@@ -3,28 +3,9 @@
 {% block title %}CPanel Business{% endblock %}
 
 {% block body %}
-    <section class="hero contenedor">
-        <figure class="image">
-            <img src="{{ asset('images/user.png')}}">
-        </figure>
-        <div class="hero-body texto-encima">
-            <p class="title">
-                {% trans %}Cpanel.Title{% endtrans %}
-            </p>
-            <p class="subtitle">
-                {% trans %}Cpanel.Subtitle{% endtrans %}            
-            </p>
-        </div>
-    </section>
-    <section>
-        <nav class="breadcrumb has-bullet-separator is-small" aria-label="breadcrumbs">
-            <ul>
-                <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
-                <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
-                <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
-            </ul>
-        </nav>
-    </section>
+
+    {% include 'control_panel/header.html.twig' %}    
+    
     <div class="container is-fluid">
         <div class="tile is-ancestor">
             <div class="tile is-4 is-vertical is-parent">

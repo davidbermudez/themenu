@@ -417,12 +417,45 @@ class ControlPanelController extends AbstractController
                 //return true;
                 return $this->redirectToRoute('app_add_variation', ['hash' => $user->getHash(), 'dishe' => $dishe->getId()]);
             }
+            /*
+            <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+            <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
+            <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
+            */
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddDishe'),
+                    'active' => true,
+                ]
+            ];
             return $this->render('control_panel/dishe.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
                 'formDishe' => $form->createView(),                
                 'button' => $translator->trans('button.caption.add'),
                 'caption' => $form->get('category')->getData()->getCaptionEs(),
+                'breadcrumb' => $breadcrumb,
                 //'formVariation' => $formVariation->createView(),
             ]);
         }
@@ -481,6 +514,33 @@ class ControlPanelController extends AbstractController
                 );
                 return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $categoryForm]);
             }
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditDishe'),
+                    'active' => true,
+                ]
+            ];
             return $this->render('control_panel/dishe.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
@@ -488,6 +548,7 @@ class ControlPanelController extends AbstractController
                 'button' => $translator->trans('button.caption.update'),
                 'caption' => $form->get('category')->getData()->getCaptionEs(),
                 'formVariation' => $formVariation->createView(),
+                'breadcrumb' => $breadcrumb,
             ]);
         }
     }
@@ -544,12 +605,56 @@ class ControlPanelController extends AbstractController
                 //return true;
                 return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash()]);
             }
+            /*
+            <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
+            <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
+            <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
+            */
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddDishe'),
+                    'active' => false,
+                    'href' => 'app_edit_dishes',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                        'dishe' => $dishes,
+                    ]
+                ],
+                '3' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddVariation'),
+                    'active' => true,
+                ]
+            ];
             return $this->render('control_panel/variation.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
                 'button' => $translator->trans('button.caption.add'),
                 'formVariation' => $formVariation->createView(),
                 'dishe' => $dishes,
+                'breadcrumb' => $breadcrumb,
             ]);
         }
     }

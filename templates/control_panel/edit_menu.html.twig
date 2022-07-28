@@ -103,7 +103,7 @@
                         </div>
                         {% if active %}
                         <div class="control mt-2">
-                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}</button>
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %} {{ caption }}</button>
                         </div>
                         {% endif %}
                     {% else %}                        

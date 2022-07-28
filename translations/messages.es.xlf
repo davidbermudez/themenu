@@ -163,7 +163,7 @@
       </trans-unit>
       <trans-unit id="srKtfDf" resname="Cpanel.Btn.CreateDishe">
         <source>Cpanel.Btn.CreateDishe</source>
-        <target>Añadir un plato a esta Sección</target>
+        <target>Añadir un plato a</target>
       </trans-unit>
       <trans-unit id="ulHqEGT" resname="Cpanel.Message.CreateCategory">
         <source>Cpanel.Message.CreateCategory</source>
@@ -260,6 +260,10 @@
       <trans-unit id="4WygJyw" resname="Ajax.Error.CsrToken">
         <source>Ajax.Error.CsrToken</source>
         <target>__Ajax.Error.CsrToken</target>
+      </trans-unit>
+      <trans-unit id="ZMHYrGB" resname="CPanel.Breadcrumb.AddDishe">
+        <source>CPanel.Breadcrumb.AddDishe</source>
+        <target>Añadir un nuevo Plato</target>
       </trans-unit>
     </body>
   </file>
