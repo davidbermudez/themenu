@@ -16,7 +16,7 @@
                             <label class="label">{% trans %}Cpanel.Menu.Caption{% endtrans %}</label>
                             <div class="columns is-mobile">
                                 <div class="column">
-                                    <a><span class="icon is-size-5 is-pulled-right"><i class="fa fa-edit" onclick="enabled()"></i></span></a>
+                                    <a><span class="icon is-size-5 is-pulled-left"><ion-icon onclick="enabled()" src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon></span>                                    
                                 </div>
                                 <div class="column is-11">
                                     <div class="control has-icons-left">
@@ -33,20 +33,15 @@
                 </div>
                 <div class="tile is-child box has-background-link-light">
                     <p class="title">{% trans %}Cpanel.Sections{% endtrans %}</p>
+                    <p class="subtitle"></p>
                     {% if categories %}
-                        <div class="columns">
-                            <div class="column">
-                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon src="{{ asset('images/ico/arrow-up-circle-outline.svg')}}" id="icon-up" onclick="up()"></ion-icon></span></a>
-                                <a><span class="icon is-size-5 is-pulled-right"><ion-icon src="{{ asset('images/ico/arrow-down-circle-outline.svg')}}" id="icon-down" onclick="down()"></ion-icon></span></a>
-                            </div>
+                        <div class="columns">                            
                             <div class="column is-11">
-                                <div class="select is-multiple">
-                                    <select multiple size="{{ categories|length }}" id="selectSection">
+                                <div class="container_drag">
                                     {% for element in categories %}
-                                        <option value="{{element.caption}}" data-order="{{element.orderBy}}">{{element.caption}}</option>
+                                        <div class="box_drag draggable" draggable="true">{{element.caption}}</div>
                                     {% endfor %}
-                                    </select>
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                     {% endif %}
@@ -64,8 +59,9 @@
                     </div>
                 </div>
             </div>
+            <a id="carta"></a>
             <div class="tile is-parent">
-                <div class="tile is-child box has-background-link-light">
+                <div class="tile is-child box has-background-danger-light">
                 {% set active = null %}
                     {% if categories %}
                         <div class="tabs is-centered">
@@ -76,12 +72,12 @@
                                 {% for category in categories %}
                                     {% if category.caption == caption %}
                                         <li class="is-active">
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}">{{ category.caption }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
                                         </li>
                                         {% set active = category.id %}
                                     {% else %}
                                         <li>
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}">{{ category.caption }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
@@ -92,7 +88,7 @@
                                 {% if plates.category.caption == caption %}
                                 <div class="tile">
                                     <article>
-                                        <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}"><span class="icon is-size-6 is-pulled-left"><i class="fa fa-edit"></i></span></a>
+                                        <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}"><span class="icon is-size-6 is-pulled-left"><ion-icon src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon></span></a>
                                         <p class="title">{{ plates.caption }}</p>
                                         <p class="subtitle is-italic">{{ plates.description }}</p>
                                     </article>
@@ -102,8 +98,8 @@
                             {% endfor %}
                         </div>
                         {% if active %}
-                        <div class="control mt-2">
-                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %} {{ caption }}</button>
+                        <div class="control mt-6">
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}&nbsp;<strong>{{ caption }}</strong></button>
                         </div>
                         {% endif %}
                     {% else %}                        
@@ -129,13 +125,10 @@
 <script>
 
     const inputText = document.getElementById('menuCaption');
-    const inputSelect = document.getElementById('selectSection');
-    const iconUp = document.getElementById('icon-up');
-    const iconDown = document.getElementById('icon-down');
     var elementSelect = null;
     
     $(inputText).keydown(function (e){
-        // Capturamos qué telca ha sido
+        // Capturamos qué tecla ha sido
         var keyCode= e.which;
         // Si la tecla es el Intro/Enter
         if (keyCode == 13){
@@ -146,22 +139,6 @@
             return false;
         }
     });
-
-    inputSelect.addEventListener('change', (event) => {        
-        $(iconUp).attr('src', '{{ asset('images/ico/arrow-up-circle.svg')}}');
-        $(iconDown).attr('src', '{{ asset('images/ico/arrow-down-circle.svg')}}');
-        elementSelect = event.target;
-        elementPrueba = event.target.options;
-        elementSelect = elementPrueba.selectedIndex;
-        //console.log('element:', elementSelect);
-    });
-
-/*
-    inputSelect.addEventListener('focusout', (event) => {        
-        $(iconUp).attr('src', '{{ asset('images/ico/arrow-up-circle-outline.svg')}}');
-        $(iconDown).attr('src', '{{ asset('images/ico/arrow-down-circle-outline.svg')}}');        
-    });
-*/    
     
     function enabled(){
         inputText.disabled = false;
@@ -199,38 +176,15 @@
         });
     }
 
-    function down(){
-        if($(iconDown).attr('src') == '{{ asset('images/ico/arrow-down-circle-outline.svg')}}'){
-            console.log("inactive");
-            return false;
-        }
-        var op = $('#selectSection option:selected');        
-        if(op.length){
-            op.last().next().after(op);
-            sendOrder();
-        }
-    }
-
-    function up(){
-        if($(iconUp).attr('src') == '{{ asset('images/ico/arrow-up-circle-outline.svg')}}'){
-            console.log("inactive");
-            return false;
-        }
-        var op = $('#selectSection option:selected');        
-        if(op.length){            
-            op.first().prev().before(op);
-            sendOrder();
-        }
-    }
-
     function sendOrder(){
         var token = $(inputText).data('token');
         var menu = $(inputText).data('menu');        
         var elements = [];
-        var op = $('#selectSection option').each(function(){
-            elements.push($(this).val());
+        var op = $('.draggable').each(function(){
+            elements.push($(this).html());
         });        
         //console.log(elements);
+        
         $.ajax({
             type: "POST",
             url: "{{ path('ajax_orderSections') }}",
@@ -245,7 +199,66 @@
                 console.log(data);
             },
         });
-
+        
     }
+
+    // Drag&Drop
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        var dragSrcEl = null;
+
+        function handleDragStart(e) {
+            this.style.opacity = '0.4';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+        
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            items.forEach(function (item) {
+                item.classList.remove('over');
+            });
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation(); // stops the browser from redirecting.
+            }
+            
+            if (dragSrcEl != this) {
+                dragSrcEl.innerHTML = this.innerHTML;
+                this.innerHTML = e.dataTransfer.getData('text/html');
+            }
+            sendOrder()
+            return false;
+        }
+        
+        let items = document.querySelectorAll('.container_drag .box_drag');
+        items.forEach(function(item) {
+            item.addEventListener('dragstart', handleDragStart, false);
+            item.addEventListener('dragenter', handleDragEnter, false);
+            item.addEventListener('dragover', handleDragOver, false);
+            item.addEventListener('dragleave', handleDragLeave, false);
+            item.addEventListener('drop', handleDrop);
+            item.addEventListener('dragend', handleDragEnd, false);
+        });
+    });    
 </script>
 {% endblock %}

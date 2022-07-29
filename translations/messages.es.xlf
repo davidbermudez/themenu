@@ -163,7 +163,7 @@
       </trans-unit>
       <trans-unit id="srKtfDf" resname="Cpanel.Btn.CreateDishe">
         <source>Cpanel.Btn.CreateDishe</source>
-        <target>Añadir un plato a</target>
+        <target>Añadir plato a</target>
       </trans-unit>
       <trans-unit id="ulHqEGT" resname="Cpanel.Message.CreateCategory">
         <source>Cpanel.Message.CreateCategory</source>
@@ -203,7 +203,7 @@
       </trans-unit>
       <trans-unit id="kbwr3_x" resname="Cpanel.Message.CreateCategoryHelpText">
         <source>Cpanel.Message.CreateCategoryHelpText</source>
-        <target>__Cpanel.Message.CreateCategoryHelpText</target>
+        <target>Crear Nueva Sección de la Carta</target>
       </trans-unit>
       <trans-unit id="OrGe73N" resname="button.caption.update">
         <source>button.caption.update</source>
@@ -247,7 +247,7 @@
       </trans-unit>
       <trans-unit id="T4kEetJ" resname="Ajax.Error.NotFound">
         <source>Ajax.Error.NotFound</source>
-        <target>__Ajax.Error.NotFound</target>
+        <target>Ajax error Recurso No Encontrado</target>
       </trans-unit>
       <trans-unit id="YHikleq" resname="Ajax.Hack">
         <source>Ajax.Hack</source>
@@ -259,11 +259,43 @@
       </trans-unit>
       <trans-unit id="4WygJyw" resname="Ajax.Error.CsrToken">
         <source>Ajax.Error.CsrToken</source>
-        <target>__Ajax.Error.CsrToken</target>
+        <target>Ajax error de token</target>
       </trans-unit>
       <trans-unit id="ZMHYrGB" resname="CPanel.Breadcrumb.AddDishe">
         <source>CPanel.Breadcrumb.AddDishe</source>
         <target>Añadir un nuevo Plato</target>
+      </trans-unit>
+      <trans-unit id="lHzPvoK" resname="CPanel.Breadcrumb.EditDishe">
+        <source>CPanel.Breadcrumb.EditDishe</source>
+        <target>Editar Plato</target>
+      </trans-unit>
+      <trans-unit id="GVrFbQV" resname="CPanel.Breadcrumb.AddVariation">
+        <source>CPanel.Breadcrumb.AddVariation</source>
+        <target>Añadir Variación</target>
+      </trans-unit>
+      <trans-unit id="cMha9mD" resname="Cpanel.User.Email">
+        <source>Cpanel.User.Email</source>
+        <target>Correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="zzAqpga" resname="Cpanel.User.Firstname">
+        <source>Cpanel.User.Firstname</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="pDQjiky" resname="Cpanel.User.Lastname">
+        <source>Cpanel.User.Lastname</source>
+        <target>Apellidos</target>
+      </trans-unit>
+      <trans-unit id="t0OQqWE" resname="Cpanel.User.Dni">
+        <source>Cpanel.User.Dni</source>
+        <target>Documento de Identidad</target>
+      </trans-unit>
+      <trans-unit id="7qWFTlF" resname="Cpanel.User.Phone">
+        <source>Cpanel.User.Phone</source>
+        <target>Teléfono</target>
+      </trans-unit>
+      <trans-unit id="pOFIhVK" resname="Flash.User.Update">
+        <source>Flash.User.Update</source>
+        <target>Actualizados los datos del usuario/a</target>
       </trans-unit>
     </body>
   </file>

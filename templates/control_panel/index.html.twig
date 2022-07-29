@@ -80,7 +80,7 @@
                     <label class="label">{% trans %}Cpanel.Email{% endtrans %}</label>                    
                     <p>{{ user.email }} <ion-icon src="{{ asset('images/ico/checkmark-done-sharp.svg')}}" class="has-text-success"></ion-icon></p>                    
                     <label class="label">{% trans %}Cpanel.Username{% endtrans %}</label>
-                    <p>{{ user.username }}</p>
+                    <p>{{ user.firstname }} {{ user.lastname }}</p>
                 </div>
             </div>
             <div class="tile is-parent">

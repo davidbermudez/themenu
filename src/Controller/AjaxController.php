@@ -123,7 +123,7 @@ class AjaxController extends AbstractController
                 ]);                
                 foreach($categories as $category){
                     foreach($sections as $key => $section){
-                        if($section == $category->getCaptionEs()){
+                        if($section == $category->getCaption()){
                             $category->setOrderBy($key + 1);
                             $this->em->persist($category);
                             $this->em->flush();

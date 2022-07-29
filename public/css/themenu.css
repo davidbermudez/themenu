@@ -9,11 +9,33 @@
         position: absolute;
         top: 10px;
         left: 10px;
-    }
+    }    
+}
 
-    .overflow {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+.overflow {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.container_drag {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+.box_drag {
+    border: 3px solid #666;
+    background-color: #ddd;
+    border-radius: .5em;
+    padding: 10px;
+    cursor: move;
+}
+
+.box_drag.over {
+    border: 3px dotted #666;
+}
+  
+[draggable] {
+    user-select: none;
 }

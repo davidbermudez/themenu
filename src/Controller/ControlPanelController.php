@@ -162,25 +162,13 @@ class ControlPanelController extends AbstractController
         } else {            
             $form = $this->createForm(UserFormType::class, $user);
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // verificar datos y crear un nuevo Business
-                $datenow = new Datetime(date('Y-m-d H:i:s'));
-                $business->setUser($user);
-                $business->setDateModify($datenow);
-                // redes
-                $urlTw = $form->get('twitter_profile')->getData();                
-                if($urlTw!='')
-                {
-                    if(substr($urlTw, -1) == "/"){
-                        $business->setTwitterProfile(substr($urlTw, 0, strlen($urlTw) - 1));
-                    }
-                }
-                $this->entityManager->persist($business);
+            if ($form->isSubmitted() && $form->isValid()) {                                
+                $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 
                 $this->addFlash(
                     'success',
-                    'Actualizados los datos del Establecimiento'
+                    $translator->trans('Flash.User.Update'),
                 );
                 //redirect
                 //return true;
@@ -397,6 +385,7 @@ class ControlPanelController extends AbstractController
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
         CategoryRepository $categoryRepository,
+        TranslatorInterface $translator
         ): Response
     {
         // verify user
@@ -434,9 +423,9 @@ class ControlPanelController extends AbstractController
                 $categoryRepository->add($category, true);
                 $this->addFlash(
                     'success',
-                    'Creada una nueva Sección de Menú'
+                    $translator->trans('Flash.Category.Create'),                    
                 );
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $category->getCaptionEs()]);
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $category->getCaption(), 'menu_id' => $menu->getId()]);
             }
             return $this->render('control_panel/new_category.html.twig', [
                 'user' => $user,
@@ -476,14 +465,24 @@ class ControlPanelController extends AbstractController
             $category = new Category();
             $category = $categoryRepository->findAll([
                 'menu' => $menu,
+                //'id' => $request->get('category'),
             ]);
             $dishe = new Dishes();
-            $dishe->setCategory($categoryRepository->findOneBy(['id' => $request->get('category')]));            
+            $dishe->setCategory($categoryRepository->findOneBy(['id' => $request->get('category')]));
             $form = $this->createForm(DisheFormType::class, $dishe);
             $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()) {            
-                $categoryForm = $form->get('category')->getData()->getCaptionEs();
+            // ordenation dishe
+            $disheorder = $dishesRepository->findBy(
+                ['category' => $categoryRepository->findOneBy(['id' => $request->get('category')])],
+                ['order_by' => 'DESC']
+            );
+            $nextOrder = 1;
+            if(count($disheorder) > 0){
+                $nextOrder = $disheorder[0]->getOrderBy() + 1;
+            };
+            if ($form->isSubmitted() && $form->isValid()) {
+                $categoryForm = $form->get('category')->getData()->getCaption();
+                $dishe->setOrderBy($nextOrder);
                 $dishesRepository->add($dishe, true);
                 $this->addFlash(
                     'success',
@@ -529,8 +528,8 @@ class ControlPanelController extends AbstractController
                 'menu' => $menu,
                 'formDishe' => $form->createView(),                
                 'button' => $translator->trans('button.caption.add'),
-                'caption' => $form->get('category')->getData()->getCaptionEs(),
-                'breadcrumb' => $breadcrumb,
+                'caption' => $form->get('category')->getData()->getCaption(),
+                'breadcrumb' => $breadcrumb,                
                 //'formVariation' => $formVariation->createView(),
             ]);
         }
@@ -581,13 +580,13 @@ class ControlPanelController extends AbstractController
             $form = $this->createForm(DisheFormType::class, $dishes);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $categoryForm = $form->get('category')->getData()->getCaptionEs();                
+                $categoryForm = $form->get('category')->getData()->getCaption();                
                 $dishesRepository->add($dishes, true);
                 $this->addFlash(
                     'success',
                     'Actualizado plato'
                 );
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $categoryForm]);
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $categoryForm, 'menu_id' => $menu->getId()]);
             }
             $locale = $request->getLocale();
             // breadcrumb
@@ -621,7 +620,7 @@ class ControlPanelController extends AbstractController
                 'menu' => $menu,
                 'formDishe' => $form->createView(),
                 'button' => $translator->trans('button.caption.update'),
-                'caption' => $form->get('category')->getData()->getCaptionEs(),
+                'caption' => $form->get('category')->getData()->getCaption(),
                 'formVariation' => $formVariation->createView(),
                 'breadcrumb' => $breadcrumb,
             ]);

@@ -10,13 +10,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Category;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class DisheFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('caption')
+            ->add('caption', TextType::class,[
+                'required' => true,
+            ])
             ->add('caption_en')
             ->add('caption_ca')
             ->add('description')
