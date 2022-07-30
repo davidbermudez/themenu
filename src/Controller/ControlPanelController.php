@@ -27,6 +27,7 @@ use App\Form\DisheFormType;
 use App\Form\VariationFormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
 use DateTime;
 
 
@@ -287,7 +288,7 @@ class ControlPanelController extends AbstractController
     }
 
 
-    #[Route('/{hash}/edit_menu/{menu_id}/{caption}', name: 'app_edit_menu', methods: ['GET', 'POST'])]
+    #[Route('/{hash}/edit_menu/{menu_id}/{slug}', name: 'app_edit_menu', methods: ['GET', 'POST'])]
     public function editMenu(
         Request $request,
         User $user,
@@ -298,7 +299,7 @@ class ControlPanelController extends AbstractController
         DishesRepository $dishesRepository,
         TranslatorInterface $translator,
         $menu_id = null,
-        $caption = ''): Response
+        $slug = ''): Response
     {
         // verify user
         $user = $this->getUser();
@@ -336,12 +337,14 @@ class ControlPanelController extends AbstractController
 
                 $menuRepository->add($menu, true);
             }
+
             $category = new Category();
             $category = $categoryRepository->findBy([
                 'menu' => $menu,
             ],
                 array('order_by' => 'ASC')
             );            
+            dump($category);
             $dishes = new Dishes();
             $dishes = $dishesRepository->findAll([
                 //'category' => 
@@ -367,7 +370,7 @@ class ControlPanelController extends AbstractController
             return $this->render('control_panel/edit_menu.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
-                'caption' => $caption,
+                'slug' => $slug,
                 'categories' => $category,
                 'dishes' => $dishes,
                 'menu_id' => $menu_id,
@@ -420,12 +423,15 @@ class ControlPanelController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $category->setMenu($menu);
                 $category->setOrderBy($nextOrder);
-                $categoryRepository->add($category, true);
+                $res = $categoryRepository->add($category, true);
+
+                dump($res);
                 $this->addFlash(
                     'success',
                     $translator->trans('Flash.Category.Create'),                    
                 );
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $category->getCaption(), 'menu_id' => $menu->getId()]);
+                return true;
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'slug' => $category->getSlug(), 'menu_id' => $menu->getId()]);
             }
             return $this->render('control_panel/new_category.html.twig', [
                 'user' => $user,

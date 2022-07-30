@@ -16,7 +16,9 @@
                             <label class="label">{% trans %}Cpanel.Menu.Caption{% endtrans %}</label>
                             <div class="columns is-mobile">
                                 <div class="column">
-                                    <a><span class="icon is-size-5 is-pulled-left"><ion-icon onclick="enabled()" src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon></span>                                    
+                                    <a><span class="icon is-size-5 is-pulled-left">
+                                        <ion-icon onclick="enabled()" src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon>
+                                    </span></a>
                                 </div>
                                 <div class="column is-11">
                                     <div class="control has-icons-left">
@@ -49,6 +51,7 @@
                         <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_category', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateCategory{% endtrans %}</button>
                     </div>
                 </div>
+                <!-- Tile Options -->
                 <div class="tile is-child box has-background-link-light">
                     <p class="title">{% trans %}Cpanel.Options{% endtrans %}</p>
                     <div class="field">
@@ -62,33 +65,42 @@
             <a id="carta"></a>
             <div class="tile is-parent">
                 <div class="tile is-child box has-background-danger-light">
-                {% set active = null %}
+                {% set active = null %}                
                     {% if categories %}
+                    {% set title = categories[0].caption %}
                         <div class="tabs is-centered">
                             <ul>
-                                {% if caption == null %}
-                                    {% set caption = categories[0].caption %}
+
+                                {% if slug == null %}
+                                    {% set slug = categories[0].slug %}
+                                    
                                 {% endif %}
+
                                 {% for category in categories %}
-                                    {% if category.caption == caption %}
+                                    {% if category.slug == slug %}
                                         <li class="is-active">
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'slug': category.slug, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
                                         </li>
                                         {% set active = category.id %}
+                                        {% set title = category.caption %}
                                     {% else %}
                                         <li>
-                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'caption': category.caption, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
-                                        </li>
+                                            <a href="{{ path('app_edit_menu', {'hash': user.hash, 'slug': category.slug, 'menu_id': menu_id }) }}#carta">{{ category.caption }}</a>
+                                        </li>                                        
                                     {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
                         <div>
                             {% for plates in dishes %}
-                                {% if plates.category.caption == caption %}
+                                {% if plates.category.slug == slug %}
                                 <div class="tile">
                                     <article>
-                                        <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}"><span class="icon is-size-6 is-pulled-left"><ion-icon src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon></span></a>
+                                        <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}">
+                                            <span class="icon is-size-6 is-pulled-left">
+                                                <ion-icon src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon>
+                                            </span>
+                                        </a>
                                         <p class="title">{{ plates.caption }}</p>
                                         <p class="subtitle is-italic">{{ plates.description }}</p>
                                     </article>
@@ -99,7 +111,9 @@
                         </div>
                         {% if active %}
                         <div class="control mt-6">
-                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">{% trans %}Cpanel.Btn.CreateDishe{% endtrans %}&nbsp;<strong>{{ caption }}</strong></button>
+                            <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_new_dishe', {'hash': user.hash, 'category': active }) }}'">
+                                {% trans %}Cpanel.Btn.CreateDishe{% endtrans %}&nbsp;<strong>{{ title }}</strong>
+                            </button>
                         </div>
                         {% endif %}
                     {% else %}                        
