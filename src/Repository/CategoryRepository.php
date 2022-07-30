@@ -27,6 +27,15 @@ class CategoryRepository extends ServiceEntityRepository
     public function add(Category $entity, bool $flush = false): void
     {
         
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();            
+        }
+    }
+
+    public function customAdd(Category $entity, bool $flush = false): bool
+    {
+        
         // Slug unique for categories some menu
         $propos = $entity->getCaption();
         $search = $this->findOneBy([
@@ -36,8 +45,10 @@ class CategoryRepository extends ServiceEntityRepository
             $this->getEntityManager()->persist($entity);
             if ($flush) {
                 $this->getEntityManager()->flush();
+                return true;
             }
-        }
+        } 
+        return false;
     }
 
     public function remove(Category $entity, bool $flush = false): void

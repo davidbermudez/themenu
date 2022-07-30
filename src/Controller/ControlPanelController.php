@@ -423,14 +423,19 @@ class ControlPanelController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $category->setMenu($menu);
                 $category->setOrderBy($nextOrder);
-                $res = $categoryRepository->add($category, true);
+                $res = $categoryRepository->customAdd($category, true);
 
-                dump($res);
-                $this->addFlash(
-                    'success',
-                    $translator->trans('Flash.Category.Create'),                    
-                );
-                return true;
+                if($res){
+                    $this->addFlash(
+                        'success',
+                        $translator->trans('Flash.Category.Create'),
+                    );
+                } else {
+                    $this->addFlash(
+                        'danger',
+                        $translator->trans('Flash.Error.Duplicate'),
+                    );
+                }                
                 return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'slug' => $category->getSlug(), 'menu_id' => $menu->getId()]);
             }
             return $this->render('control_panel/new_category.html.twig', [
@@ -534,7 +539,7 @@ class ControlPanelController extends AbstractController
                 'menu' => $menu,
                 'formDishe' => $form->createView(),                
                 'button' => $translator->trans('button.caption.add'),
-                'caption' => $form->get('category')->getData()->getCaption(),
+                'slug' => $form->get('category')->getData()->getSlug(),
                 'breadcrumb' => $breadcrumb,                
                 //'formVariation' => $formVariation->createView(),
             ]);
@@ -580,9 +585,10 @@ class ControlPanelController extends AbstractController
             $dishes = $dishesRepository->findOneBy([
                 'id' => $dishe,
             ]);
-            $variation = new Variation();
-            $formVariation = $this->createForm(VariationFormType::class, $variation);
-            $formVariation->handleRequest($request);
+            $variations = new Variation();
+            $variations = $variationRepository->findBy([
+                'dishe' => $dishes,
+            ]);
             $form = $this->createForm(DisheFormType::class, $dishes);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -626,9 +632,9 @@ class ControlPanelController extends AbstractController
                 'menu' => $menu,
                 'formDishe' => $form->createView(),
                 'button' => $translator->trans('button.caption.update'),
-                'caption' => $form->get('category')->getData()->getCaption(),
-                'formVariation' => $formVariation->createView(),
+                'slug' => $form->get('category')->getData()->getSlug(),                
                 'breadcrumb' => $breadcrumb,
+                'variations' => $variations,
             ]);
         }
     }

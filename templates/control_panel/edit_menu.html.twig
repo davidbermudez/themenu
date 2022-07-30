@@ -41,9 +41,9 @@
                             <div class="column is-11">
                                 <div class="container_drag">
                                     {% for element in categories %}
-                                        <div class="box_drag draggable" draggable="true">{{element.caption}}</div>
+                                        <div class="box box_drag draggable" draggable="true">{{element.caption}}</div>
                                     {% endfor %}
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                     {% endif %}
@@ -70,12 +70,10 @@
                     {% set title = categories[0].caption %}
                         <div class="tabs is-centered">
                             <ul>
-
                                 {% if slug == null %}
                                     {% set slug = categories[0].slug %}
                                     
                                 {% endif %}
-
                                 {% for category in categories %}
                                     {% if category.slug == slug %}
                                         <li class="is-active">
@@ -91,18 +89,22 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div>
+
+                        <div class="container">
                             {% for plates in dishes %}
                                 {% if plates.category.slug == slug %}
-                                <div class="tile">
-                                    <article>
+                                <div class="container">
+                                    <article class="box" draggable="true">
                                         <a href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': plates.id }) }}">
                                             <span class="icon is-size-6 is-pulled-left">
                                                 <ion-icon src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon>
                                             </span>
                                         </a>
-                                        <p class="title">{{ plates.caption }}</p>
-                                        <p class="subtitle is-italic">{{ plates.description }}</p>
+                                        <p class="is-size-3 has-text-weight-bold">{{ plates.caption }}</p>
+                                        <p class="is-size-6 is-italic">{{ plates.description }}</p>
+                                        {% for variations in plates.getVariations %}
+                                            <p class="is-size-6 is-italic">{{ variations.name }}: <strong>{{ variations.price |format_number({fraction_digit: 2}) }}</strong></p>                                            
+                                        {% endfor %}
                                     </article>
                                     <hr>
                                 </div>
