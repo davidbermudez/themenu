@@ -37,9 +37,12 @@ class CategoryRepository extends ServiceEntityRepository
     {
         
         // Slug unique for categories some menu
-        $propos = $entity->getCaption();
+        $proposCaption = $entity->getCaption();
+        $proposMenu = $entity->getMenu();
+
         $search = $this->findOneBy([
-            'caption' => $propos,
+            'menu' => $proposMenu,
+            'caption' => $proposCaption,
         ]);
         if(is_null($search)){
             $this->getEntityManager()->persist($entity);

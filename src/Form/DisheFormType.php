@@ -25,6 +25,7 @@ class DisheFormType extends AbstractType
             ->add('caption_ca')
             ->add('description', TextareaType::class, [
                 "attr" => array("row" => "3"),
+                'required' => false,
             ])
             ->add('description_en', TextareaType::class, [
                 "attr" => array("row" => "3"),

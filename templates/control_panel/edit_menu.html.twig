@@ -34,14 +34,22 @@
                     </form>
                 </div>
                 <div class="tile is-child box has-background-link-light">
+                    <span class="icon is-size-4 is-pulled-right">
+                        <ion-icon src="{{ asset('/images/ico/repeat.svg')}}"></ion-icon>
+                    </span>
                     <p class="title">{% trans %}Cpanel.Sections{% endtrans %}</p>
                     <p class="subtitle"></p>
                     {% if categories %}
                         <div class="columns">                            
                             <div class="column is-11">
                                 <div class="container_drag">
-                                    {% for element in categories %}
-                                        <div class="box box_drag draggable" draggable="true">{{element.caption}}</div>
+                                    {% for element in categories %}                                        
+                                        <div class="box box_drag draggable" draggable="true">
+                                        <a href="{{ path('app_edit_category', {'hash': user.hash, 'category': element.id }) }}">
+                                            <span class="icon is-size-6 is-pulled-left">
+                                                <ion-icon src="{{ asset('/images/ico/create-outline.svg')}}"></ion-icon>
+                                            </span>
+                                        </a><span>{{element.caption}}</span></div>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -229,7 +237,9 @@
 
         function handleDragStart(e) {
             this.style.opacity = '0.4';
+
             dragSrcEl = this;
+
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.innerHTML);
         }

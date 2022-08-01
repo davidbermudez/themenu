@@ -20,21 +20,19 @@
 
 .container_drag {
     display: grid;
-    grid-template-rows: repeat(5, 1fr);
+    /*grid-template-rows: repeat(5, 1fr);*/
     gap: 10px;
   }
 
-.box_drag {
-    /*border: 3px solid #666;
-    background-color: #ddd;
-    border-radius: .5em;
-    padding: 10px;*/
+.box_drag {    
     cursor: move;
     margin-bottom: 0.5rem !important;
 }
 
 .box_drag.over {
     border: 3px dotted #666;
+    background-color: #ddd;
+
 }
   
 [draggable] {

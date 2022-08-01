@@ -17,8 +17,8 @@ class VariationFormType extends AbstractType
         $builder
             ->add('price', MoneyType::class, [
                 'currency' => false,
-                'html5' => true,
-                //'divisor' => 10,
+                'html5' => false,
+                'scale' => 2,
             ])
             ->add('name', TextType::class)
             //->add('dishe')

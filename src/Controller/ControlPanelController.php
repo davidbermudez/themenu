@@ -514,6 +514,91 @@ class ControlPanelController extends AbstractController
         }
     }
 
+
+    #[Route('/{hash}/edit_category/{category}', name: 'app_edit_category', methods: ['GET', 'POST'])]
+    public function editCategory(
+        Request $request,
+        User $user,
+        $hash,
+        $category,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository,
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            $menu = new Menu();
+            $menu = $menuRepository->findOneBy([
+                'business' => $business,
+            ]);            
+            $categories = new Category();            
+            $categories = $categoryRepository->findOneBy([
+                'menu' => $menu,
+                'id' => $category
+            ]);
+            if(is_null($categories)){
+                return $this->redirectToRoute('app_login');
+            }            
+            $form = $this->createForm(CategoryFormType::class, $categories);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $categoryRepository->add($categories, true);
+
+                $this->addFlash(
+                    'success',
+                    $translator->trans('Flash.Category.Create'),
+                );                
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'slug' => $categories->getSlug(), 'menu_id' => $menu->getId()]);
+            }
+
+            // breadcrumb
+            $locale = $request->getLocale();
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddSection'),
+                    'active' => true,
+                ]
+            ];
+            return $this->render('control_panel/category.html.twig', [
+                'user' => $user,
+                'menu' => $menu,
+                'formCategory' => $form->createView(),
+                'breadcrumb' => $breadcrumb,
+                'button' => $translator->trans('button.caption.update')
+            ]);
+        }
+    }
+
     #[Route('/{hash}/new_dishe', name: 'app_new_dishe', methods: ['GET', 'POST'])]
     public function addDishe(
         Request $request,
@@ -662,13 +747,13 @@ class ControlPanelController extends AbstractController
             $form = $this->createForm(DisheFormType::class, $dishes);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $categoryForm = $form->get('category')->getData()->getCaption();                
+                $categoryForm = $form->get('category')->getData()->getSlug();
                 $dishesRepository->add($dishes, true);
                 $this->addFlash(
                     'success',
-                    'Actualizado plato'
+                    $translator->trans('CPanel.Dishe.Update'),
                 );
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'caption' => $categoryForm, 'menu_id' => $menu->getId()]);
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'slug' => $categoryForm, 'menu_id' => $menu->getId()]);
             }
             $locale = $request->getLocale();
             // breadcrumb
@@ -760,7 +845,7 @@ class ControlPanelController extends AbstractController
                     'Actualizado plato'
                 );
                 //return true;
-                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash()]);
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'menu_id' => $menu->getId()]);
             }
 
             // breadcrumb
@@ -793,7 +878,7 @@ class ControlPanelController extends AbstractController
                         '_locale' => $locale,
                         'hash' => $user->getHash(),
                         'menu_id' => $menu->getId(),
-                        'dishe' => $dishes,
+                        'dishe' => $dishes->getId(),
                     ]
                 ],
                 '3' => [
