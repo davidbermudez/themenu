@@ -151,7 +151,7 @@
       </trans-unit>
       <trans-unit id="18.nsyM" resname="Cpanel.Btn.CreateCategory">
         <source>Cpanel.Btn.CreateCategory</source>
-        <target>Nueva Sección de Menú</target>
+        <target>Nueva Sección</target>
       </trans-unit>
       <trans-unit id="b7YlApA" resname="Cpanel.Options">
         <source>Cpanel.Options</source>
@@ -203,7 +203,7 @@
       </trans-unit>
       <trans-unit id="kbwr3_x" resname="Cpanel.Message.CreateCategoryHelpText">
         <source>Cpanel.Message.CreateCategoryHelpText</source>
-        <target>Crear Nueva Sección de la Carta</target>
+        <target>Comienza, añadiendo una Sección a tu nueva Carta.<![CDATA[<br/><br/><p>]]>Pulsa en el botón 'Nueva Sección'<![CDATA[</p>]]></target>
       </trans-unit>
       <trans-unit id="OrGe73N" resname="button.caption.update">
         <source>button.caption.update</source>
@@ -296,6 +296,34 @@
       <trans-unit id="pOFIhVK" resname="Flash.User.Update">
         <source>Flash.User.Update</source>
         <target>Actualizados los datos del usuario/a</target>
+      </trans-unit>
+      <trans-unit id="r7v2g9I" resname="Flash.Business.Create">
+        <source>Flash.Business.Create</source>
+        <target>__Flash.Business.Create</target>
+      </trans-unit>
+      <trans-unit id="gwmQe0g" resname="CPanel.Breadcrumb.NewBusiness">
+        <source>CPanel.Breadcrumb.NewBusiness</source>
+        <target>__CPanel.Breadcrumb.NewBusiness</target>
+      </trans-unit>
+      <trans-unit id="h6t0rRr" resname="CPanle.Button.CreateBusiness">
+        <source>CPanel.Button.CreateBusiness</source>
+        <target>Alta nuevo establecimiento</target>
+      </trans-unit>
+      <trans-unit id="LEzAjol" resname="Flash.Category.Create">
+        <source>Flash.Category.Create</source>
+        <target>Creada una nueva Sección de la Carta</target>
+      </trans-unit>
+      <trans-unit id="goqL_sp" resname="Flash.Error.Duplicate">
+        <source>Flash.Error.Duplicate</source>
+        <target>El valor que ha introducido está repetido</target>
+      </trans-unit>
+      <trans-unit id="4g.mxsX" resname="CPanel.Variation.Update">
+        <source>CPanel.Variation.Update</source>
+        <target>Actualizados los datos correspondientes a la variación</target>
+      </trans-unit>
+      <trans-unit id="aV5_oVO" resname="Cpanel.Variation">
+        <source>Cpanel.Variation</source>
+        <target>Variación</target>
       </trans-unit>
     </body>
   </file>

@@ -26,6 +26,7 @@ use App\Form\CategoryFormType;
 use App\Form\DisheFormType;
 use App\Form\VariationFormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 use DateTime;
@@ -49,8 +50,7 @@ class ControlPanelController extends AbstractController
         User $user, 
         $hash, 
         BusinessRepository $businessRepository,
-        MenuRepository $menuRepository,
-        DishesRepository $dishesRepository,
+        MenuRepository $menuRepository,        
         TranslatorInterface $translator
         ): Response
     {
@@ -61,22 +61,39 @@ class ControlPanelController extends AbstractController
         } elseif($user->isVerified()==false) {
             return $this->redirectToRoute('app_not_verify');
         } else {
+
             // business
             $business = new Business();
             $business = $businessRepository->findOneBy([
                 'user' => $user
             ]);
+            if(is_null($business)){
+                return $this->redirectToRoute('app_add_busines', ['hash' => $hash]);
+            }            
             // Menu
             $menu = new Menu();
-            $menu = $menuRepository->findAll([
+            $menu = $menuRepository->findBy([
                 'business' => $business
-            ]);
-
-            // Dishes
-            $dishes = new Dishes();
-            $dishes = $dishesRepository->findAll([
-                'menu' => $menu
-            ]);
+            ]);            
+            // Si no hay ningún menú, crearlo
+            if(count($menu) == 0){
+                $qr = hash("crc32", $user->getEmail(), false);                
+                $menu = new Menu();
+                $menu->SetLang01(true);
+                $PREMIUM = false;
+                if ($this->isGranted('ROLE_PREMIUN')){
+                    $PREMIUM = true;
+                }
+                $menu->Setlang02($PREMIUM);
+                $menu->Setlang03($PREMIUM);
+                $menu->SetBusiness($business);
+                $menu->SetQrCode($qr);
+                $menu->SetCaption('UNNAMED');
+                $menuRepository->add($menu, true);
+                $menu = $menuRepository->findBy([
+                    'business' => $business
+                ]);
+            }
 
             // breadcrumb
             $breadcrumb = [
@@ -89,8 +106,7 @@ class ControlPanelController extends AbstractController
             return $this->render('control_panel/index.html.twig', [
                 'user' => $user,
                 'business' => $business,
-                'menues' => $menu,
-                'dishes' => $dishes,
+                'menues' => $menu,                
                 'breadcrumb' => $breadcrumb,
             ]);
         }
@@ -126,7 +142,7 @@ class ControlPanelController extends AbstractController
                 $businessRepository->add($business, true);
                 $this->addFlash(
                     'success',
-                    'Se ha creado un nuevo Business'
+                    $translator->trans('Flash.Business.Create'),
                 );
                 //redirect
                 return $this->redirectToRoute('app_panel', ['hash' => $user->getHash()]);
@@ -137,9 +153,29 @@ class ControlPanelController extends AbstractController
                 );
                 
             }
-            return $this->render('control_panel/new_businnes.html.twig', [
+
+            $locale = $request->getLocale();
+            // breadcrumb
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.NewBusiness'),
+                    'active' => true,
+                ]
+            ];
+            return $this->render('control_panel/businnes.html.twig', [
                 'user' => $user,                
                 'formBusiness' => $form->createView(),
+                'breadcrumb' => $breadcrumb,
+                'button' => $translator->trans('CPanel.Button.CreateBusiness'),
             ]);
         }
     }
@@ -283,6 +319,7 @@ class ControlPanelController extends AbstractController
                 'user' => $user,                
                 'formBusiness' => $form->createView(),
                 'breadcrumb' => $breadcrumb,
+                'button' => $translator->trans('Cpanel.Business.ButtonEdit'),
             ]);
         }
     }
@@ -321,23 +358,24 @@ class ControlPanelController extends AbstractController
             ]);
             // si todavía no hay un menú, crearlo
             if(is_null($menu)){
-                return $this->redirectToRoute('app_login');
-                $qr = hash("crc32", $user->getEmail(), false);                
-                $menu = new Menu();
-                $menu->SetLangEs(true);
-                $PREMIUM = false;
-                if ($user->isGranted('ROLE_PREMIUN')){
-                    $PREMIUM = true;
-                }
-                $menu->Setlang02($PREMIUM);
-                $menu->Setlang03($PREMIUM);
-                $menu->SetBusiness($business);
-                $menu->SetQrCode($qr);
-                $menu->SetCaption('UNNAMED');
-
-                $menuRepository->add($menu, true);
+                return $this->redirectToRoute('app_login');                
             }
+/*
+            $qr = hash("crc32", $user->getEmail(), false);                
+            $menu = new Menu();
+            $menu->SetLangEs(true);
+            $PREMIUM = false;
+            if ($user->isGranted('ROLE_PREMIUN')){
+                $PREMIUM = true;
+            }
+            $menu->Setlang02($PREMIUM);
+            $menu->Setlang03($PREMIUM);
+            $menu->SetBusiness($business);
+            $menu->SetQrCode($qr);
+            $menu->SetCaption('UNNAMED');
 
+            $menuRepository->add($menu, true);
+*/
             $category = new Category();
             $category = $categoryRepository->findBy([
                 'menu' => $menu,
@@ -438,77 +476,9 @@ class ControlPanelController extends AbstractController
                 }                
                 return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'slug' => $category->getSlug(), 'menu_id' => $menu->getId()]);
             }
-            return $this->render('control_panel/new_category.html.twig', [
-                'user' => $user,
-                'menu' => $menu,
-                'formCategory' => $form->createView(),
-            ]);
-        }
-    }
 
-    #[Route('/{hash}/new_dishe', name: 'app_new_dishe', methods: ['GET', 'POST'])]
-    public function addDishe(
-        Request $request,
-        User $user,
-        $hash,
-        BusinessRepository $businessRepository,
-        MenuRepository $menuRepository,
-        CategoryRepository $categoryRepository,
-        DishesRepository $dishesRepository,
-        TranslatorInterface $translator
-        ): Response
-    {
-        // verify user
-        $user = $this->getUser();
-        if ($user == null || $hash!=$user->getHash()){
-            return $this->redirectToRoute('app_login');
-        } elseif($user->isVerified()==false) {
-            return $this->redirectToRoute('app_not_verify');
-        } else {
-            $business = new Business();
-            $business = $businessRepository->findOneBy([
-                'user' => $user,
-            ]);
-            $menu = new Menu();
-            $menu = $menuRepository->findOneBy([
-                'business' => $business,
-            ]);
-            $category = new Category();
-            $category = $categoryRepository->findAll([
-                'menu' => $menu,
-                //'id' => $request->get('category'),
-            ]);
-            $dishe = new Dishes();
-            $dishe->setCategory($categoryRepository->findOneBy(['id' => $request->get('category')]));
-            $form = $this->createForm(DisheFormType::class, $dishe);
-            $form->handleRequest($request);
-            // ordenation dishe
-            $disheorder = $dishesRepository->findBy(
-                ['category' => $categoryRepository->findOneBy(['id' => $request->get('category')])],
-                ['order_by' => 'DESC']
-            );
-            $nextOrder = 1;
-            if(count($disheorder) > 0){
-                $nextOrder = $disheorder[0]->getOrderBy() + 1;
-            };
-            if ($form->isSubmitted() && $form->isValid()) {
-                $categoryForm = $form->get('category')->getData()->getCaption();
-                $dishe->setOrderBy($nextOrder);
-                $dishesRepository->add($dishe, true);
-                $this->addFlash(
-                    'success',
-                    'Creado un nuevo plato'
-                );
-                //return true;
-                return $this->redirectToRoute('app_add_variation', ['hash' => $user->getHash(), 'dishe' => $dishe->getId()]);
-            }
-            /*
-            <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
-            <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
-            <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
-            */
-            $locale = $request->getLocale();
             // breadcrumb
+            $locale = $request->getLocale();
             $breadcrumb = [
                 '0' => [
                     'title' => $translator->trans('CPanel.Breadcrumb.Index'),
@@ -530,25 +500,22 @@ class ControlPanelController extends AbstractController
                     ]
                 ],
                 '2' => [
-                    'title' => $translator->trans('CPanel.Breadcrumb.AddDishe'),
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddSection'),
                     'active' => true,
                 ]
             ];
-            return $this->render('control_panel/dishe.html.twig', [
+            return $this->render('control_panel/category.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
-                'formDishe' => $form->createView(),                
-                'button' => $translator->trans('button.caption.add'),
-                'slug' => $form->get('category')->getData()->getSlug(),
-                'breadcrumb' => $breadcrumb,                
-                //'formVariation' => $formVariation->createView(),
+                'formCategory' => $form->createView(),
+                'breadcrumb' => $breadcrumb,
+                'button' => $translator->trans('Cpanel.Business.ButtonAdd')
             ]);
         }
-    }    
+    }
 
-    
-    #[Route('/{hash}/edit_dishe', name: 'app_edit_dishes', methods: ['GET', 'POST'])]
-    public function editDishe(
+    #[Route('/{hash}/new_dishe', name: 'app_new_dishe', methods: ['GET', 'POST'])]
+    public function addDishe(
         Request $request,
         User $user,
         $hash,
@@ -578,9 +545,112 @@ class ControlPanelController extends AbstractController
             $category = new Category();
             $category = $categoryRepository->findAll([
                 'menu' => $menu,
+                //'id' => $request->get('category'),
+            ]);
+            $dishe = new Dishes();
+            $dishe->setCategory($categoryRepository->findOneBy(['id' => $request->get('category')]));
+            $variations = new Variation();
+            $variations = $variationRepository->findBy([
+                'dishe' => $dishe,
+            ]);
+            $form = $this->createForm(DisheFormType::class, $dishe);
+            $form->handleRequest($request);
+            // ordenation dishe
+            $disheorder = $dishesRepository->findBy(
+                ['category' => $categoryRepository->findOneBy(['id' => $request->get('category')])],
+                ['order_by' => 'DESC']
+            );
+            $nextOrder = 1;
+            if(count($disheorder) > 0){
+                $nextOrder = $disheorder[0]->getOrderBy() + 1;
+            };
+            if ($form->isSubmitted() && $form->isValid()) {
+                $categoryForm = $form->get('category')->getData()->getCaption();
+                $dishe->setOrderBy($nextOrder);
+                $dishesRepository->add($dishe, true);
+                $this->addFlash(
+                    'success',
+                    'Creado un nuevo plato'
+                );
+                //return true;
+                return $this->redirectToRoute('app_add_variation', ['hash' => $user->getHash(), 'dishe' => $dishe->getId()]);
+            }
+
+            // breadcrumb
+            $locale = $request->getLocale();
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddDishe'),
+                    'active' => true,
+                ]
+            ];
+            return $this->render('control_panel/dishe.html.twig', [
+                'user' => $user,
+                'menu' => $menu,
+                'formDishe' => $form->createView(),
+                'button' => $translator->trans('button.caption.add'),
+                'slug' => $form->get('category')->getData()->getSlug(),
+                'breadcrumb' => $breadcrumb,
+                'variations' => $variations,
+            ]);
+        }
+    }    
+
+    
+    #[Route('/{hash}/edit_dishe/{dishe}', name: 'app_edit_dishes', methods: ['GET', 'POST'])]
+    public function editDishe(
+        Request $request,
+        User $user,
+        $hash,
+        $dishe,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository,
+        DishesRepository $dishesRepository,
+        VariationRepository $variationRepository,
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            $menu = new Menu();
+            $menu = $menuRepository->findOneBy([
+                'business' => $business,
+            ]);
+            $category = new Category();
+            $category = $categoryRepository->findAll([
+                'menu' => $menu,
             ]);
             // verificamos que $_GET['dishe'], se corresponda a un plato del menú del usuario
-            $dishe = $request->get('dishe');            
+            // $dishe = $request->get('dishe');
             $dishes = new Dishes();
             $dishes = $dishesRepository->findOneBy([
                 'id' => $dishe,
@@ -630,9 +700,10 @@ class ControlPanelController extends AbstractController
             return $this->render('control_panel/dishe.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
+                'dishe' => $dishe,
                 'formDishe' => $form->createView(),
                 'button' => $translator->trans('button.caption.update'),
-                'slug' => $form->get('category')->getData()->getSlug(),                
+                'slug' => $form->get('category')->getData()->getSlug(),
                 'breadcrumb' => $breadcrumb,
                 'variations' => $variations,
             ]);
@@ -691,13 +762,9 @@ class ControlPanelController extends AbstractController
                 //return true;
                 return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash()]);
             }
-            /*
-            <li><a href="{{path('app_panel', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Title{% endtrans %}</a></li>
-            <li><a href="{{path('app_edit_menu', {_locale: lcl, hash: app.user.hash}) }}">{% trans %}Cpanel.Business{% endtrans %}</a></li>
-            <li class="is-active"><a aria-current="page" href="#">{% trans %}Cpanel.Sections{% endtrans %}</a></li>
-            */
-            $locale = $request->getLocale();
+
             // breadcrumb
+            $locale = $request->getLocale();
             $breadcrumb = [
                 '0' => [
                     'title' => $translator->trans('CPanel.Breadcrumb.Index'),
@@ -719,7 +786,7 @@ class ControlPanelController extends AbstractController
                     ]
                 ],
                 '2' => [
-                    'title' => $translator->trans('CPanel.Breadcrumb.AddDishe'),
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditDishe'),
                     'active' => false,
                     'href' => 'app_edit_dishes',
                     'parameters' => [
@@ -743,5 +810,183 @@ class ControlPanelController extends AbstractController
                 'breadcrumb' => $breadcrumb,
             ]);
         }
+    }
+
+
+    #[Route('/{hash}/edit_variation/{dishe}', name: 'app_edit_variation', methods: ['GET', 'POST'])]
+    public function editVariation(
+        Request $request,
+        User $user,
+        $hash,
+        $dishe,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository,
+        DishesRepository $dishesRepository,
+        VariationRepository $variationRepository,
+        TranslatorInterface $translator
+        ): Response
+    {
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash!=$user->getHash()){
+            return $this->redirectToRoute('app_login');
+        } elseif($user->isVerified()==false) {
+            return $this->redirectToRoute('app_not_verify');
+        } else {
+            $business = new Business();
+            $business = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            $menu = new Menu();
+            $menu = $menuRepository->findOneBy([
+                'business' => $business,
+            ]);
+            $category = new Category();
+            $category = $categoryRepository->findAll([
+                'menu' => $menu,
+            ]);
+            //$dishe = $request->get('dishe');
+            $dishes = new Dishes();
+            $dishes = $dishesRepository->findOneBy([
+                'id' => $dishe,
+            ]);            
+            $variation = $request->get('variation');
+            $variations = new Variation();
+            $variations = $variationRepository->findOneBy([
+                'id' => $variation,
+            ]);
+            $formVariation = $this->createForm(VariationFormType::class, $variations);
+            $formVariation->handleRequest($request);            
+            if ($formVariation->isSubmitted() && $formVariation->isValid()) {
+                $variationRepository->add($variations, true);
+                $this->addFlash(
+                    'success',
+                    $translator->trans('CPanel.Variation.Update'),
+                );                
+                return $this->redirectToRoute('app_edit_menu', ['hash' => $user->getHash(), 'menu_id' => $menu->getId()]);
+            }
+
+            // breadcrumb
+            $locale = $request->getLocale();
+            $breadcrumb = [
+                '0' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.Index'),
+                    'active' => false,
+                    'href' => 'app_panel',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                    ]
+                ],
+                '1' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditMenu'),
+                    'active' => false,
+                    'href' => 'app_edit_menu',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                    ]
+                ],
+                '2' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.EditDishe'),
+                    'active' => false,
+                    'href' => 'app_edit_dishes',
+                    'parameters' => [
+                        '_locale' => $locale,
+                        'hash' => $user->getHash(),
+                        'menu_id' => $menu->getId(),
+                        'dishe' => $dishe,
+                    ]
+                ],
+                '3' => [
+                    'title' => $translator->trans('CPanel.Breadcrumb.AddVariation'),
+                    'active' => true,
+                ]
+            ];
+            return $this->render('control_panel/variation.html.twig', [
+                'user' => $user,
+                'menu' => $menu,
+                'button' => $translator->trans('button.caption.add'),
+                'formVariation' => $formVariation->createView(),
+                'dishe' => $dishes,
+                'breadcrumb' => $breadcrumb,
+            ]);
+        }
+    }
+
+
+    private function permission(
+        User $user,
+        $hash,
+        BusinessRepository $businessRepository,
+        MenuRepository $menuRepository,
+        CategoryRepository $categoryRepository = null,
+        DishesRepository $dishesRepository = null,
+        VariationRepository $variationRepository = null,
+        $business = null,
+        $menu = null,
+        $category = null,
+        $dishe = null,
+        $variation = null,
+    ): string
+    {
+
+        // verify user
+        $user = $this->getUser();
+        if ($user == null || $hash != $user->getHash()){
+            return 'app_login';
+        } elseif($user->isVerified()==false) {
+            return 'app_not_verify';
+        } else {
+
+            $userBusiness = new Business();
+            $userBusiness = $businessRepository->findOneBy([
+                'user' => $user,
+            ]);
+            if(is_null($userBusiness)){
+                return 'app_not_business';
+            }
+            
+            $userMenu = new Menu();
+            $userMenu = $menuRepository->findOneBy([
+                'business' => $userBusiness,
+            ]);
+            if(is_null($userMenu) && $userMenu->getId() != $menu){
+                return 'app_not_menu';
+            }
+            return 'hola';
+            $userCategory = new Category();
+            $userCategory = $categoryRepository->findAll([
+                'menu' => $userMenu,
+            ]);
+            if(is_null($userMenu)){
+                return 'app_not_menu';
+            }
+            
+            $userDishe = new Category();
+            $userCategory = $categoryRepository->findOneBy([
+                'menu' => $userMenu,
+            ]);
+            if(is_null($userMenu)){
+                return 'app_not_menu';
+            }
+
+            if(is_null($dishe)){       
+                $dishes = $dishesRepository->findOneBy([
+                    'id' => $dishe,
+                ]);
+            }
+            if(is_null($variation)){   
+                $variations = $variationRepository->findOneBy([
+                    'id' => $variation,
+                ]);
+            }
+
+
+
+        }
+
     }
 }

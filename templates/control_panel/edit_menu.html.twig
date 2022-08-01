@@ -102,9 +102,13 @@
                                         </a>
                                         <p class="is-size-3 has-text-weight-bold">{{ plates.caption }}</p>
                                         <p class="is-size-6 is-italic">{{ plates.description }}</p>
-                                        {% for variations in plates.getVariations %}
-                                            <p class="is-size-6 is-italic">{{ variations.name }}: <strong>{{ variations.price |format_number({fraction_digit: 2}) }}</strong></p>                                            
-                                        {% endfor %}
+                                        <div class="columns">
+                                            {% for variations in plates.getVariations %}
+                                                <div class="column">
+                                                    <p class="is-size-6 is-italic">{{ variations.name }}: <strong>{{ variations.price |format_number({fraction_digit: 2}) }}</strong></p>                                            
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                     </article>
                                     <hr>
                                 </div>
@@ -119,7 +123,7 @@
                         </div>
                         {% endif %}
                     {% else %}                        
-                        <article class="message">
+                        <article class="message is-info">
                             <div class="message-header">
                                 <p>{% trans %}Cpanel.Message.CreateCategory{% endtrans %}</p>
                                 <button class="delete" aria-label="delete"></button>
