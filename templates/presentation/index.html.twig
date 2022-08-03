@@ -6,6 +6,14 @@
 {% endblock %}
 {% block body %}
     {% set lcl = app.request.getLocale() %}
+    <button
+        type="button"
+        class="btn btn-outline-danger"
+        id="btn-back-to-top"
+        >
+        <ion-icon name="arrow-up"></ion-icon>
+    </button>
+
     <div class="container" id="home-section">
 
         <div class="site-mobile-menu site-navbar-target">
@@ -97,8 +105,7 @@
                 </div>
             </div>
         {% endfor %}
-        <!-- end site-section -->
-
+        <!-- end site-section -->         
         <div class="footer py-5 text-center">
             <div class="container">
                 <div class="row mb-5">
@@ -132,4 +139,30 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script>
+        //Get the button:
+        let mybutton = document.getElementById("btn-back-to-top");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            console.log(document.body.scrollTop)
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        mybutton.addEventListener("click", backToTop);
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function backToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 {% endblock %}
