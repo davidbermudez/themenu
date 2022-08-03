@@ -39,7 +39,7 @@ class PresentationController extends AbstractController
     }
 
 
-    #[Route('/noencontrado', name: 'app_no_encontrado')]
+    #[Route('/not-found', name: 'app_no_encontrado')]
     public function notfound(
         TranslatorInterface $translator,
         ): Response
@@ -69,8 +69,17 @@ class PresentationController extends AbstractController
         if(is_null($menu)){
             return $this->redirectToRoute('app_no_encontrado');
         }
+        $categories = new Category();
+        $categories = $categoryRepository->findAll([
+            'menu' => $menu,
+        ]);
+        $dishes = $dishesRepository->findAll([
+            'category' => $categories,
+        ]);
         return $this->render('presentation/index.html.twig', [
             'menu' => $menu,
+            'categories' => $categories,
+            //'dishes' => $dishes,
         ]);
     }
 
