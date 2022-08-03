@@ -70,7 +70,7 @@ class PresentationController extends AbstractController
             return $this->redirectToRoute('app_no_encontrado');
         }
         $categories = new Category();
-        $categories = $categoryRepository->findAll([
+        $categories = $categoryRepository->findBy([
             'menu' => $menu,
         ]);
         $dishes = $dishesRepository->findAll([
