@@ -993,7 +993,7 @@ class ControlPanelController extends AbstractController
             return $this->render('control_panel/variation.html.twig', [
                 'user' => $user,
                 'menu' => $menu,
-                'button' => $translator->trans('button.caption.add'),
+                'button' => $translator->trans('button.caption.update'),
                 'formVariation' => $formVariation->createView(),
                 'dishe' => $dishes,
                 'breadcrumb' => $breadcrumb,

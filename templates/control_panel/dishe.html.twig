@@ -34,7 +34,14 @@
                                 </div>
                             </div>
                         {% endfor %}
-                    </div>                    
+                        <div class="container">
+                            <div class="field is-grouped mt-2">
+                                <div class="column">
+                                    <a id="cancelButton" class="button is-info" href="{{ path('app_add_variation', {'hash': user.hash, 'dishe': dishe }) }}">{% trans %}button.caption.add{% endtrans %}</a>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
                 </div>
                 <div class="tile is-child box has-background-danger-light">
                 </div>
@@ -133,7 +140,7 @@
                                 <div class="column">
                                     <a id="cancelButton" class="button is-danger" href="{{ path('app_edit_menu', {'hash': user.hash, 'slug': slug, 'menu_id': menu.id }) }}">{% trans %}button.caption.cancel{% endtrans %}</a>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     {{ form_end(formDishe) }}
                 </div>

@@ -83,7 +83,7 @@
                                     <button id="submitButton" class="button is-link">{{button}}</button>
                                 </div>
                                 <div class="column">
-                                    <a id="cancelButton" class="button is-danger" href="{{ path('app_edit_menu', {'hash': user.hash}) }}">{% trans %}button.caption.cancel{% endtrans %}</a>
+                                    <a id="cancelButton" class="button is-danger" href="{{ path('app_edit_dishes', {'hash': user.hash, 'dishe': dishe.id }) }}">{% trans %}button.caption.cancel{% endtrans %}</a>
                                 </div>
                             </div>                            
                         </div>
