@@ -94,7 +94,7 @@
                                     <button id="submitButton" class="button is-link" onclick="location.href='{{ path('app_edit_menu', {'hash': user.hash }) }}'">{% trans %}Cpanel.Btn.CreateMenu{% endtrans %}</button>
                                 </div>
                                 {% if menu %}
-                                    <img src="{{ qr_code_url('My QR Code') }}" height="75" width="75" />
+                                    <img src="{{ qr_code_url('My QR Code') }}" height="75" width="75" /> TOPOTA
                                 {% endif %}
                             {% else %}
                                 <div class="control">
@@ -116,7 +116,7 @@
                                         <label>{{ menu.caption }}</label>
                                         <a href="{{ path('app_edit_menu', {'hash': user.hash, 'menu_id': menu.id }) }}"><span class="icon is-size-4 is-pulled-right"><i class="fa fa-edit"></i></span></a>
                                     </div>
-                                    {% set urlqr = 'https://consultalacarta.es/' ~ menu.qrCode %}
+                                    {% set urlqr = 'https://consultalacarta.es/carta/' ~ menu.qrCode %}
                                     <div class="card">
                                         <div class="card-image">
                                             <figure class="image image is-square">

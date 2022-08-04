@@ -1,0 +1,168 @@
+{% extends 'presentation/base.html.twig' %}
+{% block title %}{{ menu.business.caption }}{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('css/imagine.css') }}">
+{% endblock %}
+{% block body %}
+    {% set lcl = app.request.getLocale() %}
+    <button
+        type="button"
+        class="btn btn-outline-danger"
+        id="btn-back-to-top"
+        >
+        <ion-icon name="arrow-up"></ion-icon>
+    </button>
+
+    <div class="container" id="home-section">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">{{ menu.business.caption }}</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% trans %}presentation.menu.carta{% endtrans %}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for category in categories %}
+                                        <li><a href="#{{ category.slug }}" class="dropdown-item"><span class="text-primary">{{ category.caption }}</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>            
+        </header>
+
+        <div class="site-blocks-cover" style="overflow: hidden;">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12" style="position: relative;" data-aos="fade-up" data-aos-delay="200">                    
+                        <img src="{{ asset('images/user.png') }}" alt="Image" class="img-fluid img-absolute" data-pagespeed-url-hash="795139094">
+                        <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-lg-6 mr-auto">
+                                <h1>{{ menu.business.caption }}</h1>
+                                <p class="mb-5">{{ menu.business.description }}</p>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- site-blocks-cover -->
+
+        {% for category in categories %}
+            <div class="site-section" id="{{ category.slug }}">
+                <div class="container">
+                    <div class="row mb-5 justify-content-center text-center" data-aos="fade-up">
+                        <div class="col-7 text-center  mb-5">
+                            <h2 class="section-title">{{ category.caption }}</h2>
+                            <p class="lead">{{ category.description }}</p>
+                        </div>
+                    </div>
+                    <div class="row align-items-stretch">
+                        {% for plates in category.dishes %}
+                    
+                            <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up">
+                                <div class="unit-4 d-block">
+                                    <div class="unit-4-icon mb-3">
+                                        <span class="icon-wrap">
+                                            <span class="font-size: 3vw">
+                                            {{ plates.variations[0].price | format_number({fraction_digit: 2 }, locale='es') }}
+                                            {#% for variation in plates.variations %}
+                                                <!-- <ion-icon name="heart"></ion-icon></span> -->
+                                                <!--<span class="text-primary icon-autorenew"></span>-->
+                                                {{ variation.price | format_number({fraction_digit: 2 }, locale='es') }}
+                                                {{ variation.name }}
+                                            {% endfor %#}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h3>{{ plates.caption }}</h3>
+                                        <p>{{ plates.description }}</p>
+                                        <!--<p><a href="#">Learn More</a></p>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>        
+                </div>
+            </div>
+        {% endfor %}
+        <!-- end site-section -->         
+        <div class="footer py-5 text-center">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <span>Puedes encontrar a {{ menu.business.caption }} en:</span>
+                        <p class="mb-1 mt-3">
+                            <a href="{{ menu.business.facebookProfile }}" class="p-3"><ion-icon name="logo-facebook"></ion-icon></a>
+                            <a href="{{ menu.business.twitterProfile }}" class="p-3"><ion-icon name="logo-twitter"></ion-icon></a>
+                            <a href="{{ menu.business.instagramProfile }}" class="p-3"><ion-icon name="logo-instagram"></ion-icon></a>
+                            <a href="#" class="p-3"><ion-icon name="logo-linkedin"></ion-icon></a>
+                            <a href="#" class="p-3"><ion-icon name="logo-pinterest"></ion-icon></a>
+                        </p>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="mb-0">
+
+        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <ion-icon class="text-danger" name="heart"></ion-icon> by <a href="https://consultalacarta.es" target="_blank">Consultalacarta.es</a>
+
+                    </p>
+                </div>
+            </div>            
+        </div> <!-- end footer -->
+
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script>
+        //Get the button:
+        let mybutton = document.getElementById("btn-back-to-top");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            console.log(document.body.scrollTop)
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        mybutton.addEventListener("click", backToTop);
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function backToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+{% endblock %}

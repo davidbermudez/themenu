@@ -102,7 +102,7 @@ class ControlPanelController extends AbstractController
                     'active' => true,                
                 ],
             ];
-            dump($breadcrumb);
+            
             return $this->render('control_panel/index.html.twig', [
                 'user' => $user,
                 'business' => $business,
@@ -248,6 +248,8 @@ class ControlPanelController extends AbstractController
         Request $request,
         User $user,
         $hash,
+        string $photoDir,
+        string $photoTmp,
         BusinessRepository $businessRepository,
         MenuRepository $menuRepository,
         DishesRepository $dishesRepository,
@@ -261,15 +263,20 @@ class ControlPanelController extends AbstractController
         } elseif($user->isVerified()==false) {
             return $this->redirectToRoute('app_not_verify');
         } else {
+            
             $business = new Business();
             $business = $businessRepository->findOneBy([
                 'user' => $user,
             ]);
+
+            $imageOld = $business->getImagen();
+            if(is_null($imageOld)) $imageOld = 'default.jpg';
+
             $form = $this->createForm(BusinessFormType::class, $business);
             //dump($form);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                // verificar datos y crear un nuevo Business
+                // verificar datos y actualizar Business
                 $datenow = new Datetime(date('Y-m-d H:i:s'));
                 $business->setUser($user);
                 $business->setDateModify($datenow);
@@ -281,6 +288,27 @@ class ControlPanelController extends AbstractController
                         $business->setTwitterProfile(substr($urlTw, 0, strlen($urlTw) - 1));
                     }
                 }
+                // tratamiento de la imagen
+                if($imagen = $form['imagen']->getData()){
+                    //foto nueva
+                    $filename = bin2hex(random_bytes(6)).'.'.$imagen->guessExtension();
+                    try{
+                        $imagen->move($photoTmp, $filename);
+                        // redimensionar a un cuadrado centrado de 640 x 320
+                        $nuevaImagen = $this->redimensiona($photoTmp.$filename);
+                        // convertimos a png
+                        imagepng($nuevaImagen, $photoDir.$filename, 3);
+                        // Actualizar Datos
+                        $business->setImagen($filename);
+                    } catch (FileException $e) {
+                        $error = true;
+                        $this->addFlash(
+                            'danger',
+                            'Error: '.$e
+                        );
+                    }
+                }
+
                 $this->entityManager->persist($business);
                 $this->entityManager->flush();
                 
@@ -315,11 +343,12 @@ class ControlPanelController extends AbstractController
                     'active' => true,
                 ]
             ];
-            return $this->render('control_panel/edit_businnes.html.twig', [
+            return $this->render('control_panel/businnes.html.twig', [
                 'user' => $user,                
                 'formBusiness' => $form->createView(),
                 'breadcrumb' => $breadcrumb,
                 'button' => $translator->trans('Cpanel.Business.ButtonEdit'),
+                'image' => $imageOld,
             ]);
         }
     }
@@ -1073,5 +1102,83 @@ class ControlPanelController extends AbstractController
 
         }
 
+    }
+
+    // Image Business
+
+    private function redimensiona($file){
+        $image_in_memory = $this->createImageFromSource($file, $file);        
+        // buscar el valor mas pequeño alto o ancho        
+        $x = imagesx($image_in_memory);
+        $y = imagesy($image_in_memory);        
+        // transformamos la imagen a 640x320
+        return $this->resizeImage($image_in_memory, $x, $y, 640, 320);
+    }
+
+
+    private function createImageFromSource($source, $type)
+    {
+        // JPG 
+        if (preg_match('/jpg|jpeg/', $type))  $data = imagecreatefromjpeg($source);
+        // PNG
+        if (preg_match('/png/', $type))  $data = imagecreatefrompng($source);
+        // GIF
+        if (preg_match('/gif/', $type))  $data = imagecreatefromgif($source);
+        return $data;
+    }
+
+
+    private function resizeImage($original_image_data, $original_width, $original_height, $new_width, $new_height)
+    {
+        
+        $dst_img = ImageCreateTrueColor($new_width, $new_height);
+        imagecolortransparent($dst_img, imagecolorallocate($dst_img, 0, 0, 0));        
+        
+        $heightRatio = $original_height / $new_height;
+        $widthRatio  = $original_width /  $new_width;
+     
+        if ($heightRatio < $widthRatio) {
+            $optimalRatio = $heightRatio;
+        } else {
+            $optimalRatio = $widthRatio;
+        }
+     
+        $optimalHeight = $original_height / $optimalRatio;
+        $optimalWidth  = $original_width  / $optimalRatio;
+
+        // *** Find center - this will be used for the crop
+        $cropStartX = ( $optimalWidth / 2) - ( $new_width /2 );
+        $cropStartY = ( $optimalHeight/ 2) - ( $new_height/2 );
+
+        // horizontal 
+        if ($original_width > $original_height) {            
+            $offsetX = ($original_width - $original_height) / 2;  // x offset based on the rectangle
+            $offsetY = 0;                 // y offset based on the rectangle
+        }
+        // vertical rectangle
+        elseif ($original_height > $original_width) {            
+            $offsetX = 0;
+            $offsetY = ($original_height - $original_width) / 2;
+        }
+        // it's already a square
+        else {
+            $square = $original_width;
+            $offsetX = $offsetY = 0;
+        }
+       
+        imagecopyresampled(
+            $dst_img,
+            $original_image_data, 
+            0,
+            0, 
+            $cropStartX, 
+            $cropStartY, 
+            $optimalWidth,
+            $optimalHeight, 
+            $original_width,
+            $original_height,             
+        );
+
+        return $dst_img;
     }
 }

@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -51,6 +53,20 @@ class BusinessFormType extends AbstractType
             ])
             ->add('web', UrlType::class,[                
                 'required' => false,
+            ])
+            ->add('imagen', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new Image(['maxSize' => '2048k'])
+                ],
+            ])
+            ->add('logo', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new Image(['maxSize' => '1024k'])
+                ],
             ])
         ;
     }

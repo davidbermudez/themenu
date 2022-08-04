@@ -5,17 +5,31 @@
 {% block body %}
 
     {% include 'control_panel/header.html.twig' %}
-
+    {{ form_start(formBusiness) }}
     <div class="container is-fluid">
-        <div class="tile is-ancestor">
+        <div class="tile is-ancestor">        
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box has-background-link-light">
-                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>                    
-                </div>                
+                    <p class="title">{% trans %}Cpanel.Business{% endtrans %}</p>
+                    <article>
+                        <div class="field">                                                    
+                            <img class="image is-2by1" src="{{ asset('images/business/' ~ image) }}">                        
+                            <label class="label">{% trans %}CPanel.Business.Image{% endtrans %}(*)</label>
+                            <div class="control has-icons-left">
+                                {{ form_widget(formBusiness.imagen, {'attr': {'class': 'input is-success'} }) }}
+                                <span class="icon is-small is-left">
+                                    <i id="emailCheckIconLeft" class="fas fa-image"></i>
+                                </span>            
+                            </div>
+                            <p class="help is-info" id="emailActionHint">* Max. 2048kb</p>
+                        </div>
+                    </article>
+                </div>
+
             </div>
             <div class="tile is-parent">
                 <div class="tile is-child box has-background-link-light">
-                    {{ form_start(formBusiness) }}
+                    
                         <div class="field">
                             <label class="label">{% trans %}Cpanel.Business.Caption{% endtrans %}</label>
                             <div class="control has-icons-left">            
@@ -173,10 +187,10 @@
                                 <button id="submitButton" class="button is-link">{{ button }}</button>
                             </div>
                         </div>
-                    {{ form_end(formBusiness) }}
+                    
                 </div>
             </div>
         </div>
     </div>
-
+    {{ form_end(formBusiness) }}
 {% endblock %}

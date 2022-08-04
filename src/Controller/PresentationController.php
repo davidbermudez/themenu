@@ -28,6 +28,8 @@ use App\Form\VariationFormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+
+#[Route('/carta')]
 class PresentationController extends AbstractController
 {
 
@@ -76,9 +78,11 @@ class PresentationController extends AbstractController
         $dishes = $dishesRepository->findAll([
             'category' => $categories,
         ]);
-        return $this->render('presentation/index.html.twig', [
+        $template = 'presentation/templates/'. $menu->getTemplate()->getName() . '.html.twig';
+        return $this->render($template, [
             'menu' => $menu,
             'categories' => $categories,
+            'template' => 'imagine',
             //'dishes' => $dishes,
         ]);
     }

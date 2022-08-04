@@ -66,6 +66,12 @@ class Business
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $web = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagen = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -282,6 +288,30 @@ class Business
     public function setWeb(?string $web): self
     {
         $this->web = $web;
+
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): self
+    {
+        $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

@@ -38,6 +38,10 @@ class Menu
     #[ORM\Column(length: 255)]
     private ?string $caption = null;
 
+    #[ORM\ManyToOne(inversedBy: 'menus')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Template $template = null;
+
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
@@ -146,6 +150,18 @@ class Menu
     public function setCaption(string $caption): self
     {
         $this->caption = $caption;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?Template
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?Template $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }
