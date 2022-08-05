@@ -7,15 +7,67 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+<section class="section">
+    <div class="container">
+        <h1 class="title">{% trans %}Register.title{% endtrans %}</h1>
+        <p class="subtitle">{% trans %}Register.subtitle{% endtrans %}</p>
+    </div>
+</section>
+    
+<div class="container is-fluid">    
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+
+    <div class="field">
+        <label class="label">{% trans %}Register.form.label.email{% endtrans %}</label>
+        <div class="control has-icons-left has-icons-right">
+            <!--<input class="input needs-validation inputUsername is-danger" type="email"  name="email" id="inputEmail" placeholder="Email input" value="">-->
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'input needs-validation register_email is-danger', 'type': 'email'} }) }}
+            <span class="icon is-small is-left">
+                <i id="emailCheckIconLeft" class="fas fa-envelope"></i>
+            </span>
+            <span id="emailCheckIconRight" class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+            </span>
+        </div>
+        <p class="help is-danger" id="emailActionHint">This email is invalid</p>
+    </div>
+        
+    <div class="field">
+        <label class="label">{% trans %}Register.form.label.password1{% endtrans %}</label>
+        <div class="control has-icons-left">
+            <!--<input class="input needs-validation inputUsername is-danger" type="email"  name="email" id="inputEmail" placeholder="Email input" value="">-->
+            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'input plainPassword is-info', 'type': 'password'} }) }}
+            <span class="icon is-small is-left">
+                <ion-icon name="lock-closed"></ion-icon>
+            </span>            
+        </div>
+        <p class="help is-danger" id="emailActionHint">This password is invalid</p>
+    </div>
+
+    <div class="field">
+        <label class="label">{% trans %}Register.form.label.password2{% endtrans %}</label>
+        <div class="control has-icons-left">
+            <!--<input class="input needs-validation inputUsername is-danger" type="email"  name="email" id="inputEmail" placeholder="Email input" value="">-->
+            {{ form_widget(registrationForm.plainPassword2, {'attr': {'class': 'input plainPassword2 is-info', 'type': 'password'} }) }}
+            <span class="icon is-small is-left">
+                <ion-icon name="lock-closed"></ion-icon>
+            </span>            
+        </div>
+        <p class="help is-danger" id="emailActionHint">This password is invalid</p>
+    </div>
+
+    <div class="field">
+        <div class="checkbox mb-3">
+        <label>            
+            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'agreeTerms is-info', 'type': 'checkbox'} }) }} {% trans %}Register.form.label.agreeTerms{% endtrans %}
+        </label>
+    </div>
+    </div>
+        
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+</div>
 {% endblock %}
