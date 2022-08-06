@@ -4,6 +4,8 @@
 
 {% block body %}
 
+{% trans_default_domain 'index' %}
+
     <section class="hero">
         <figure class="image">
             <img src="{{ asset('images/home.jpg')}}">
@@ -13,13 +15,11 @@
     <section class="section">
         <div class="container">
             <a name="about"></a>
-            <h2 class="title has-text-centered">Consultalacarta.es</h2>
-            <p class="mt-2">Ofrecemos a la hostelería un espacio en el que crear, mantener y compartir con sus clientes una carta atractiva, fácil de consultar y de actualizar, y accesible desde cualquier dispositivo móvil.</p>
-            <p class="mt-2">Sus clientes podrán obtener la información creada y mantenida por el establecimiento, tan sólo leyendo el código QR único que proporcionamos a cada restaurante de forma totalmente gratuita.</p>
-            <p class="mt-2">Además, contamos con servicios premium que mejorarán la experiencia tanto del cliente como de los encargados de los contenidos de las cartas con plantillas profesionales que distinguirán a su establecimiento del resto.</p>
-            <div class="columns is-centered" style="padding: 2rem">
+            <h2 class="title has-text-centered has-text-link">Consultalacarta.es</h2>
+            {% trans %}Index.About-us{% endtrans %}            
+            <div class="columns is-centered has-background-link mt-5" style="padding: 2rem">
                 <div class="column">
-                    <div class="card">
+                    <div class="card has-background-info">
                         <div class="card-image">
                             <figure class="image is-2by1">
                                 <img src="{{asset('images/pic1.png')}}" alt="Placeholder image">
@@ -28,22 +28,19 @@
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
-                                    <p class="title is-4">Tu carta en el móvil</p>
-                                    <p class="subtitle is-6">Fácil y accesible</p>
+                                    <p class="title is-4 has-text-light">{% trans %}Index.About-us.title-card-one{% endtrans %}</p>
+                                    <p class="subtitle is-6 has-text-light">{% trans %}Index.About-us.subtitle-card-one{% endtrans %}</p>
                                 </div>
                             </div>
 
-                            <div class="content">
-                                La mayoría de usuarios de dispositivos móviles conocen ya cómo apuntar, capturar y leer un código QR. Esto se traduce en una dirección de internet personalizada para cada establecimiento.
-                                <a>@consultalacarta</a>.
-                                <a href="#">#facil</a>
-                                <a href="#">#qr</a>
+                            <div class="content has-text-light">
+                                {% trans %}Index.About-us.content-card-one{% endtrans %}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="column">
-                    <div class="card">
+                    <div class="card has-background-info">
                         <div class="card-image">
                             <figure class="image is-2by1">
                                 <img src="{{asset('images/pic2.png')}}" alt="Placeholder image">
@@ -52,52 +49,44 @@
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
-                                    <p class="title is-4">John Smith</p>
-                                    <p class="subtitle is-6">@johnsmith</p>
+                                    <p class="title is-4 has-text-light">{% trans %}Index.About-us.title-card-two{% endtrans %}</p>
+                                    <p class="subtitle is-6 has-text-light">{% trans %}Index.About-us.subtitle-card-two{% endtrans %}</p>
                                 </div>
                             </div>
 
-                            <div class="content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                                <a>@bulmaio</a>.
-                                <a href="#">#css</a>
-                                <a href="#">#responsive</a>
+                            <div class="content has-text-light">
+                                {% trans %}Index.About-us.content-card-two{% endtrans %}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="column">
-                    <div class="card">
+                    <div class="card has-background-info">
                         <div class="card-image">
                             <figure class="image is-2by1">
-                                <img src="https://images.pexels.com/photos/167635/pexels-photo-167635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Placeholder image">
+                                <img src="{{asset('images/pic3.png')}}" alt="Placeholder image">
                             </figure>
                         </div>
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
-                                    <p class="title is-4">John Smith</p>
-                                    <p class="subtitle is-6">@johnsmith</p>
+                                    <p class="title is-4 has-text-light">{% trans %}Index.About-us.title-card-three{% endtrans %}</p>
+                                    <p class="subtitle is-6 has-text-light">{% trans %}Index.About-us.subtitle-card-three{% endtrans %}</p>
                                 </div>
                             </div>
-
-                            <div class="content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                                <a>@bulmaio</a>.
-                                <a href="#">#css</a>
-                                <a href="#">#responsive</a>
+                            <div class="content has-text-light">
+                                {% trans %}Index.About-us.content-card-three{% endtrans %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
+        </div>        
     </section>
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title">Tour Dates</h2>
+            <h2 class="title">{% trans %}Index.Premium-details{% endtrans %}</h2>
 
             <div class="tile is-ancestor">
                 <div class="tile is-parent">

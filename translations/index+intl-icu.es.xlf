@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="7HRXytG" resname="Index.About-us">
+        <source>Index.About-us</source>
+        <target><![CDATA[
+        <p class="mt-2">Ofrecemos a la hostelería un espacio en el que crear, mantener y compartir con sus clientes <strong> de manera totalmente gratuita </strong> una carta atractiva, fácil de consultar y de actualizar, y accesible desde cualquier dispositivo móvil.</p>
+        <p class="mt-2">Sus clientes podrán acceder a la carta de su menú totalmente actualizada tan sólo leyendo el código QR único que proporcionamos a cada restaurante.</p>
+        <p class="mt-2">Además, contamos con servicios premium que mejorarán la experiencia tanto del cliente como de los encargados de los contenidos de las cartas con plantillas profesionales que distinguirán a su establecimiento del resto.</p>
+        
+        ]]></target>
+      </trans-unit>
+      <trans-unit id="xtfILSQ" resname="Index.About-us.title-card-one">
+        <source>Index.About-us.title-card-one</source>
+        <target>Tu carta en el móvil</target>
+      </trans-unit>
+      <trans-unit id="yY3np9p" resname="Index.About-us.subtitle-card-one">
+        <source>Index.About-us.subtitle-card-one</source>
+        <target>Fácil y accesible</target>
+      </trans-unit>
+      <trans-unit id="qqrgaie" resname="Index.About-us.content-card-one">
+        <source>Index.About-us.content-card-one</source>
+        <target>La mayoría de usuarios de dispositivos móviles conocen ya cómo apuntar, capturar y leer un código QR. Esto se traduce en una dirección de internet personalizada para cada establecimiento.</target>
+      </trans-unit>
+      <trans-unit id="DebRie6" resname="Index.About-us.title-card-two">
+        <source>Index.About-us.title-card-two</source>
+        <target>De la cocina al menú</target>
+      </trans-unit>
+      <trans-unit id="XhxQfDt" resname="Index.About-us.subtitle-card-two">
+        <source>Index.About-us.subtitle-card-two</source>
+        <target>En tiempo real</target>
+      </trans-unit>
+      <trans-unit id="R9y8YWZ" resname="Index.About-us.content-card-two">
+        <source>Index.About-us.content-card-two</source>
+        <target>¿Nos hemos quedado sin un plato?¿Ofrecemos un menú que cambia todos los días? En cualquier momento el administrador puede editar el contenido de la carta y modificar lo que necesite para dar siempre la información actualizada.</target>
+      </trans-unit>
+      <trans-unit id="cIE8juI" resname="Index.About-us.title-card-three">
+        <source>Index.About-us.title-card-three</source>
+        <target>Plantillas personalizadas</target>
+      </trans-unit>
+      <trans-unit id="mhEdyw4" resname="Index.About-us.subtitle-card-three">
+        <source>Index.About-us.subtitle-card-three</source>
+        <target>Diseños Gratuitos y Premium a elegir</target>
+      </trans-unit>
+      <trans-unit id="NraY5.C" resname="Index.About-us.content-card-three">
+        <source>Index.About-us.content-card-three</source>
+        <target>Distingue tu carta de la de los demás con diseños personalizados y configurables. También dispones de muchos más diseños si te suscribes a nuestro servicio premium (opcional)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
